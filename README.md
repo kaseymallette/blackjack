@@ -14,7 +14,9 @@ strategy when playing blackjack. Due to the inability to collect real data in a
 casino, examining basic strategy using a computer program allows a researcher
 to measure the actual outcome.
 
-[Basic Strategy Video](https://www.youtube.com/watch?v=futueqPxCeE)
+[My Basic Strategy Video](https://www.youtube.com/watch?v=futueqPxCeE)
+
+![](images/6deck_strategy.png)
 
 Based on prior research, a game with the following conditions has a house
 advantage of **0.5%**:
