@@ -7,13 +7,36 @@ Create a blackjack program that:
 (ii) uses basic strategy to run through blackjack hands for x number of six-deck shoes
 (iii) tracks and exports hand and shoe data for all hands played
 
-## Objectives
+## Purpose
+
+The purpose of this project is to examine the efficacy of using basic
+strategy when playing blackjack. Due to the inability to collect real data in a
+casino, examining basic strategy using a computer program allows a researcher
+to measure the actual outcome.
+
+[Basic Strategy] (https://www.youtube.com/watch?v=futueqPxCeE)
+
+Based on prior research, a game with the following conditions has a house
+advantage of 0.5%:
+- 6 deck shoe with cut card
+- Dealer stands on soft 17s
+- Player can double on the first two cards
+- Player can re-split aces
+- Player cannot hit split aces
+- Player can split up to four hands
+
+![Wizards of Odds House Edge Calculator]
+(https://github.com/kaseymallette/blackjack/blob/main/images/house_edge.png)
+
+The house advantage means that a player will lose 0.5% of the original bet.
+If a player bets the same amount for every hand and plays perfect basic
+strategy, the percentage of hands won and pushed should be 49.5%.
+
+
+## Data Collection
 
 * Analyze data collected from all hands dealt
 * Anlayze data collected from all shoes dealt
-
-![Wizards of Odds]
-(https://github.com/kaseymallette/blackjack/blob/main/images/house_edge.png)
 
 *hand_data.csv*
 column | description
