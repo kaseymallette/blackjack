@@ -14,7 +14,7 @@ strategy when playing blackjack. Due to the inability to collect real data in a
 casino, examining basic strategy using a computer program allows a researcher
 to measure the actual outcome.
 
-[Basic Strategy Video] (https://www.youtube.com/watch?v=futueqPxCeE)
+[Basic Strategy Video](https://www.youtube.com/watch?v=futueqPxCeE)
 
 Based on prior research, a game with the following conditions has a house
 advantage of **0.5%**:
@@ -25,7 +25,7 @@ advantage of **0.5%**:
 - Player cannot hit split aces
 - Player can split up to four hands
 
-https://github.com/kaseymallette/blackjack/blob/main/images/house_edge.png
+[Wizard of Odds House Edge Calculator](https://github.com/kaseymallette/blackjack/blob/main/images/house_edge.png)
 
 The house advantage means that a player will lose 0.5% of the original bet.
 If a player bets the same amount for every hand and plays perfect basic
@@ -35,6 +35,20 @@ In addition, I want to explore whether the shuffle or any other relevant
 data about the shoe predict win_push_pct, i.e. the number of blackjacks dealt, 
 the number of doubles won, the number of times the dealer busts, has a 10 showing, 
 draws to make a hand, or draws to make 21. 
+
+## Code 
+
+```play.py```
+
+![](images/blackjack_play.png)
+![](images/dealer_21_draw.png)
+
+```run.py```
+
+![](images/blackjack_run.png)
+
+
+
 
 ## Data Collection 
 
