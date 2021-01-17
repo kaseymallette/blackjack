@@ -3,11 +3,9 @@
 ## Introduction
 
 Create a blackjack program that:
-(i) allows a single user to continuously play blackjack hands
-from a six-deck shoe
-(ii) uses basic strategy to run through blackjack hands
-for x number of six-deck shoes
-(iii) tracks and exports hand and shoe data for all hands played
+`(i) allows a single user to continuously play blackjack hands from a six-deck shoe`
+`(ii) uses basic strategy to run through blackjack hands for x number of six-deck shoes`
+`(iii) tracks and exports hand and shoe data for all hands played`
 
 ## Objectives
 
