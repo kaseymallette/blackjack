@@ -112,6 +112,10 @@ dealer_avg_hand | The average hand of the dealer when hand < 21
 num_of_shuffles | The number of shuffles of the same shoe
 shuffle_method | The shuffle method used to shuffle the shoe 
 
+## Project Directory
+
+![](images/project_dir.png)
+
 ## UML Project Diagram 
 
 ![](images/project_diagram.png)
