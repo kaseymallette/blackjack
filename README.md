@@ -114,7 +114,7 @@ shuffle_method | The shuffle method used to shuffle the shoe
 
 ## Project Directory
 
-![](images/project_dir.png)
+![](images/blackjack_dir.png)
 
 ## UML Project Diagram 
 
