@@ -9,5 +9,4 @@ Play ends either when the user decides to stop playing or when the shoe ends.
 Data from the shoe is then exported as a dataframe to a csv file.
 If the user wants to continue playing, a new shoe will be dealt.
 
-![Image of UML Diagram]
-(https://github.com/kaseymallette/blackjack/images/project_diagram.png)
+![](images/project_diagram.png)
