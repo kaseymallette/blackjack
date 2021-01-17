@@ -29,28 +29,50 @@ https://github.com/kaseymallette/blackjack/blob/main/images/house_edge.png
 
 The house advantage means that a player will lose 0.5% of the original bet.
 If a player bets the same amount for every hand and plays perfect basic
-strategy, the percentage of hands won and pushed should be **49.5%**.
+strategy, the percentage of hands won and pushed should be **49.5%** (win_push_pct). 
 
+In addition, I want to explore whether the shuffle or any other relevant
+data about the shoe predict win_push_pct, i.e. the number of blackjacks dealt, 
+the number of doubles won, the number of times the dealer busts, has a 10 showing, 
+draws to make a hand, or draws to make 21. 
 
-## Data Collection
+## Data Collection 
 
-* Analyze data collected from all hands dealt
-* Anlayze data collected from all shoes dealt
+#### Number of Shoes
+- It takes 15 minutes to shuffle and deal a six-deck blackjack shoe
+- The cards are changed once every 24 hours 
+
+Given the above two assumptions, 96 shoes would be dealt in 24 hours.
+
+#### Shuffle Method
+```
+from random import shuffle
+```
+
+The number of times the cards are shuffled: ```[1, 3, 5, 9, 15]```
+
+I also wrote my own module ```shuffle.py```, which adapts casino shuffles using 
+variations of riffle-strip-riffle. 
+- *part_1* shuffles the cards using three piles
+- *part_2* shuffles the cards using two piles
+- *casino* shuffles the cards using both *part_1* and *part_2*
+
+## Data Defintions 
 
 *hand_data.csv*
-column | description
------- | -----------
-dealer_up | Dealer's up card (A, 2, 3, ..., 10)
-player | Player's hand (5-21, soft hands, or pairs)
-move | Player's first move (0 = stand, 1 = hit, 2 = double)
-outcome | The outcome of the hand (win, loss, or push)
-dealer_bj | Whether or not the dealer had blackjack
-is_split | Whether or not the hand was split
-orig_hand | If the hand was split, the original hand that was dealt. If not, 0
-shuffle | The shuffle method used (1, 3, 5, 9, 15, part_1, part_2, casino)
+variable | definition | key
+------ | ------------ | ---
+dealer_up | Dealer's up card | A, 2, 3, 4, 5, 6, 7, 8, 9, 10
+player | Player's hand | 5-21, soft hands, or pairs
+move | Player's first move | 0 = stand, 1 = hit, 2 = double
+outcome | The outcome of the hand | win, loss, or push
+dealer_bj | Whether or not the dealer had blackjack |
+is_split | Whether or not the hand was split |
+orig_hand | If the hand was split, the original hand that was dealt | If not split, 0
+shuffle | The shuffle method used | 1, 3, 5, 9, 15, part_1, part_2, casino
 
 *shoe_data.csv*
-column | description
+variable | defintion 
 ------ | -----------
 player_win | The number of hands the player won
 player_loss | The number of hands the player lost
