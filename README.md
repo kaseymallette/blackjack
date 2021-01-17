@@ -2,23 +2,19 @@
 
 ## Introduction
 
-Create a blackjack program that allows for a single user to continuously play blackjack hands and 
-
-This is a package that allows a single user to continuously play
-blackjack hands from a blackjack shoe with an even number of decks.
-The default setting of the package is a six deck shoe.
-The package uses the input function to allow for the user to play
-every hand, in which the user can hit, stand, double, or split.
-Play ends either when the user decides to stop playing or when the shoe ends.
-Data from the shoe is then exported as a dataframe to a csv file.
-If the user wants to continue playing, a new shoe will be dealt.
+Create a blackjack program that:
+(i) allows a single user to continuously play blackjack hands
+from a six-deck shoe
+(ii) uses basic strategy to run through blackjack hands
+for x number of six-deck shoes
+(iii) tracks and exports hand and shoe data for all hands played
 
 ## Objectives
 
 * Analyze data collected from all hands dealt
 * Anlayze data collected from all shoes dealt
 
-# hand_data.csv
+*hand_data.csv*
 column | description
 ------ | -----------
 dealer_up | Dealer's up card (A, 2, 3, ..., 10)
@@ -30,7 +26,7 @@ is_split | Whether or not the hand was split
 orig_hand | If the hand was split, the original hand that was dealt. If not, 0
 shuffle | The shuffle method used (1, 3, 5, 9, 15, part_1, part_2, casino)
 
-# shoe_data.csv
+*shoe_data.csv*
 column | description
 ------ | -----------
 player_win | The number of hands the player won
@@ -57,6 +53,6 @@ dealer_avg_hand | The average hand of the dealer when hand < 21
 num_of_shuffles | The number of shuffles of the same shoe
 shuffle_method | The shuffle method used to shuffle the shoe 
 
-
+## UML Project Diagram 
 
 ![](images/project_diagram.png)
