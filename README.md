@@ -12,6 +12,9 @@ Create a blackjack program that:
 * Analyze data collected from all hands dealt
 * Anlayze data collected from all shoes dealt
 
+![Wizards of Odds]
+(https://github.com/kaseymallette/blackjack/blob/main/images/house_edge.png)
+
 *hand_data.csv*
 column | description
 ------ | -----------
