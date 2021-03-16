@@ -31,6 +31,7 @@ advantage of **0.5%**:
 
 The house advantage means that a player will lose 0.5% of the original bet.
 If a player bets the same amount for every hand and plays perfect basic
+<<<<<<< HEAD
 strategy, the percentage of hands won and pushed should be **49.5%** (win_push_pct).
 
 In addition, I want to explore whether the shuffle or any other relevant
@@ -39,6 +40,16 @@ the number of doubles won, the number of times the dealer busts, has a 10 showin
 draws to make a hand, or draws to make 21.
 
 ## Code
+=======
+strategy, the percentage of hands won and pushed should be **49.5%** (win_push_pct). 
+
+In addition, I want to explore whether the shuffle or any other relevant
+data about the shoe predict win_push_pct, i.e. the number of blackjacks dealt, 
+the number of doubles won, the number of times the dealer busts, has a 10 showing, 
+draws to make a hand, or draws to make 21. 
+
+## Code 
+>>>>>>> 19b352fd78b1576f641b854cde2259a090e14b2f
 
 ```play.py```
 
@@ -52,11 +63,19 @@ draws to make a hand, or draws to make 21.
 
 
 
+<<<<<<< HEAD
 ## Data Collection
 
 #### Number of Shoes
 - It takes 15 minutes to shuffle and deal a six-deck blackjack shoe
 - The cards are changed once every 24 hours
+=======
+## Data Collection 
+
+#### Number of Shoes
+- It takes 15 minutes to shuffle and deal a six-deck blackjack shoe
+- The cards are changed once every 24 hours 
+>>>>>>> 19b352fd78b1576f641b854cde2259a090e14b2f
 
 Given the above two assumptions, 96 shoes would be dealt in 24 hours.
 
@@ -67,8 +86,13 @@ from random import shuffle
 
 The number of times the cards are shuffled: ```[1, 3, 5, 9, 15]```
 
+<<<<<<< HEAD
 I also wrote my own module ```shuffle.py```, which adapts casino shuffles using
 variations of riffle-strip-riffle.
+=======
+I also wrote my own module ```shuffle.py```, which adapts casino shuffles using 
+variations of riffle-strip-riffle. 
+>>>>>>> 19b352fd78b1576f641b854cde2259a090e14b2f
 - *part_1* shuffles the cards using three piles
 - *part_2* shuffles the cards using two piles
 - *casino* shuffles the cards using both *part_1* and *part_2*
@@ -93,7 +117,11 @@ for shuffle in test_shuffle:
         Test().run_test(shuffle, test_shoes)
 ```
 
+<<<<<<< HEAD
 ## Data Defintions
+=======
+## Data Defintions 
+>>>>>>> 19b352fd78b1576f641b854cde2259a090e14b2f
 
 *hand_data.csv*
 variable | definition | key
@@ -108,7 +136,11 @@ orig_hand | If the hand was split, the original hand that was dealt | If not spl
 shuffle | The shuffle method used | 1, 3, 5, 9, 15, part_1, part_2, casino
 
 *shoe_data.csv*
+<<<<<<< HEAD
 variable | defintion
+=======
+variable | defintion 
+>>>>>>> 19b352fd78b1576f641b854cde2259a090e14b2f
 ------ | -----------
 player_win | The number of hands the player won
 player_loss | The number of hands the player lost
@@ -132,12 +164,20 @@ dealer_draw_pct | The percentage of total hands the dealer drew to make a hand
 dealer_21_draw_pct | The percentage of total hands the dealer drew to 21
 dealer_avg_hand | The average hand of the dealer when hand < 21
 num_of_shuffles | The number of shuffles of the same shoe
+<<<<<<< HEAD
 shuffle_method | The shuffle method used to shuffle the shoe
+=======
+shuffle_method | The shuffle method used to shuffle the shoe 
+>>>>>>> 19b352fd78b1576f641b854cde2259a090e14b2f
 
 ## Project Directory
 
 ![](images/blackjack_dir.png)
 
+<<<<<<< HEAD
 ## UML Project Diagram
+=======
+## UML Project Diagram 
+>>>>>>> 19b352fd78b1576f641b854cde2259a090e14b2f
 
 ![](images/project_diagram.png)
