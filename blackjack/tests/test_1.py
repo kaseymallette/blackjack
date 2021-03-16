@@ -1,14 +1,16 @@
-# Import necessary libraries
-from run_test import Test
-
 # Set up directory
+from run_test import Test
 Test().find_dir()
 
-# Set variables
-test_shuffle = 'part_2'
-test_shoes = 96
-run_time = 3
+# Import Path
+from file_path import Path
 
+# Set variables
+test_shuffle = 1
+test_shoes = 96
+run_time = 30
+shoe_fh = Path('shoe_test_1.csv').path
+hand_fh = Path('hand_test_1.csv').path
 # Run test
 for i in range(run_time):
-    Test().run_test(test_shuffle, test_shoes)
+    Test().run_test(test_shuffle, test_shoes, shoe_fh, hand_fh)

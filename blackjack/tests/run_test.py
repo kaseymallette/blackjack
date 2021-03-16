@@ -1,7 +1,6 @@
 class Test:
     """Uses variations of the shuffle method and num_of_shoes for run.py
-    to run tests and generate data.
-    """
+    to run tests and generate data."""
 
     def __init__(self):
         pass
@@ -21,18 +20,13 @@ class Test:
         sys.path == dir
         sys.path.append("./src")
 
-    def run_test(self, test_shuffle, test_shoes):
+
+
+    def run_test(self, test_shuffle, test_shoes, shoe_fh, hand_fh):
         "Run test where shuffle = test_shuffle and num_of_shoes = test_shoes."
 
-        # Import necessary libraries
-        from file_path import Path
+        # Import Game
         from game import Game
-
-        # Define file path for shoe data
-        shoe_fh = Path('shoe_data.csv').path
-
-        # Define file path for hand data
-        hand_fh = Path('hand_data.csv').path
 
         # Use test_shuffle and run through test_shoes using basic strategy
         decks = 6
