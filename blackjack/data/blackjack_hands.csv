@@ -1,4 +1,4 @@
-dealer_up,player,move,outcome,dealer_bj,is_split,orig_hand,shuffle
+index,dealer_up,player,move,outcome,dealer_bj,is_split,orig_hand,shuffle
 0,5,20,0,win,False,False,0,1
 1,10,11,2,win,False,False,0,1
 2,4,15,0,loss,False,False,0,1
