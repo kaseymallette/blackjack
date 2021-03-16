@@ -14,7 +14,7 @@ hand_fh = Path('blackjack_hands.csv').path
 decks = 6
 game = 'run'
 shuffle = 1
-num_of_shoes = 25
+num_of_shoes = 2
 
 # Run blackjack game
 Game(decks, game, shuffle, shoe_fh, hand_fh).continue_play(num_of_shoes)
