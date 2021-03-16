@@ -1,7 +1,6 @@
 class Test:
     """Uses variations of the shuffle method and num_of_shoes for run.py
-    to run tests and generate data.
-    """
+    to run tests and generate data."""
 
     def __init__(self):
         pass
