@@ -1,7 +1,5 @@
-# Import necessary libraries
-from run_test import Test
-
 # Set up directory
+from run_test import Test
 Test().find_dir()
 
 # Import Path
