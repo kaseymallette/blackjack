@@ -1,4 +1,4 @@
-,player_win,player_loss,push,win_push,total_hands,win_pct,win_push_pct,doubles_won,doubles_lost,doubles_won_pct,player_bj,dealer_bj,dealer_ten,dealer_bust,dealer_draw,dealer_21_draw,dealer_ten_pct,dealer_bust_pct,dealer_draw_pct,dealer_21_draw_pct,dealer_avg_hand,num_of_shuffles,shuffle_method
+player_win,player_loss,push,win_push,total_hands,win_pct,win_push_pct,doubles_won,doubles_lost,doubles_won_pct,player_bj,dealer_bj,dealer_ten,dealer_bust,dealer_draw,dealer_21_draw,dealer_ten_pct,dealer_bust_pct,dealer_draw_pct,dealer_21_draw_pct,dealer_avg_hand,num_of_shuffles,shuffle_method
 0,21,23,2,23,46,0.457,0.5,3,2,0.6,2,3,13,10,15,4,0.283,0.217,0.326,0.087,17.429,1,1
 0,21,17,6,27,44,0.477,0.614,3,3,0.5,0,1,11,10,16,4,0.25,0.227,0.364,0.091,17.737,2,1
 0,20,20,7,27,47,0.426,0.574,4,3,0.571,1,2,9,11,15,2,0.191,0.234,0.319,0.043,17.816,3,1
