@@ -8,13 +8,14 @@ from game import Game
 shoe_fh = Path('blackjack_run.csv').path
 
 # Define file path for hand data
-hand_fh = Path('blackjack_hands.csv').path
+hand_fh = Path('run_hands.csv').path
 
 # Run through 25 shoes using basic strategy
 decks = 6
 game = 'run'
 shuffle = 1
-num_of_shoes = 2
+num_of_shoes = 25
 
 # Run blackjack game
-Game(decks, game, shuffle, shoe_fh, hand_fh).continue_play(num_of_shoes)
+new_game = Game(decks, game, shuffle, shoe_fh, hand_fh)
+new_game.continue_play(num_of_shoes)
