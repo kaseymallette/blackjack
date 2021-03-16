@@ -1,4 +1,4 @@
-,dealer_up,player,move,outcome,dealer_bj,is_split,orig_hand,shuffle
+index,dealer_up,player,move,outcome,dealer_bj,is_split,orig_hand,shuffle
 0,6,17,0,loss,False,False,0,1
 1,A,20,0,win,False,False,0,1
 2,10,"[7, 17]",1,win,False,False,0,1

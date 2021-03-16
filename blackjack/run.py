@@ -14,7 +14,7 @@ hand_fh = Path('run_hands.csv').path
 decks = 6
 game = 'run'
 shuffle = 1
-num_of_shoes = 25
+num_of_shoes = 30
 
 # Run blackjack game
 new_game = Game(decks, game, shuffle, shoe_fh, hand_fh)
