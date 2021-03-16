@@ -10,7 +10,9 @@ class Play:
 
     def __init__(self, shoe, method, shoe_fh, hand_fh):
         "Initializes a new play object."
+        self.method = method
         self.play_shoe(shoe, method, shoe_fh, hand_fh)
+
 
     def play_shoe(self, shoe, method, shoe_fh, hand_fh):
         """Given a shuffle method, shuffle the shoe and continously deal hands.
@@ -69,7 +71,7 @@ class Play:
             shoe.shoe_stats['doubles_won_pct'] = round(doubles_pct, 3)
 
         # Find the shuffle method and number of shuffles of the same shoe
-        shoe.shoe_stats['shuffle_method'] = method
+        shoe.shoe_stats['shuffle_method'] = self.method
         shoe.shoe_stats['num_of_shuffles'] = shoe.shoes_dealt
 
         # Convert continuous variables to percentages and round

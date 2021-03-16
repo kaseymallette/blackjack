@@ -7,7 +7,6 @@ class Stats:
 
     def __init__(self):
         "Initialize a new object with no attributes."
-        pass
 
     def create_stats(self, shoe):
         "Define stats and set the default of each stat to 0."
