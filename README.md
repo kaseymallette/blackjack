@@ -121,9 +121,6 @@ shuffle | The shuffle method used | 1, 3, 5, 9, 15, part_1, part_2, casino
 *shoe_data.csv*
 
 variable | defintion
-=======
-variable | defintion
-
 ------ | -----------
 player_win | The number of hands the player won
 player_loss | The number of hands the player lost
@@ -147,9 +144,7 @@ dealer_draw_pct | The percentage of total hands the dealer drew to make a hand
 dealer_21_draw_pct | The percentage of total hands the dealer drew to 21
 dealer_avg_hand | The average hand of the dealer when hand < 21
 num_of_shuffles | The number of shuffles of the same shoe
-<<<<<<< HEAD
 shuffle_method | The shuffle method used to shuffle the shoe
-=======
 shuffle_method | The shuffle method used to shuffle the shoe
 
 
