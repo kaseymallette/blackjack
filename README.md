@@ -65,7 +65,7 @@ Given the above two assumptions, 96 shoes would be dealt in 24 hours.
 from random import shuffle
 ```
 
-The number of times the cards are shuffled: ```[1, 3, 5, 9, 15]```
+The number of times the cards are shuffled: ```[1, 4, 7, 11]```
 
 I also wrote my own module ```shuffle.py```, which adapts casino shuffles using
 variations of riffle-strip-riffle.
@@ -76,21 +76,24 @@ variations of riffle-strip-riffle.
 
 #### ```test_2.py```
 
-```# Import necessary libraries
+```# Set up directory
 from run_test import Test
-
-# Set up directory
 Test().find_dir()
 
+# Import Path
+from file_path import Path
+
 # Set variables
-test_shuffle = [1, 3, 5, 9, 15, 'part_1', 'part_2', 'casino']
+test_shuffle = [1, 4, 7, 11, 'part_1', 'part_2', 'casino']
 test_shoes = 96
-run_time = 3
+run_time = 7
+shoe_fh = Path('shoe_test_2.csv').path
+hand_fh = Path('hand_test_2.csv').path
 
 # Run test
 for shuffle in test_shuffle:
     for i in range(run_time):
-        Test().run_test(shuffle, test_shoes)
+        Test().run_test(shuffle, test_shoes, shoe_fh, hand_fh)
 ```
 
 ## Data Defintions
