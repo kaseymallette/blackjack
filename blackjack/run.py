@@ -13,7 +13,7 @@ hand_fh = Path('run_hands.csv').path
 # Run through 25 shoes using basic strategy
 decks = 6
 game = 'run'
-shuffle = 'computer'
+shuffle = 'python'
 num_of_shoes = 30
 
 # Run blackjack game

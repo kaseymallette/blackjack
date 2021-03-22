@@ -125,6 +125,22 @@ class Outcome:
                     else:
                         new_hand.orig_hand = player.num
 
+                    # Find the outcome of the dealer's hand
+                    if len(dealer.hand) == 2:
+                        # Dealer stnads
+                        Stats().track_stats(shoe, 'dealer_stand')
+                        new_hand.dealer_outcome = 'stand'
+                    else:
+                        # Dealer draws to make a hand
+                        if dealer.sum <= 21:
+                            if dealer.sum >= 17:
+                                Stats().track_stats(shoe, 'dealer_draw')
+                                new_hand.dealer_outcome = 'draw'
+                        # Dealer busts
+                        if dealer.sum > 21:
+                            Stats().track_stats(shoe, 'dealer_bust')
+                            new_hand.dealer_outcome = 'bust'
+
                     # Find data for new_hand and append to hands_played
                     new_hand.get_data()
                     shoe.hands_played.append(new_hand.data)

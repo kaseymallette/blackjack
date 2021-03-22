@@ -52,12 +52,11 @@ class Play:
         doubles_won = shoe.shoe_stats['doubles_won']
         doubles_lost = shoe.shoe_stats['doubles_lost']
         dealer_bust = shoe.shoe_stats['dealer_bust']
-        dealer_ten = shoe.shoe_stats['dealer_ten']
         dealer_draw = shoe.shoe_stats['dealer_draw']
-        dealer_21 = shoe.shoe_stats['dealer_21_draw']
+        dealer_stand = shoe.shoe_stats['dealer_stand']
 
         # Find the total number of hands won
-        total = win + loss + push
+        total = len(shoe.hands_played)
         shoe.shoe_stats['total_hands'] = total
 
         # Find the total number of hands won and pushed
@@ -78,9 +77,8 @@ class Play:
         shoe.shoe_stats['win_pct'] = round(win / total, 3)
         shoe.shoe_stats['win_push_pct'] = round(win_push / total, 3)
         shoe.shoe_stats['dealer_bust_pct'] = round(dealer_bust / total, 3)
-        shoe.shoe_stats['dealer_ten_pct'] = round(dealer_ten / total, 3)
         shoe.shoe_stats['dealer_draw_pct'] = round(dealer_draw / total, 3)
-        shoe.shoe_stats['dealer_21_draw_pct'] = round(dealer_21 / total, 3)
+        shoe.shoe_stats['dealer_stand_pct'] = round(dealer_stand / total, 3)
 
         # Find the dealer's average hand
         if len(shoe.dealer_hand) > 0:
@@ -111,9 +109,10 @@ class Play:
         # Change data types from float to int
         change_dtypes = {}
         change_to_int = ['player_win', 'player_loss', 'push', 'win_push',
-        'total_hands', 'doubles_won', 'doubles_lost', 'player_bj',
-        'dealer_bj', 'dealer_ten', 'dealer_bust', 'dealer_draw',
-        'dealer_21_draw', 'num_of_shuffles']
+                        'total_hands', 'doubles_won', 'doubles_lost',
+                        'player_bj', 'dealer_bj', 'dealer_high_card',
+                        'dealer_low_card', 'dealer_bust', 'dealer_draw',
+                        'dealer_stand', 'num_of_shuffles']
 
         if type(shoe.shoe_stats['shuffle_method']) == int:
             change_to_int.append('shuffle_method')
@@ -139,9 +138,22 @@ class Play:
             hand.append(method)
 
         hand_columns = ['dealer_up', 'player', 'move', 'outcome',
-        'dealer_bj', 'is_split', 'orig_hand', 'shuffle']
+                        'dealer_outcome', 'dealer_bj', 'is_split',
+                        'orig_hand', 'shuffle']
 
         df2 = pd.DataFrame(hand_list, columns=hand_columns)
+
+        # Replace moves 0-2 with stand, hit, or double
+        df2['move'] = df2['move'].replace([0], 'stand')
+        df2['move'] = df2['move'].replace([1], 'hit')
+        df2['move'] = df2['move'].replace([2], 'double')
+
+        # Change the data types to strings
+        df2['player'] = df2['player'].astype(str)
+        df2['dealer_up'] = df2['dealer_up'].astype(str)
+        df2['dealer_outcome'] = df2['dealer_outcome'].astype(str)
+        df2['orig_hand'] = df2['orig_hand'].astype(str)
+        print(df2.dtypes)
 
         # Check path for hand csv
         check_path_2 = path.exists(hand_fh)

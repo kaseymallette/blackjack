@@ -44,7 +44,7 @@ class Shuffle:
             self.half = int((len(shoe_list)+1)/2)
 
         # Determine which shuffle method to use
-        if self.method == 'computer':
+        if self.method == 'python':
             shuffle(shoe_list)
         elif self.method == 'riffle_perfect':
             self.dealer_shuffle(shoe, shoe_list, 'perfect')

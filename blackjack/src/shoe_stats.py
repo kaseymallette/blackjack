@@ -11,13 +11,12 @@ class Stats:
     def create_stats(self, shoe):
         "Define stats and set the default of each stat to 0."
 
-        stats = ['player_win', 'player_loss', 'push', 'win_push',
-        'total_hands', 'win_pct', 'win_push_pct', 'num_of_splits', 'double',
-        'doubles_won', 'doubles_lost', 'doubles_won_pct', 'player_bj',
-        'dealer_bj', 'dealer_ten', 'dealer_bust', 'dealer_draw',
-        'dealer_21_draw', 'dealer_ten_pct', 'dealer_bust_pct',
-        'dealer_draw_pct', 'dealer_21_draw_pct','dealer_avg_hand',
-        'num_of_shuffles', 'shuffle_method']
+        stats = ['player_win', 'player_loss', 'push', 'win_push', 'total_hands',
+        'win_pct', 'win_push_pct', 'num_of_splits', 'double', 'doubles_won',
+        'doubles_lost', 'doubles_won_pct', 'player_bj', 'dealer_bj',
+        'dealer_high_card', 'dealer_low_card', 'dealer_bust', 'dealer_draw',
+        'dealer_stand', 'dealer_bust_pct', 'dealer_draw_pct','dealer_stand_pct',
+        'dealer_avg_hand', 'num_of_shuffles', 'shuffle_method']
 
         for key in stats:
             shoe.shoe_stats.setdefault(key, 0)

@@ -37,6 +37,7 @@ class Hand:
         setattr(self, 'player', 0)
         setattr(self, 'move', 0)
         setattr(self, 'outcome', 0)
+        setattr(self, 'dealer_outcome', 0)
         setattr(self, 'is_soft', False)
 
         # Create instance attributes for summing the hand
@@ -166,7 +167,7 @@ class Hand:
         up_card = self.card_1
 
         # Assign dealer's up card to player.dealer_up for hand data
-        player.dealer_up = up_card.num
+        player.dealer_up = str(up_card.num)
         if up_card.num == [1,11]:
             player.dealer_up = 'A'
 
@@ -230,7 +231,6 @@ class Hand:
 
             # Evaluate the dealer's hand
             if self.sum > 21:
-                Stats().track_stats(shoe, 'dealer_bust')
                 print("Dealer busts")
                 break
             elif self.sum >= 17:
@@ -251,4 +251,4 @@ class Hand:
         "Get the data for the hand."
 
         self.data = [self.dealer_up, self.player, self.move, self.outcome,
-        self.is_blackjack, self.is_split, self.orig_hand]
+        self.dealer_outcome, self.is_blackjack, self.is_split, self.orig_hand]
