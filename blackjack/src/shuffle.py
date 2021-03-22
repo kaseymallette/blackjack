@@ -44,133 +44,178 @@ class Shuffle:
             self.half = int((len(shoe_list)+1)/2)
 
         # Determine which shuffle method to use
-        if type(self.method) == int:
-            for i in range(self.method):
-                shuffle(shoe_list)
-        elif self.method == 'part_1':
-            self.shuffle_1(shoe, shoe_list)
-        elif self.method == 'part_2':
-            self.shuffle_2(shoe, shoe_list)
-        elif self.method == 'casino':
-            self.entire_shuffle(shoe, shoe_list)
+        if self.method == 'computer':
+            shuffle(shoe_list)
+        elif self.method == 'riffle_perfect':
+            self.dealer_shuffle(shoe, shoe_list, 'perfect')
+        elif self.method == 'riffle_clumpy':
+            self.dealer_shuffle(shoe, shoe_list, 'clumpy')
         else:
-            self.method == 'none'
+            print("Error! Please enter a shuffle method")
 
 
-    def partition(self, cards, num):
-        """Given a list of cards, split the cards into groups of
-        num cards, where each group is a list in a list of lists.
+    def dealer_shuffle(self, shoe, shoe_list, riffle):
+        """Follows the pattern of riffle-strip-riffle, where riffle can
+        take the values of perfect (loops through one card from each pile),
+        or clumpy (cards from each pile are taken at a random distribution).
         """
 
-        self.group = []
+        def partition(cards, num):
+            """Given a list of cards, split the cards into groups of
+            num cards, where each group is a list in a list of lists."""
 
-        for i in range(0, len(cards), num):
-            new_group = cards[i:i + num]
-            self.group.append(new_group)
-
-
-    def flatten_list(self, list, new_list):
-        "Given a list of lists, flatten all elements into one list."
-
-        for x in list:
-            for y in x:
-                new_list.append(y)
+            self.group = []
+            for i in range(0, len(cards), num):
+                new_group = cards[i:i + num]
+                self.group.append(new_group)
 
 
-    def riffle_cards(self, pile_1, pile_2):
-        """For two piles of cards, alternate between the two piles,
-        appending one card from each pile until there are no more cards.
-        """
+        def flatten_list(list, new_list):
+            "Given a list of lists, flatten all elements into one list."
 
-        self.riffle = []
-
-        index = 0
-        while index < len(pile_1):
-            self.riffle.append(pile_1[index])
-            self.riffle.append(pile_2[index])
-            index +=1
+            for x in list:
+                for y in x:
+                    new_list.append(y)
 
 
-    def strip_cards(self, pile):
-        "Partition the pile into sections, and then reverse the sections."
+        def riffle_perfect(pile_1, pile_2):
+            """For two piles of cards, alternate between the two piles,
+            appending one card from each pile until there are no more cards.
+            """
 
-        self.strip = []
-        self.partition(pile, self.strip_len)
-        self.group = self.group[::-1]
+            self.riffle = []
+            n = iter(pile_2)
 
-        for x in self.group:
-            for y in x:
-                self.strip.append(y)
-
-
-    def riffle_strip_riffle(self, pile_1, pile_2):
-        "Perform riffle-strip-riffle, and then append cards to middle pile."
-
-        # Riffle
-        self.riffle_cards(pile_1, pile_2)
-
-        # Strip
-        self.strip_cards(self.riffle)
-
-        # Split pile into two equal piles and riffle again
-        self.partition(self.strip, self.pile_len)
-        self.riffle_cards(self.group[0], self.group[1])
-
-        # Place shuffled cards in middle pile
-        self.middle.append(self.riffle)
+            # Iterate through pile_1 and append next of pile_2
+            for i in iter(pile_1):
+                self.riffle.append(i)
+                self.riffle.append(next(n))
 
 
-    def middle_pile(self, pile):
-        "Take cards from the middle pile to reshuffle."
+        def riffle_clumpy(pile_1, pile_2):
+            """For two piles of cards, use a random distribution
+            to alternate between the two piles in order to create a clumpy
+            riffle."""
 
-        # Select top partition of middle pile
-        self.group.clear()
-        self.partition(self.middle[0], self.pile_len)
+            self.riffle = []
+            riffle = []
 
-        # Remove cards in top partition
-        for card in self.group[0]:
-            self.middle[0].remove(card)
+            # Create a random distribution
+            dist = [12,10,8,6,4,2,2,2,1,1,1,1]
+            shuffle(dist)
+            dist_iter = iter(dist)
 
-        # Shuffle the middle partiton with one of the side pile partitions
-        self.riffle_strip_riffle(pile, self.group[0])
+            # Iterate through pile_1
+            for i in iter(pile_1):
+                # Use next(dist) to find how many cards to take from pile_1
+                take = next(dist_iter)
+                cards = pile_1[0:take]
+                riffle.append(cards)
+                # Remove cards from pile_1
+                for card in cards:
+                    pile_1.remove(card)
+                # Use next(dist) to find how many cards to take from pile_2
+                take_2 = next(dist_iter)
+                cards_2 = pile_2[0:take_2]
+                riffle.append(cards_2)
+                # Remove cards from pile_2
+                for card in cards_2:
+                    pile_2.remove(card)
 
-        # Reverse the middle pile so that the cards shuffled are on the bottom
-        self.middle = self.middle[::-1]
+            # Flatten the list of cards
+            self.flatten_list(riffle, self.riffle)
 
 
-    def clear_shuffle(self, shoe):
-        "Clear the lists that are needed to perform the shuffle."
+        def strip_cards(pile):
+            "Partition the pile into sections, and then reverse the sections."
 
-        lists = [self.group, self.riffle, self.pile_1, self.pile_2,
-        self.strip, self.middle, shoe.shuffled_cards]
+            self.strip = []
+            partition(pile, self.strip_len)
+            self.group = self.group[::-1]
 
-        for list in lists:
-            list.clear()
+            for x in self.group:
+                for y in x:
+                    self.strip.append(y)
 
 
-    def start_shuffle(self, shoe, shoe_list):
-        "Procedure for starting a shuffle."
+        def riffle_strip_riffle(pile_1, pile_2, riffle):
+            "Perform riffle-strip-riffle, and then append cards to middle pile."
 
+            # Riffle
+            if riffle == 'perfect':
+                riffle_perfect(pile_1, pile_2)
+            else:
+                riffle_clumpy(pile_1, pile_2)
+
+            # Strip
+            strip_cards(self.riffle)
+            partition(self.strip, self.pile_len)
+
+            # Riffle
+            if riffle == 'perfect':
+                riffle_perfect(self.group[0], self.group[1])
+            else:
+                riffle_clumpy(self.group[0], self.group[1])
+
+            # Place shuffled cards in middle pile
+            self.middle.append(self.riffle)
+
+
+        def middle_pile(pile, riffle):
+            "Take cards from the middle pile to reshuffle."
+
+            # Select top partition of middle pile
+            self.group.clear()
+            partition(self.middle[0], self.pile_len)
+
+            # Remove cards in top partition
+            for card in self.group[0]:
+                self.middle[0].remove(card)
+
+            # Shuffle the middle partiton with one of the side pile partitions
+            riffle_strip_riffle(pile, self.group[0], riffle)
+
+            # Reverse the middle pile so that the cards shuffled are on the bottom
+            self.middle = self.middle[::-1]
+
+
+        def clear_shuffle(shoe):
+            "Clear the lists that are needed to perform the shuffle."
+
+            lists = [self.group, self.riffle, self.pile_1, self.pile_2,
+                    self.strip, self.middle, shoe.shuffled_cards]
+
+            for list in lists:
+                list.clear()
+
+
+        # Start shuffle
         # Split shoe into two equal piles
-        self.partition(shoe_list, self.half)
+        partition(shoe_list, self.half)
         top_half = self.group[0]
         bottom_half = self.group[1]
 
         # Take 3/4 of a deck at a time from each half
-        self.partition(top_half, self.pile_len)
+        partition(top_half, self.pile_len)
         self.pile_1 = self.group
-        self.partition(bottom_half, self.pile_len)
+        partition(bottom_half, self.pile_len)
         self.pile_2 = self.group
 
-        # Shuffle until there are no more partitions
+        # Shuffle until there are no more partition
         self.shuffle_until = len(self.pile_1)
 
+        # Shuffle both piles together and add to middle
+        riffle_strip_riffle(self.pile_1[0], self.pile_2[0], riffle)
 
-    def finish_shuffle(self, shoe):
-        "Procedure for finishing a shuffle."
+        # Alternate between pile_1 and pile_2
+        i = 1
+        while i < self.shuffle_until:
+            middle_pile(self.pile_1[i], riffle)
+            middle_pile(self.pile_2[i], riffle)
+            i +=1
 
         # Flatten lists of lists and add to shuffled_cards
-        self.flatten_list(self.middle, shoe.shuffled_cards)
+        flatten_list(self.middle, shoe.shuffled_cards)
 
         # Check card count
         expected = shoe.num
@@ -184,87 +229,5 @@ class Shuffle:
         # If all of the cards are there, use the list of shuffled cards
         if self.error == False:
             shoe.return_shoe = shoe.shuffled_cards
-
-
-    def shuffle_part_1(self, shoe, shoe_list):
-        """Divide the cards into two equal piles and take cards from the
-        two side piles, shuffle, and place the cards in the middle pile.
-        Then shuffle the cards from the middle pile with a side pile,
-        alternating between the left and right piles.
-        """
-
-        # Start the shuffle
-        self.start_shuffle(shoe, shoe_list)
-
-        # Shuffle both piles together and add to middle
-        self.riffle_strip_riffle(self.pile_1[0], self.pile_2[0])
-
-        i = 1
-        # Alternate between pile_1 and pile_2
-        while i < self.shuffle_until:
-            self.middle_pile(self.pile_1[i])
-            self.middle_pile(self.pile_2[i])
-            i +=1
-
-        # Finish the shuffle
-        self.finish_shuffle(shoe)
-
-
-    def shuffle_part_2(self, shoe, shoe_list):
-        """Divide the cards into two equal piles and take cards from
-        the two side piles, shuffle, and place the cards in the middle.
-        Repeat this procedure until all of the cards have been shuffled.
-        """
-
-        # Start the shuffle
-        self.start_shuffle(shoe, shoe_list)
-
-        i = 0
-        # Shuffle 1 1/2 decks at a time using riffle_strip_riffle
-        while i < self.shuffle_until:
-            self.riffle_strip_riffle(self.pile_1[i], self.pile_2[i])
-            i +=1
-
-        # Finish the shuffle
-        self.finish_shuffle(shoe)
-
-
-    def entire_shuffle(self, shoe, shoe_list):
-        "Shuffle using part_1 and then part_2."
-
-        # For part_2, clear the cards from part_1
-        if shoe.shuffled_cards != []:
-            middle_1 = shoe.shuffled_cards.copy()
-            self.clear_shuffle(shoe)
-            self.shuffle_part_1(shoe, middle_1)
         else:
-            self.shuffle_part_1(shoe, shoe_list)
-
-        # Create a middle_2 to hold the cards from part_1
-        middle_2 = shoe.shuffled_cards.copy()
-        self.clear_shuffle(shoe)
-        self.shuffle_part_2(shoe, middle_2)
-
-
-    def shuffle_1(self, shoe, shoe_list):
-        "If the shuffle method = 'part_1', use shuffle_1."
-
-        # Clear the cards from the previous shoe
-        if shoe.shuffled_cards != []:
-            new_middle = shoe.shuffled_cards.copy()
-            self.clear_shuffle(shoe)
-            self.shuffle_part_1(shoe, new_middle)
-        else:
-            self.shuffle_part_1(shoe, shoe_list)
-
-
-    def shuffle_2(self, shoe, shoe_list):
-        "If the shuffle method = 'part_2, use shuffle_2.'"
-
-        # Clear the cards from the previous shoe
-        if shoe.shuffled_cards != []:
-            new_middle = shoe.shuffled_cards.copy()
-            self.clear_shuffle(shoe)
-            self.shuffle_part_2(shoe, new_middle)
-        else:
-            self.shuffle_part_2(shoe, shoe_list)
+            print("Error! You didn't shuffle through all of the cards")
