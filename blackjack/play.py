@@ -13,7 +13,7 @@ hand_fh = Path('blackjack_hands.csv').path
 # Play a six deck shoe allowing for user input
 decks = 6
 game = 'play'
-shuffle = 1
+shuffle = 'computer'
 
 # Play blackjack game
 Game(decks, game, shuffle, shoe_fh, hand_fh)
