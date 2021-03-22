@@ -153,7 +153,6 @@ class Play:
         df2['dealer_up'] = df2['dealer_up'].astype(str)
         df2['dealer_outcome'] = df2['dealer_outcome'].astype(str)
         df2['orig_hand'] = df2['orig_hand'].astype(str)
-        print(df2.dtypes)
 
         # Check path for hand csv
         check_path_2 = path.exists(hand_fh)

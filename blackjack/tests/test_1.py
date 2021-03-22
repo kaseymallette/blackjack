@@ -6,7 +6,7 @@ Test().find_dir()
 from file_path import Path
 
 # Set variables
-test_shuffle = ['computer', 'riffle_perfect', 'riffle_clumpy']
+test_shuffle = ['python', 'riffle_perfect', 'riffle_clumpy']
 test_shoes = 96
 run_time = 7
 shoe_fh = Path('shoe_test.csv').path

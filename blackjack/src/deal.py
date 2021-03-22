@@ -74,8 +74,11 @@ class Deal:
                     dealer.dealer_rules(shoe)
 
         # If the dealer doesn't bust, append hand to dealer_hand_sum
-        if dealer.sum < 21:
-            shoe.dealer_hand.append(dealer.sum)
+        if type(dealer.sum) == int:
+            if dealer.sum < 21:
+                shoe.dealer_hand.append(dealer.sum)
+        else:
+            shoe.dealer_hand.append(dealer.soft_large)
 
         # Determine the winner of the hand
         if shoe.shoe_stats['num_of_splits'] > 0:
