@@ -6,11 +6,13 @@ Test().find_dir()
 from file_path import Path
 
 # Set variables
-test_shuffle = 1
+test_shuffle = ['computer', 'riffle_perfect', 'riffle_clumpy']
 test_shoes = 96
-run_time = 30
-shoe_fh = Path('shoe_test_1.csv').path
-hand_fh = Path('hand_test_1.csv').path
+run_time = 7
+shoe_fh = Path('shoe_test.csv').path
+hand_fh = Path('hand_test.csv').path
+
 # Run test
-for i in range(run_time):
-    Test().run_test(test_shuffle, test_shoes, shoe_fh, hand_fh)
+for shuffle in test_shuffle:
+    for i in range(run_time):
+        Test().run_test(shuffle, test_shoes, shoe_fh, hand_fh)
