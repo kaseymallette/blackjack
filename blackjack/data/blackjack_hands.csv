@@ -1,95 +1,61 @@
 ,dealer_up,player,move,outcome,dealer_outcome,dealer_bj,is_split,orig_hand,shuffle
-0,6,19,stand,win,draw,False,False,0,python
-1,4,9,double,win,bust,False,False,0,python
-2,7,"[5, 5]",double,loss,stand,False,False,0,python
-3,9,21,stand,win,stand,False,False,0,python
-4,3,18,stand,loss,draw,False,False,0,python
-5,3,20,stand,win,draw,False,False,0,python
-6,10,14,hit,loss,stand,False,False,0,python
-7,5,21,stand,win,stand,False,False,0,python
-8,5,13,stand,loss,draw,False,False,0,python
-9,7,21,stand,win,stand,False,False,0,python
-10,10,9,hit,loss,stand,False,False,0,python
-11,10,10,hit,win,stand,False,False,0,python
-12,7,"[5, 5]",double,win,bust,False,False,0,python
-13,10,19,stand,win,stand,False,False,0,python
-14,3,"[10, 10]",stand,win,draw,False,False,0,python
-15,2,14,stand,loss,draw,False,False,0,python
-16,A,15,hit,loss,stand,False,False,0,python
-17,6,19,stand,win,draw,False,False,0,python
-18,4,20,stand,push,draw,False,False,0,python
-19,10,11,double,loss,draw,False,False,0,python
-20,3,13,stand,win,bust,False,False,0,python
-21,4,17,stand,win,bust,False,False,0,python
-22,2,14,stand,win,bust,False,False,0,python
-23,7,5,hit,loss,stand,False,False,0,python
-24,9,10,hit,loss,stand,False,False,0,python
-25,A,9,hit,loss,stand,False,False,0,python
-26,4,12,stand,win,bust,False,False,0,python
-27,7,10,double,win,draw,False,False,0,python
-28,10,20,stand,loss,draw,False,False,0,python
-29,10,19,stand,win,bust,False,False,0,python
-30,9,"[4, 4]",hit,win,bust,False,False,0,python
-31,4,20,stand,win,draw,False,False,0,python
-32,8,"[10, 10]",stand,loss,draw,False,False,0,python
-33,9,9,hit,loss,draw,False,False,0,python
-34,8,20,stand,loss,draw,False,False,0,python
-35,8,19,stand,win,draw,False,False,0,python
-36,10,"[6, 6]",hit,win,stand,False,False,0,python
-37,10,20,stand,push,draw,False,False,0,python
-38,9,20,stand,win,stand,False,False,0,python
-39,3,12,hit,loss,draw,False,False,0,python
-40,4,"[8, 18]",double,win,bust,False,False,0,python
-41,7,9,hit,win,0,False,True,"[3, 3]",python
-42,7,13,hit,win,0,False,True,"[3, 3]",python
-43,7,"[3, 3]",3,0,draw,False,True,0,python
-44,7,13,hit,loss,stand,False,False,0,python
-45,10,11,double,win,draw,False,False,0,python
-46,10,12,hit,loss,stand,False,False,0,python
-0,5,19,stand,win,bust,False,False,0,python
-1,4,21,stand,win,stand,False,False,0,python
-2,10,11,double,push,draw,False,False,0,python
-3,4,15,stand,loss,draw,False,False,0,python
-4,10,12,hit,loss,stand,False,False,0,python
-5,A,21,stand,win,stand,False,False,0,python
-6,10,15,stand,loss,draw,False,False,0,python
-7,7,17,stand,loss,draw,False,False,0,python
-8,2,16,stand,loss,draw,False,False,0,python
-9,4,19,stand,win,bust,False,False,0,python
-10,10,14,hit,loss,stand,False,False,0,python
-11,6,11,double,win,draw,False,False,0,python
-12,10,15,hit,win,bust,False,False,0,python
-13,6,11,double,win,bust,False,False,0,python
-14,3,5,hit,loss,draw,False,False,0,python
-15,10,20,stand,loss,stand,True,False,0,python
-16,10,14,stand,loss,stand,True,False,0,python
-17,10,9,hit,loss,stand,False,False,0,python
-18,3,12,hit,win,bust,False,False,0,python
-19,10,12,hit,loss,stand,False,True,"[10, 10]",python
-20,10,15,hit,loss,stand,False,True,"[10, 10]",python
-21,10,"[10, 10]",3,0,stand,False,True,0,python
-22,A,10,stand,loss,stand,True,False,0,python
-0,2,"[3, 13]",stand,loss,draw,False,True,"ace, ace",python
-1,2,21,stand,win,draw,False,True,"ace, ace",python
-2,2,"ace, ace",3,0,draw,False,True,0,python
-3,8,16,hit,loss,stand,False,False,0,python
-4,4,13,stand,win,bust,False,False,0,python
-5,3,17,stand,win,bust,False,False,0,python
-6,10,19,stand,loss,stand,False,False,0,python
-7,7,18,stand,win,stand,False,False,0,python
-8,5,14,stand,loss,draw,False,False,0,python
-9,3,20,stand,win,draw,False,False,0,python
-10,10,13,hit,loss,stand,False,False,0,python
-11,A,5,stand,loss,stand,True,False,0,python
-12,9,20,stand,win,stand,False,False,0,python
-13,10,14,hit,win,stand,False,False,0,python
-14,9,17,stand,loss,stand,False,False,0,python
-15,A,20,stand,push,draw,False,False,0,python
-16,10,"[8, 18]",hit,loss,stand,False,False,0,python
-17,8,14,hit,loss,stand,False,False,0,python
-18,6,5,hit,loss,draw,False,False,0,python
-19,5,12,stand,win,bust,False,False,0,python
-20,6,12,stand,loss,draw,False,False,0,python
-21,5,14,stand,loss,draw,False,False,0,python
-22,9,18,stand,win,draw,False,False,0,python
-23,10,6,hit,loss,stand,False,False,0,python
+0,10,20,stand,win,stand,False,False,0,python
+1,6,12,stand,win,bust,False,False,0,python
+2,10,19,stand,win,bust,False,False,0,python
+3,3,16,stand,win,bust,False,False,0,python
+4,10,12,hit,loss,draw,False,False,0,python
+5,3,13,stand,loss,draw,False,False,0,python
+6,A,15,hit,loss,draw,False,False,0,python
+7,4,19,stand,win,bust,False,False,0,python
+8,10,12,hit,push,draw,False,False,0,python
+9,10,17,stand,loss,stand,False,False,0,python
+10,9,20,stand,win,draw,False,False,0,python
+11,8,13,hit,loss,stand,False,False,0,python
+12,6,11,double,loss,draw,False,False,0,python
+13,10,13,hit,loss,stand,False,False,0,python
+14,10,12,hit,loss,stand,False,False,0,python
+15,9,20,stand,win,stand,False,False,0,python
+16,10,8,hit,loss,stand,False,False,0,python
+17,9,16,hit,loss,stand,False,False,0,python
+18,7,18,stand,win,bust,False,False,0,python
+19,10,"[8, 18]",double,win,bust,False,False,0,python
+20,5,20,stand,loss,draw,False,False,0,python
+21,4,15,stand,loss,draw,False,False,0,python
+22,8,20,stand,win,bust,False,True,"[10, 10]",python
+23,8,17,stand,win,bust,False,True,"[10, 10]",python
+24,8,21,stand,win,bust,False,True,"[10, 10]",python
+25,8,20,stand,win,bust,False,True,"[10, 10]",python
+0,7,21,stand,win,stand,False,False,0,python
+1,A,20,stand,win,stand,False,False,0,python
+2,8,21,stand,win,stand,False,False,0,python
+3,A,16,stand,win,bust,False,True,"[6, 6]",python
+4,A,16,stand,win,bust,False,True,"[6, 6]",python
+5,5,19,stand,loss,draw,False,False,0,python
+6,9,"[6, 16]",double,loss,stand,False,False,0,python
+7,10,9,hit,push,stand,False,False,0,python
+8,8,17,stand,loss,draw,False,False,0,python
+9,8,15,hit,win,bust,False,False,0,python
+10,9,14,hit,loss,stand,False,False,0,python
+11,3,21,stand,win,stand,False,False,0,python
+12,6,17,stand,win,bust,False,False,0,python
+13,A,16,stand,loss,draw,False,False,0,python
+14,10,20,stand,push,stand,False,False,0,python
+15,8,10,double,win,stand,False,False,0,python
+16,6,16,stand,win,bust,False,False,0,python
+17,10,11,double,win,stand,False,False,0,python
+18,10,19,stand,win,draw,False,False,0,python
+0,3,14,stand,loss,draw,False,False,0,python
+1,10,16,hit,loss,stand,False,False,0,python
+2,10,14,hit,loss,stand,False,True,"[10, 10]",python
+3,10,16,hit,loss,stand,False,True,"[10, 10]",python
+4,10,18,stand,push,stand,False,False,0,python
+5,8,17,stand,win,bust,False,False,0,python
+6,5,11,double,win,draw,False,False,0,python
+7,10,13,stand,loss,stand,True,False,0,python
+8,10,13,hit,loss,stand,False,False,0,python
+9,6,19,stand,win,bust,False,False,0,python
+10,10,17,stand,loss,stand,False,False,0,python
+11,7,14,hit,loss,stand,False,False,0,python
+12,2,12,hit,win,draw,False,False,0,python
+13,3,14,stand,loss,draw,False,False,0,python
+14,5,11,double,win,draw,False,False,0,python

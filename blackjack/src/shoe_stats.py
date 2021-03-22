@@ -11,8 +11,8 @@ class Stats:
     def create_stats(self, shoe):
         "Define stats and set the default of each stat to 0."
 
-        stats = ['player_win', 'player_loss', 'push', 'win_push', 'total_hands',
-        'win_pct', 'win_push_pct', 'num_of_splits', 'double', 'doubles_won',
+        stats = ['player_win', 'player_loss', 'push', 'total_hands', 'win_pct',
+        'win_push', 'win_push_pct', 'num_of_splits', 'double', 'doubles_won',
         'doubles_lost', 'doubles_won_pct', 'player_bj', 'dealer_bj',
         'dealer_high_card', 'dealer_low_card', 'dealer_bust', 'dealer_draw',
         'dealer_stand', 'dealer_bust_pct', 'dealer_draw_pct','dealer_stand_pct',

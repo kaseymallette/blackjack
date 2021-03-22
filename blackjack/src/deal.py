@@ -45,14 +45,6 @@ class Deal:
         dealer.dealer_up_card(player)
         player.player_cards(shoe)
 
-        # Track when the dealer's up card is a high card
-        if dealer.card_1.num in [7,8,9,10,[1,11]]:
-            Stats().track_stats(shoe, 'dealer_high_card')
-
-        # Track when the dealer's up card is a low card
-        if dealer.card_1.num in [2,3,4,5,6]:
-            Stats().track_stats(shoe, 'dealer_low_card')
-
         # Check for dealer blackjack
         if dealer.soft_large == 21:
             Stats().track_stats(shoe, 'dealer_bj')
@@ -81,35 +73,43 @@ class Deal:
                 if player.sum <= 21:
                     dealer.dealer_rules(shoe)
 
+        # If the dealer doesn't bust, append hand to dealer_hand_sum
+        if dealer.sum < 21:
+            shoe.dealer_hand.append(dealer.sum)
+
         # Determine the winner of the hand
         if shoe.shoe_stats['num_of_splits'] > 0:
             Outcome().split_tree(player, dealer, shoe)
         else:
             Outcome().win_hand(player, dealer, shoe)
 
-        # If the dealer doesn't bust, append hand to dealer_hand_sum
-        if dealer.sum < 21:
-            shoe.dealer_hand.append(dealer.sum)
+            # Find the outcome of the dealer's hand
+            if len(dealer.hand) == 2:
+                # Dealer stnads
+                Stats().track_stats(shoe, 'dealer_stand')
+                player.dealer_outcome = 'stand'
+            else:
+                # Dealer draws to make a hand
+                if dealer.sum <= 21:
+                    if dealer.sum >= 17:
+                        Stats().track_stats(shoe, 'dealer_draw')
+                        player.dealer_outcome = 'draw'
+                # Dealer busts
+                if dealer.sum > 21:
+                    Stats().track_stats(shoe, 'dealer_bust')
+                    player.dealer_outcome = 'bust'
 
-        # Find the outcome of the dealer's hand
-        if len(dealer.hand) == 2:
-            # Dealer stnads
-            Stats().track_stats(shoe, 'dealer_stand')
-            player.dealer_outcome = 'stand'
-        else:
-            # Dealer draws to make a hand
-            if dealer.sum <= 21:
-                if dealer.sum >= 17:
-                    Stats().track_stats(shoe, 'dealer_draw')
-                    player.dealer_outcome = 'draw'
-            # Dealer busts
-            if dealer.sum > 21:
-                Stats().track_stats(shoe, 'dealer_bust')
-                player.dealer_outcome = 'bust'
+            # Track when the dealer's up card is a high card
+            if dealer.card_1.num in [7,8,9,10,[1,11]]:
+                Stats().track_stats(shoe, 'dealer_high_card')
 
-        # Append player data to hands_played
-        player.get_data()
-        shoe.hands_played.append(player.data)
+            # Track when the dealer's up card is a low card
+            if dealer.card_1.num in [2,3,4,5,6]:
+                Stats().track_stats(shoe, 'dealer_low_card')
+
+            # Append player data to hands_played
+            player.get_data()
+            shoe.hands_played.append(player.data)
 
         # Determine how many cards are remaining in the shoe
         player_len = len(player.hand)
