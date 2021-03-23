@@ -161,8 +161,27 @@ class Shoe:
         # Shuffle two decks at a time for num/2 times
         for i in range(self.wash):
             wash_decks = self.deck + self.deck
-            shuffle(wash_decks)
-            for card in wash_decks:
+
+            # Section the list by creating groups of tuples
+            clumps = []
+            n = 8
+            for i in range(0, len(wash_decks), n):
+                value = wash_decks[i:i+n]
+                if len(value) == n:
+                    clump = tuple(value)
+                    clumps.append(clump)
+
+            # Wash the clumps togehter
+            shuffle(clumps)
+
+            # Flatten the list
+            z = []
+            for x in clumps:
+                for y in x:
+                    z.append(y)
+
+            # Append the cards to return_shoe
+            for card in z:
                 self.return_shoe.append(card)
 
         # Find the number of cards left in the shoe

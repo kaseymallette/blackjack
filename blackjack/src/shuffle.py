@@ -55,6 +55,27 @@ class Shuffle:
 
 
     def dealer_shuffle(self, shoe, shoe_list, riffle):
+        "When reshuffling the same shoe, restart the shuffle."
+
+        def clear_shuffle(shoe):
+            "Clear the lists that are needed to perform the shuffle."
+
+            lists = [self.group, self.riffle, self.pile_1, self.pile_2,
+                    self.strip, self.middle, shoe.shuffled_cards]
+
+            for list in lists:
+                list.clear()
+
+        # Clear the cards from the previous shoe
+        if shoe.shuffled_cards != []:
+            new_middle = shoe.shuffled_cards.copy()
+            clear_shuffle(shoe)
+            self.new_shuffle(shoe, new_middle, riffle)
+        else:
+            self.new_shuffle(shoe, shoe_list, riffle)
+
+
+    def new_shuffle(self, shoe, shoe_list, riffle):
         """Follows the pattern of riffle-strip-riffle, where riffle can
         take the values of perfect (loops through one card from each pile),
         or clumpy (cards from each pile are taken at a random distribution).
@@ -100,30 +121,30 @@ class Shuffle:
             self.riffle = []
             riffle = []
 
-            # Create a random distribution
-            dist = [12,10,8,6,4,2,2,2,1,1,1,1]
-            shuffle(dist)
-            dist_iter = iter(dist)
+            # Create a random distribution of cards
+            dist_1 = [12,10,8,2,2,2,1,1,1]
+            dist_2 = [12,10,6,4,2,2,1,1,1]
+            shuffle(dist_1)
+            shuffle(dist_2)
+            dist_tupl = []
+            for x,y in zip(dist_1, dist_2):
+                new_tupl = (x,y)
+                dist_tupl.append(new_tupl)
 
-            # Iterate through pile_1
-            for i in iter(pile_1):
-                # Use next(dist) to find how many cards to take from pile_1
-                take = next(dist_iter)
-                cards = pile_1[0:take]
-                riffle.append(cards)
-                # Remove cards from pile_1
-                for card in cards:
+            # take cards from pile 1
+            for item in dist_tupl:
+                cards_1 = pile_1[0:item[0]]
+                riffle.append(cards_1)
+                for card in cards_1:
                     pile_1.remove(card)
-                # Use next(dist) to find how many cards to take from pile_2
-                take_2 = next(dist_iter)
-                cards_2 = pile_2[0:take_2]
+                # take cards from pile 2
+                cards_2 = pile_2[0:item[1]]
                 riffle.append(cards_2)
-                # Remove cards from pile_2
                 for card in cards_2:
                     pile_2.remove(card)
 
             # Flatten the list of cards
-            self.flatten_list(riffle, self.riffle)
+            flatten_list(riffle, self.riffle)
 
 
         def strip_cards(pile):
@@ -179,16 +200,6 @@ class Shuffle:
             self.middle = self.middle[::-1]
 
 
-        def clear_shuffle(shoe):
-            "Clear the lists that are needed to perform the shuffle."
-
-            lists = [self.group, self.riffle, self.pile_1, self.pile_2,
-                    self.strip, self.middle, shoe.shuffled_cards]
-
-            for list in lists:
-                list.clear()
-
-
         # Start shuffle
         # Split shoe into two equal piles
         partition(shoe_list, self.half)
@@ -225,9 +236,10 @@ class Shuffle:
                 self.error = False
             else:
                 self.error = True
+                print("Error! You didn't shuffle all of the cards.")
 
         # If all of the cards are there, use the list of shuffled cards
         if self.error == False:
             shoe.return_shoe = shoe.shuffled_cards
         else:
-            print("Error! You didn't shuffle through all of the cards")
+            print("Error! You didn't shuffle all of the cards")

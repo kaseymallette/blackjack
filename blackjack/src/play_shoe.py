@@ -138,8 +138,8 @@ class Play:
             hand.append(method)
 
         hand_columns = ['dealer_up', 'player', 'move', 'outcome',
-                        'dealer_outcome', 'dealer_bj', 'is_split',
-                        'orig_hand', 'shuffle']
+                        'dealer_outcome', 'dealer_card', 'dealer_bj',
+                        'is_split', 'orig_hand', 'shuffle']
 
         df2 = pd.DataFrame(hand_list, columns=hand_columns)
 

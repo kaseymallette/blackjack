@@ -38,6 +38,7 @@ class Hand:
         setattr(self, 'move', 0)
         setattr(self, 'outcome', 0)
         setattr(self, 'dealer_outcome', 0)
+        setattr(self, 'dealer_card', 0)
         setattr(self, 'is_soft', False)
 
         # Create instance attributes for summing the hand
@@ -251,4 +252,5 @@ class Hand:
         "Get the data for the hand."
 
         self.data = [self.dealer_up, self.player, self.move, self.outcome,
-        self.dealer_outcome, self.is_blackjack, self.is_split, self.orig_hand]
+                    self.dealer_outcome, self.dealer_card, self.is_blackjack,
+                    self.is_split, self.orig_hand]

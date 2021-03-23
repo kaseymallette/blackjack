@@ -1,4 +1,0 @@
-,player_win,player_loss,push,total_hands,win_pct,win_push,win_push_pct,doubles_won,doubles_lost,doubles_won_pct,player_bj,dealer_bj,dealer_high_card,dealer_low_card,dealer_bust,dealer_draw,dealer_stand,dealer_bust_pct,dealer_draw_pct,dealer_stand_pct,dealer_avg_hand,num_of_shuffles,shuffle_method
-0,13,12,1,26,0.5,14,0.538,1,1,0.5,0,0,16,7,10,8,8,0.385,0.308,0.308,18.429,1,python
-0,12,5,2,19,0.632,14,0.737,2,1,0.667,3,0,6,3,5,4,10,0.263,0.211,0.526,16.923,1,python
-0,5,9,1,15,0.333,6,0.4,2,0,1.0,0,1,9,6,2,5,8,0.133,0.333,0.533,18.0,1,python

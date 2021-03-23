@@ -126,12 +126,15 @@ class Outcome:
                         new_hand.orig_hand = player.num
 
                     # Track when the dealer's up card is a high card
-                    if dealer.card_1.num in [7,8,9,10,[1,11]]:
+                    if dealer_up in [7,8,9,10,'A']:
                         Stats().track_stats(shoe, 'dealer_high_card')
+                        new_hand.dealer_card = 'high'
 
                     # Track when the dealer's up card is a low card
-                    if dealer.card_1.num in [2,3,4,5,6]:
+                    if dealer_up in [2,3,4,5,6]:
                         Stats().track_stats(shoe, 'dealer_low_card')
+                        new_hand.dealer_card = 'low'
+
 
                     # Find the outcome of the dealer's hand
                     if len(dealer.hand) == 2:
