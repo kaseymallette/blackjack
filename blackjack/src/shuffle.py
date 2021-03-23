@@ -12,14 +12,11 @@ class Shuffle:
 
 
     def shuffle_method(self, shoe, method):
-        """If the method is an integer i, the cards will be shuffled
-        i times. If the method is a string, the method corresponds to
-        three different casino shuffle methods, which split the shoe
-        into two piles. The dealer then takes 3/4 of a deck from each pile
-        and performs riffle-strip-riffle. A riffle laces the cards,
-        while a strip takes sections of 10-20 cards from the top
-        of the pile and places them on the bottom of the pile.
-        """
+        """Determine which method to use to shuffle the cards.
+        'python' will use random.shuffle(), 'riffle_perfect' will use a
+        customized shuffle, where each card from two piles is shuffled 1 to 1.
+        'riffle_clumpy' will use the custom shuffle with a random distribtuion
+        of cards from both piles."""
 
         self.method = method
         shoe_list = shoe.return_shoe
@@ -76,10 +73,8 @@ class Shuffle:
 
 
     def new_shuffle(self, shoe, shoe_list, riffle):
-        """Follows the pattern of riffle-strip-riffle, where riffle can
-        take the values of perfect (loops through one card from each pile),
-        or clumpy (cards from each pile are taken at a random distribution).
-        """
+        "Follows the pattern of riffle-strip-riffle."
+
 
         def partition(cards, num):
             """Given a list of cards, split the cards into groups of
