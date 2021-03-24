@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Title: Exploratory Data Analysis of Shoe Data
 Author: Kasey Mallette
@@ -36,6 +35,8 @@ print("\nAverage number of hands per shoe: ", avg_num_of_hands, "hands")
 
 # Describe win_pct
 win_pct_descriptive = shoe_df['win_pct'].describe()
+win_pct_mean = shoe_df['win_pct'].mean()
+win_pct_std = shoe_df['win_pct'].std()
 print("\nDescriptive statsistics for win percentage")
 print(win_pct_descriptive)
 
@@ -44,11 +45,21 @@ X = shoe_df[['win_pct']]
 scaler = preprocessing.RobustScaler().fit(X)
 scaled_data = scaler.transform(X)
 
+# Create dataframes of 10% and 90% quartiles 
+win_quant_03 = shoe_df['win_pct'].quantile(0.03)
+win_quant_97 = shoe_df['win_pct'].quantile(0.97)
+quant_03_df = shoe_df[shoe_df['win_pct'] < win_quant_03]
+quant_97_df = shoe_df[shoe_df['win_pct'] > win_quant_97]
+
 # Create dataframes of outliers
-win_quant_10 = shoe_df['win_pct'].quantile(0.1)
-win_quant_90 = shoe_df['win_pct'].quantile(0.9)
-outliers_low = shoe_df[shoe_df['win_pct'] < win_quant_10]
-outliers_high = shoe_df[shoe_df['win_pct'] > win_quant_90]
+std_3 = win_pct_std*3
+low = win_pct_mean - std_3
+high = win_pct_mean + std_3
+outliers_low_df = shoe_df[shoe_df['win_pct'] <= low]
+outliers_high_df = shoe_df[shoe_df['win_pct'] >= high]
+
+all_outliers = shoe_df.loc[(shoe_df['win_pct'] < low) | (shoe_df['win_pct'] > high)]
+
 
 # Create dataframes of the different shuffles
 python_shuffle = shoe_df.loc[shoe_df['shuffle_method'] == 'python']
@@ -95,8 +106,10 @@ plt.show()
 
 #%%
 # Check correlation coefficient and p-value of variables
-check_var = ['push', 'player_bj', 'dealer_bust', 'dealer_stand',
-             'dealer_draw', 'dealer_high_card', 'dealer_low_card']
+check_var = ['push', 'doubles_won', 'player_bj', 'dealer_bj', 
+             'dealer_high_card','dealer_low_card', 'dealer_bust', 
+             'dealer_stand', 'dealer_draw', 'dealer_avg_hand', 
+             'num_of_shuffles']
 
 # Print results
 print("\nCorrelation coefficients and p-values of variables and win percentage: ")
@@ -109,10 +122,10 @@ for var in check_var:
 
 #%%
 # Use seaborn to create a histogram and kernel density estimate of win_pct
-sns.displot(data=outliers_high, x='win_pct', hue='shuffle_method', kde=True,
+sns.displot(data=quant_90_df, x='win_pct', hue='shuffle_method', kde=True,
             multiple='stack')
 
-sns.displot(data=outliers_low, x='win_pct', hue='shuffle_method', kde=True,
+sns.displot(data=quant_10_df, x='win_pct', hue='shuffle_method', kde=True,
             multiple='stack')
 
 sns.displot(data=shoe_df, x='win_pct', hue='shuffle_method', kde=True,
@@ -120,3 +133,24 @@ sns.displot(data=shoe_df, x='win_pct', hue='shuffle_method', kde=True,
 
 sns.displot(data=shoe_df, x='win_pct', hue='shuffle_method', kind='kde',
             multiple='stack')
+
+#%%
+
+
+outlier_high_clumpy = outliers_high_df[outliers_high_df['shuffle_method'] =='riffle_clumpy']
+outlier_high_comp = outliers_high_df[outliers_high_df['shuffle_method'] == 'python']
+t1 = outlier_high_clumpy['win_pct']
+t2 = outlier_high_comp['win_pct']
+ttest = stats.ttest_ind(t1,t2)
+print("T-Test of outliers with two different shuffles")
+print("Python vs riffle clumpy")
+print(ttest)
+
+quant_97_clump = quant_97_df[quant_97_df['shuffle_method'] =='riffle_clumpy']
+quant_97_py = quant_97_df[quant_97_df['shuffle_method'] == 'python']
+t1 = quant_97_clump['win_pct']
+t2 = quant_97_py['win_pct']
+ttest = stats.ttest_ind(t1,t2)
+print("T-Test of outliers with two different shuffles")
+print("Quant 95")
+print(ttest)
