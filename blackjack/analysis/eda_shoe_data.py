@@ -6,6 +6,7 @@ Created on Tue Mar 23 16:04:48 2021
 
 # Import necessary libraries
 import pandas as pd
+import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from sklearn import preprocessing
@@ -45,6 +46,10 @@ win_pct_mean = shoe_df['win_pct'].mean()
 win_pct_std = shoe_df['win_pct'].std()
 print("Average win percentage per shoe: ", round(win_pct_mean, 3))
 
+# Find the average number of hands puhsed
+push_mean = shoe_df['push'].mean()
+print("Average number of hands pushed per shoe: ", round(push_mean, 3))
+
 # Find the average percentage of hands won and pushed
 win_push_pct_mean = shoe_df['win_push_pct'].mean()
 print("Average win and push percentage per shoe: ", round(win_push_pct_mean, 3))
@@ -64,6 +69,11 @@ scaled_data = scaler.transform(X)
 python_shuffle = shoe_df.loc[shoe_df['shuffle_method'] == 'python']
 riffle_perfect = shoe_df.loc[shoe_df['shuffle_method'] == 'riffle_perfect']
 riffle_clumpy = shoe_df.loc[shoe_df['shuffle_method'] == 'riffle_clumpy']
+
+# Create dataframes of winning, losing, and even shoes
+winning_shoe = shoe_df[shoe_df['player_win'] > shoe_df['player_loss']]
+losing_shoe = shoe_df[shoe_df['player_win'] < shoe_df['player_loss']]
+even_shoe = shoe_df[shoe_df['player_win'] == shoe_df['player_loss']]
 
 
 #%%
@@ -141,6 +151,18 @@ plt.ylabel('Number of Shoes')
 plt.xlabel('Win-Push Percentage')
 
 
+# Figure 5: Plot winning, losing, and even shoes
+fig5, ax5 = plt.subplots()
+ax5.plot(winning_shoe['win_pct'], label='win')
+ax5.plot(losing_shoe['win_pct'], label='lose')
+ax5.plot(even_shoe['win_pct'], label='even')
+ax5.legend(loc='lower right', frameon=True)
+ 
+# Add title and labels
+plt.title('Win percentage of winning, losing, and even shoes')
+plt.xlabel('Number of Shoes')
+plt.ylabel('Win Percentage')
+
 
 #%%
 # Create probability density function for player_count
@@ -149,9 +171,9 @@ loc = shoe_df['player_count'].mean()
 scale = shoe_df['player_count'].std()
 pdf = stats.norm.pdf(pdf_data, loc=loc, scale=scale)
 
-# Figure 5: PDF of win_pct
-fig5, ax5 = plt.subplots()
-sns.lineplot(x=pdf_data, y=pdf, color='purple', ax=ax5)
+# Figure 6: PDF of win_pct
+fig6, ax6 = plt.subplots()
+sns.lineplot(x=pdf_data, y=pdf, color='purple', ax=ax6)
 
 # Label plot
 plt.title('PDF of Player Count: Hands won minus hands lost')
@@ -173,44 +195,39 @@ loc = shoe_df['push'].mean()
 scale = shoe_df['push'].std()
 pdf_push = stats.norm.pdf(pdf_data_2, loc=loc, scale=scale)
 
-# Figure 6: PDF of hands pushed
-fig6, ax6 = plt.subplots()
-sns.lineplot(x=shoe_df['push'], y=pdf_push, ax=ax6)
+# Figure 7: PDF of hands pushed
+fig7, ax7 = plt.subplots()
+sns.lineplot(x=shoe_df['push'], y=pdf_push, ax=ax7)
 
 # Label plot
 plt.title('PDF of Hands Pushed')
 plt.xlabel('Hands Pushed')
 plt.ylabel('Probability Density')
 
-# Find probability of pushing at least two hands in a shoe
+# Find probability of pushing 3.9 times 
 p2 = stats.norm(loc=loc, scale=scale)
-push_4 = (p2.cdf(4))*100
-push_4_pct = str(round(push_4, 1)) + '%'
-print("\nThe probability of pushing at most four times is:")
-print(push_4_pct)
+push_below_avg = (p2.cdf(3.9))*100
+push_below_avg_pct = str(round(push_below_avg, 1)) + '%'
+print("\nThe probability of pushing at most 3.9 hands is:")
+print(push_below_avg_pct)
 
 # Create event 
-event = win_shoe*push_4/100
+event = win_shoe*push_below_avg/100
 event_str = str(round(event, 1)) + '%'
-print("\nThe probability of having a winning shoe and pushing 4 times or less is:")
+print("\nThe probability of having a winning shoe and pushing at most 3.9 hands is:")
 print(event_str)
 
-    
-#%%
+# Define a good shoe
+print("\nDefine a good shoe as: ")
+print("A player wins more hands than loses and pushes at most 3.9 hands\n")
 
-winning_shoe = shoe_df[shoe_df['player_win'] > shoe_df['player_loss']]
-losing_shoe = shoe_df[shoe_df['player_win'] < shoe_df['player_loss']]
-even_shoe = shoe_df[shoe_df['player_win'] == shoe_df['player_loss']]
 
-fig7, ax7 = plt.subplots()
-plt.plot(winning_shoe['win_pct'])
-plt.plot(losing_shoe['win_pct'])
-plt.plot(even_shoe['win_pct'])
-plt.title('Win percentage of winning, losing, and even shoes')
+
 
 #%%
 # Show all plots
 plt.show()
+
 
 #%%
 # Check correlation coefficient and p-value of variables
@@ -229,19 +246,54 @@ for var in check_var:
 
 
 #%%
-a = python_shuffle['push']
-b = riffle_perfect['push']
-c = riffle_clumpy['push']
-anova_1 = stats.f_oneway(a, b, c)
-print("\nOne way anova of different shuffles and hands pushed")
-print(anova_1)
 
-a_mean = a.mean()
-b_mean = b.mean()
-c_mean = c.mean()
-print("\nMeans of hands pushed: ")
-print("Python shuffle: ", a_mean)
-print("Riffle perfect: ", b_mean)
-print("Riffle clumpy: ", c_mean)
+# Plot a histogram of dealer_bust
+plt.hist(shoe_df['dealer_bust'], bins=16)
+
+# Find counts and bin edges of histogram 
+counts, bin_edges = np.histogram(shoe_df['dealer_bust'], bins=16)
+
+# Use counts to create three groups of dealer_bust 
+group_1 = counts[0:7].sum()
+group_2 = counts[7:9].sum()
+group_3 = counts[9:16].sum()
+
+# Use bin edges to create dataframes of dealer_bust
+bust_df_low = shoe_df[shoe_df['dealer_bust'] < bin_edges[7]]
+bust_df_medium = shoe_df[(shoe_df['dealer_bust'] < bin_edges[9]) & (shoe_df['dealer_bust'] >= bin_edges[7])]
+bust_df_high = shoe_df[shoe_df['dealer_bust'] >= bin_edges[9]]
+
+def bust_anova(x, test, test_mean):
+    
+    a = bust_df_low[x]
+    b = bust_df_medium[x]
+    c = bust_df_high[x]
+    
+    anova = stats.f_oneway(a,b,c)
+    
+    mean_a = a.mean()
+    mean_b = b.mean()
+    mean_c = c.mean()
+    
+    print("\n")
+    print(test)
+    print(anova)
+    print("Dealer bust high: ", round(mean_c, 3), test_mean)
+    print("Dealer bust medium: ", round(mean_b, 3), test_mean)
+    print("Dealer bust low: ", round(mean_a, 3), test_mean)
+    
+    
+# Measure the variance of hands won in three different bust groups    
+anova_1 = 'One way anova of player win in three different bust groups'
+bust_anova('player_win', anova_1, 'avg hands won')
+
+# Measure the variance of hands pushed in three different bust groups
+anova_2 = 'One way anova of hands pushed in three different bust groups'
+bust_anova('push', anova_2, 'avg hands pushed')
+
+# Measure the variance of dealer high card in three different bust groups
+anova_3 = 'One way anova of dealer high card in three different bust groups'
+bust_anova('dealer_high_card', anova_3, 'avg hands with dealer high card')
+
 
 
