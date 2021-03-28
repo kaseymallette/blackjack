@@ -13,6 +13,7 @@ from sklearn import preprocessing
 from scipy import stats
 import seaborn as sns
 from pathlib import Path, PureWindowsPath
+from statsmodels.multivariate.manova import MANOVA
 
 
 # Load project data
@@ -71,10 +72,9 @@ riffle_perfect = shoe_df.loc[shoe_df['shuffle_method'] == 'riffle_perfect']
 riffle_clumpy = shoe_df.loc[shoe_df['shuffle_method'] == 'riffle_clumpy']
 
 # Create dataframes of winning, losing, and even shoes
-winning_shoe = shoe_df[shoe_df['player_win'] > shoe_df['player_loss']]
-losing_shoe = shoe_df[shoe_df['player_win'] < shoe_df['player_loss']]
-even_shoe = shoe_df[shoe_df['player_win'] == shoe_df['player_loss']]
-
+shoe_df.loc[shoe_df['player_win'] > shoe_df['player_loss'], 'shoe_outcome'] = 'win'
+shoe_df.loc[shoe_df['player_win'] < shoe_df['player_loss'], 'shoe_outcome'] = 'loss'
+shoe_df.loc[shoe_df['player_win'] == shoe_df['player_loss'], 'shoe_outcome'] = 'even'
 
 #%%
 # Create plots using matplotlib
@@ -153,10 +153,7 @@ plt.xlabel('Win-Push Percentage')
 
 # Figure 5: Plot winning, losing, and even shoes
 fig5, ax5 = plt.subplots()
-ax5.plot(winning_shoe['win_pct'], label='win')
-ax5.plot(losing_shoe['win_pct'], label='lose')
-ax5.plot(even_shoe['win_pct'], label='even')
-ax5.legend(loc='lower right', frameon=True)
+
  
 # Add title and labels
 plt.title('Win percentage of winning, losing, and even shoes')
@@ -220,8 +217,6 @@ print(event_str)
 # Define a good shoe
 print("\nDefine a good shoe as: ")
 print("A player wins more hands than loses and pushes at most 3.9 hands\n")
-
-
 
 
 #%%
@@ -296,4 +291,10 @@ anova_3 = 'One way anova of dealer high card in three different bust groups'
 bust_anova('dealer_high_card', anova_3, 'avg hands with dealer high card')
 
 
+#%%
+# Run a MANOVA
+
+maov = MANOVA.from_formula('shoe_outcome ~ dealer_bust + dealer_draw + dealer_stand',
+                           data=shoe_df)
+print(maov.mv_test())
 
