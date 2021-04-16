@@ -1,5 +1,5 @@
 """
-Title: Exploratory Data Analysis of Shoe Data
+Title: EDA and Regression Model of Shoe Data
 Author: Kasey Mallette
 Created on Tue Mar 23 16:04:48 2021
 """
@@ -74,7 +74,7 @@ print(shoe_df['win_push_pct'].describe())
 X = shoe_df[['win_pct']]
 scaler = preprocessing.RobustScaler().fit(X)
 scaled_data = scaler.transform(X)
-        
+
 # Create column of the different shuffles
 python_shuffle = shoe_df.loc[shoe_df['shuffle_method'] == 'python']
 riffle_perfect = shoe_df.loc[shoe_df['shuffle_method'] == 'riffle_perfect']
@@ -97,8 +97,8 @@ shoe_df.loc[shoe_df['num_of_shuffles'] > 64, 'time_of_day'] = 'evening'
 fig, (ax1, ax2)  = plt.subplots(1, 2, figsize=(10,5))
 
 # Figure 1: Plot the standardized win_pct
-ax1.plot(scaled_data, 
-         c='coral', 
+ax1.plot(scaled_data,
+         c='coral',
          alpha=0.8)
 
 # Set title and xlabel
@@ -120,11 +120,11 @@ norm = mpl.colors.Normalize(fracs.min(), fracs.max())
 for frac, patch in zip(fracs, patches):
     color = plt.cm.viridis(norm(frac))
     patch.set_facecolor(color)
-      
-# Plot the histogram
-ax2.hist(x, bins=n_bins, density=True)  
 
-# Add title and labels 
+# Plot the histogram
+ax2.hist(x, bins=n_bins, density=True)
+
+# Add title and labels
 plt.title('Distribution of Win Percentage')
 plt.ylabel('Number of Shoes')
 plt.xlabel('Win Percentage')
@@ -134,7 +134,7 @@ fig, (ax3, ax4) = plt.subplots(1,2, figsize=(10,5))
 
 # Figure 3: Boxplot of win_pct
 orange_square = dict(markerfacecolor='tab:orange', marker='s')
-ax3.boxplot(shoe_df['win_pct'], 
+ax3.boxplot(shoe_df['win_pct'],
             flierprops = orange_square)
 
 # Set title and labels
@@ -142,7 +142,7 @@ ax3.set_title('Win percentage')
 ax3.set_xlabel('All shoes')
 ax3.set_ylabel('Win percentage')
 
-# Figure 4: Boxplot of win_pct with different shuffles 
+# Figure 4: Boxplot of win_pct with different shuffles
 boxplot_1 = python_shuffle['win_pct']
 boxplot_2 = riffle_perfect['win_pct']
 boxplot_3 = riffle_clumpy['win_pct']
@@ -151,13 +151,13 @@ labels = ['python', 'riffle_perfect', 'riffle_clumpy']
 
 # Create boxplot
 diamond = dict(markerfacecolor='orchid', marker='d')
-boxplot = ax4.boxplot(data, 
+boxplot = ax4.boxplot(data,
                       labels=labels,
-                      notch=True, 
-                      patch_artist = True, 
+                      notch=True,
+                      patch_artist = True,
                       flierprops = diamond)
 
-# Set title, ylabel, and colors 
+# Set title, ylabel, and colors
 ax4.set_title('Win percentage with different shuffles')
 ax4.set_ylabel('Win percentage')
 colors = ['hotpink', 'deepskyblue', 'palegreen']
@@ -170,19 +170,19 @@ for patch, color in zip(boxplot['boxes'], colors):
 
 def plot_kde(x, ax, xlabel, title):
     'Creates subplots of kernel density estimations'
-    
+
     data = shoe_df[x]
     loc = data.mean()
     scale = data.std()
     pdf = stats.norm.pdf(data, loc=loc, scale=scale)
-    
+
     # Plot pdf as a kde
     ax = sns.kdeplot(x=data, y=pdf,fill=True, cmap='coolwarm', ax=ax)
-    
+
     # Change face color and grid lines
     ax.set_facecolor('white')
     ax.grid(which='major', linewidth='0.2', color='gray')
-    
+
     # Set title, x and y labels
     ax.set_title(title)
     ax.set_xlabel(xlabel)
@@ -209,10 +209,10 @@ plot_kde('player_count', ax8, 'Player count', 'KDE of Player Count')
 
 def find_prob(var, point, description=None, dist=None, two_events=None):
     'Uses a probability density function to find the probability of an event'
-    
+
     x = shoe_df[var]
     p = stats.norm(loc=x.mean(), scale=x.std())
-    
+
     if dist == False:
         e = (1 - p.cdf(point))*100
     else:
@@ -224,7 +224,7 @@ def find_prob(var, point, description=None, dist=None, two_events=None):
         event_prob = str(round(e, 1)) + '%'
         print("\n" + description, event_prob)
 
-    
+
 # Define a good shoe
 print("\n-Probability-")
 print("\nDefine a good shoe as: ")
@@ -234,16 +234,16 @@ print("A player wins more hands than the dealer and pushes at most 4 times")
 find_prob('player_count', 1, 'The probability of winning more hands than losing is: ', dist=False)
 
 # Find the probability of pushing at most 4 times
-find_prob('push', 4, 'The probabilty of pushing at most 4 times is: ')  
-    
-# Find the probability of a good shoe 
+find_prob('push', 4, 'The probabilty of pushing at most 4 times is: ')
+
+# Find the probability of a good shoe
 e1 = find_prob('player_count', 1, dist=False, two_events=True)
 e2 = find_prob('push', 4, two_events=True)
 event = e1*e2/100
 event_str = str(round(event, 1)) + '%'
 print("\nThe probability of a good shoe is: ", event_str, "\n")
 
-# Create a dataframe of the good shoes 
+# Create a dataframe of the good shoes
 good_shoe_df = shoe_df[(shoe_df['player_count'] >= 1) & (shoe_df['push'] <= 4)]
 
 
@@ -252,9 +252,9 @@ good_shoe_df = shoe_df[(shoe_df['player_count'] >= 1) & (shoe_df['push'] <= 4)]
 #%%
 
 # Check correlation coefficient and p-value of variables
-check_var = ['push', 'doubles_won', 'player_bj', 'dealer_bj', 
-             'dealer_high_card','dealer_low_card', 'dealer_bust', 
-             'dealer_stand', 'dealer_draw', 'dealer_avg_hand', 
+check_var = ['push', 'doubles_won', 'player_bj', 'dealer_bj',
+             'dealer_high_card','dealer_low_card', 'dealer_bust',
+             'dealer_stand', 'dealer_draw', 'dealer_avg_hand',
              'num_of_shuffles']
 
 # Print results
@@ -272,8 +272,8 @@ for var in check_var:
 # Run a MANOVA
 
 
-maov = MANOVA.from_formula('''shoe_outcome ~ dealer_bust + dealer_draw + 
-                           dealer_stand + time_of_day + shuffle_method''', 
+maov = MANOVA.from_formula('''shoe_outcome ~ dealer_bust + dealer_draw +
+                           dealer_stand + time_of_day + shuffle_method''',
                            data=shoe_df)
 print(maov.mv_test())
 
@@ -285,10 +285,10 @@ plt.style.use('ggplot')
 X = shoe_df[['dealer_bust', 'dealer_draw', 'dealer_stand']]
 y = shoe_df['player_win']
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
- 
+
 cmap = mpl.cm.get_cmap('gnuplot')
 scatter = pd.plotting.scatter_matrix(X_train, c= y_train, marker = 'o',
-                                     s=40, hist_kwds={'bins':15}, 
+                                     s=40, hist_kwds={'bins':15},
                                      figsize=(7,7), diagonal='kde', cmap=cmap)
 
 #%%
@@ -298,7 +298,7 @@ plt.show()
 
 
 
-#%% 
+#%%
 
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
@@ -310,10 +310,10 @@ y = shoe_df['player_win']
 # Use test_train_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state = 0)
 
-# Create linear regression 
+# Create linear regression
 linreg = LinearRegression().fit(X_train, y_train)
 
-# Print the model coefficient, intercept, and R-squared 
+# Print the model coefficient, intercept, and R-squared
 print('linear model coeff:', linreg.coef_)
 print('linear model intercept: ', round(linreg.intercept_, 3))
 print('R-squared score (train): ', round(linreg.score(X_train, y_train), 3))
@@ -328,6 +328,4 @@ plt.ylabel('Target value (y)')
 plt.show()
 
 
-#%% 
-
-
+#%%
