@@ -6,6 +6,7 @@ Created on Tue Mar 23 16:04:48 2021
 
 # Import necessary libraries
 import pandas as pd
+import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from sklearn import preprocessing
@@ -13,7 +14,10 @@ from scipy import stats
 import seaborn as sns
 from pathlib import Path, PureWindowsPath
 from statsmodels.multivariate.manova import MANOVA
+from statsmodels.stats.outliers_influence import variance_inflation_factor
 from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import Ridge
 
 
 
@@ -255,7 +259,7 @@ good_shoe_df = shoe_df[(shoe_df['player_count'] >= 1) & (shoe_df['push'] <= 4)]
 check_var = ['push', 'doubles_won', 'player_bj', 'dealer_bj',
              'dealer_high_card','dealer_low_card', 'dealer_bust',
              'dealer_stand', 'dealer_draw', 'dealer_avg_hand',
-             'num_of_shuffles']
+             'num_of_shuffles', 'player_loss']
 
 # Print results
 print("\n-Correlations-")
@@ -272,8 +276,8 @@ for var in check_var:
 # Run a MANOVA
 
 
-maov = MANOVA.from_formula('''shoe_outcome ~ dealer_bust + dealer_draw +
-                           dealer_stand + time_of_day + shuffle_method''',
+maov = MANOVA.from_formula('''shoe_outcome + shuffle_method ~ dealer_bust 
+                           + dealer_draw + dealer_stand + time_of_day''',
                            data=shoe_df)
 print(maov.mv_test())
 
@@ -296,15 +300,22 @@ scatter = pd.plotting.scatter_matrix(X_train, c= y_train, marker = 'o',
 # Show plots
 plt.show()
 
+#%%
 
+X = shoe_df[['dealer_bust', 'push', 'player_bj']]
+
+# Create VIF dataframe
+vif_data = pd.DataFrame()
+vif_data['feature'] = X.columns 
+
+# Calculate VIF for each feature
+vif_data["VIF"] = [variance_inflation_factor(X.values, i)
+                          for i in range(len(X.columns))]
 
 #%%
 
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-
 # Define X and y
-X = shoe_df[['dealer_bust', 'dealer_stand', 'dealer_draw']]
+X = shoe_df[['dealer_bust']]
 y = shoe_df['player_win']
 
 # Use test_train_split
@@ -314,13 +325,14 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state = 0)
 linreg = LinearRegression().fit(X_train, y_train)
 
 # Print the model coefficient, intercept, and R-squared
-print('linear model coeff:', linreg.coef_)
-print('linear model intercept: ', round(linreg.intercept_, 3))
-print('R-squared score (train): ', round(linreg.score(X_train, y_train), 3))
-print('R-squared score (test): ', round(linreg.score(X_test, y_test), 3))
+print('linear model coeff: {}'.format(linreg.coef_))
+print('linear model intercept: {:.3f}'.format(linreg.intercept_))
+print('R-squared score (training): {:.3f}'.format(linreg.score(X_train, y_train)))
+print('R-squared score (test): {:.3f}'.format(linreg.score(X_test, y_test)))
 
-
+#%%
 plt.figure(figsize=(5,4))
+plt.scatter(X, y, marker= 'o', s=50, alpha=0.8)
 plt.plot(X, linreg.coef_ * X + linreg.intercept_, 'r-')
 plt.title('Least-squares linear regression')
 plt.xlabel('Feature value (x)')
@@ -329,3 +341,37 @@ plt.show()
 
 
 #%%
+
+# Ridge Regression
+
+# Define X and y
+X = shoe_df[['dealer_bust', 'push', 'player_bj']]
+y = shoe_df['player_win']
+
+# Use test_train_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state = 0)
+
+
+scaler = preprocessing.MinMaxScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test) 
+
+for this_alpha in [1, 5, 10, 20, 50, 100]:
+    linridge = Ridge(alpha = this_alpha).fit(X_train_scaled, y_train)
+    r2_train = linridge.score(X_train_scaled, y_train)
+    r2_test = linridge.score(X_test_scaled, y_test)
+    num_coeff_bigger = np.sum(abs(linridge.coef_) > 1.0)
+    print('Alpha = {:.2f}\nr-squared training: {:.2f}, r-squared test: {:.2f}\n'
+         .format(this_alpha, r2_train, r2_test))
+        
+
+linridge = Ridge(alpha = 1).fit(X_train_scaled, y_train)
+print('ridge regression linear model intercept: {}'.format(linridge.intercept_))
+print('ridge regression linear model coeff: {}'.format(linridge.coef_))
+print('R-squared score (training): {:.3f}'.format(linridge.score(X_train_scaled, y_train)))
+print('R-squared score (test): {:.3f}'.format(linridge.score(X_test_scaled, y_test)))
+print('Number of non-zero features: {}'.format(np.sum(linridge.coef_ != 0)))
+
+
+
+
