@@ -6,7 +6,6 @@ Created on Tue Mar 23 16:04:48 2021
 
 # Import necessary libraries
 import pandas as pd
-import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from sklearn import preprocessing
@@ -18,7 +17,7 @@ from statsmodels.stats.outliers_influence import variance_inflation_factor
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import Ridge
-
+from sklearn.preprocessing import PolynomialFeatures
 
 
 #%%
@@ -314,35 +313,7 @@ vif_data["VIF"] = [variance_inflation_factor(X.values, i)
 
 #%%
 
-# Define X and y
-X = shoe_df[['dealer_bust']]
-y = shoe_df['player_win']
-
-# Use test_train_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state = 0)
-
-# Create linear regression
-linreg = LinearRegression().fit(X_train, y_train)
-
-# Print the model coefficient, intercept, and R-squared
-print('linear model coeff: {}'.format(linreg.coef_))
-print('linear model intercept: {:.3f}'.format(linreg.intercept_))
-print('R-squared score (training): {:.3f}'.format(linreg.score(X_train, y_train)))
-print('R-squared score (test): {:.3f}'.format(linreg.score(X_test, y_test)))
-
-#%%
-plt.figure(figsize=(5,4))
-plt.scatter(X, y, marker= 'o', s=50, alpha=0.8)
-plt.plot(X, linreg.coef_ * X + linreg.intercept_, 'r-')
-plt.title('Least-squares linear regression')
-plt.xlabel('Feature value (x)')
-plt.ylabel('Target value (y)')
-plt.show()
-
-
-#%%
-
-# Ridge Regression
+# Multiple Linear Regression 
 
 # Define X and y
 X = shoe_df[['dealer_bust', 'push', 'player_bj']]
@@ -351,27 +322,40 @@ y = shoe_df['player_win']
 # Use test_train_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state = 0)
 
+# Perform Linear regression 
+linreg = LinearRegression().fit(X_train, y_train)
 
-scaler = preprocessing.MinMaxScaler()
-X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.transform(X_test) 
+# Print coefficeint, intercept and r-squared for test and train
+print('linear model coeff (w): {}'
+     .format(linreg.coef_))
+print('linear model intercept (b): {:.3f}'
+     .format(linreg.intercept_))
+print('R-squared score (training): {:.3f}'
+     .format(linreg.score(X_train, y_train)))
+print('R-squared score (test): {:.3f}\n'
+     .format(linreg.score(X_test, y_test)))
 
-for this_alpha in [1, 5, 10, 20, 50, 100]:
-    linridge = Ridge(alpha = this_alpha).fit(X_train_scaled, y_train)
-    r2_train = linridge.score(X_train_scaled, y_train)
-    r2_test = linridge.score(X_test_scaled, y_test)
-    num_coeff_bigger = np.sum(abs(linridge.coef_) > 1.0)
-    print('Alpha = {:.2f}\nr-squared training: {:.2f}, r-squared test: {:.2f}\n'
-         .format(this_alpha, r2_train, r2_test))
-        
+# Perform polynomial regression with degree=3
+poly = PolynomialFeatures(degree=3)
+X_poly = poly.fit_transform(X)
 
-linridge = Ridge(alpha = 1).fit(X_train_scaled, y_train)
-print('ridge regression linear model intercept: {}'.format(linridge.intercept_))
-print('ridge regression linear model coeff: {}'.format(linridge.coef_))
-print('R-squared score (training): {:.3f}'.format(linridge.score(X_train_scaled, y_train)))
-print('R-squared score (test): {:.3f}'.format(linridge.score(X_test_scaled, y_test)))
-print('Number of non-zero features: {}'.format(np.sum(linridge.coef_ != 0)))
+# Retrain and test the data with X_poly in place of X
+X_train, X_test, y_train, y_test = train_test_split(X_poly, y,
+                                                   random_state = 0)
 
+# Use ridge regerssion to prevent overfitting
+linreg = Ridge().fit(X_train, y_train)
 
+# Print coefficent, intercept, and r-squared for test and train
+print('(poly deg 3 + ridge) linear model coeff (w):\n{}'
+     .format(linreg.coef_))
+print('(poly deg 3 + ridge) linear model intercept (b): {:.3f}'
+     .format(linreg.intercept_))
+print('(poly deg 3 + ridge) R-squared score (training): {:.3f}'
+     .format(linreg.score(X_train, y_train)))
+print('(poly deg 3 + ridge) R-squared score (test): {:.3f}'
+     .format(linreg.score(X_test, y_test)))
+
+#%%
 
 
