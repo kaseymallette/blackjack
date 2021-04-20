@@ -107,8 +107,6 @@ ax1.plot(scaled_data,
 ax1.set_title('Standardized win percentage', fontsize=12)
 ax1.set_xlabel('Number of shoes')
 
-
-
 # Figure 2: Histogram of win_pct
 n_bins = 16
 x = shoe_df['win_pct']
@@ -132,6 +130,9 @@ ax2.hist(x, bins=n_bins, density=True)
 ax2.set_title('Distribution of Win Percentage', fontsize=12)
 ax2.set_ylabel('Number of Shoes')
 ax2.set_xlabel('Win Percentage')
+
+# Save figure
+plt.savefig('win_pct_hist.png', dpi=300, bbox_inches='tight')
 
 # Create subplot of boxplots of win_pct and with separate shuffles
 fig, (ax3, ax4) = plt.subplots(1,2, figsize=(10,5))
@@ -170,7 +171,10 @@ colors = ['hotpink', 'deepskyblue', 'palegreen']
 for patch, color in zip(boxplot['boxes'], colors):
         patch.set_facecolor(color)
 
+# Save figure
+plt.savefig('win_pct_box.png', dpi=300, bbox_inches='tight')
 
+# Show figures
 plt.show()
 
 
@@ -271,6 +275,10 @@ ax.legend([plt.scatter(x=win_push_low['push'], y=win_push_low['player_win']),
         ['low push', 'high push', 'x = 3.906'])
 
 
+# Save figure
+plt.savefig('winning_shoes.png', dpi=300, bbox_inches='tight')
+
+# Show plot
 plt.show()
 
 
@@ -304,6 +312,10 @@ plot_kde('player_loss', ax2, 'Hands lost', 'KDE of Hands Lost')
 plot_kde('push', ax3, 'Hands pushed', 'KDE of Hands Pushed')
 plot_kde('player_count', ax4, 'Player count', 'KDE of Player Count')
 
+# Save figure
+plt.savefig('kde.png', dpi=300, bbox_inches='tight')
+
+# Show plot
 plt.show()
 
 
@@ -349,14 +361,19 @@ win_plot('dealer_stand', 'purple', ax2)
 win_plot('dealer_draw', 'red', ax3)
 win_plot('dealer_high_card', 'blue', ax4)
 
+# Save figure
+plt.savefig('dealer_features.png', dpi=300, bbox_inches='tight')
 
 # Create subplots of push and player_bj 
 fig, (ax5, ax6) = plt.subplots(2, 1, figsize=(15, 10))
 fig.suptitle('Predicting player win using player features', fontsize=18)
-
 win_plot('push', 'green', ax5)
 win_plot('player_bj', 'deepskyblue', ax6)
 
+# Save figure
+plt.savefig('player_features.png', dpi=300, bbox_inches='tight')
+
+# Show plots
 plt.show()
 
 
@@ -371,6 +388,10 @@ vif_data['feature'] = X.columns
 # Calculate VIF for each feature
 vif_data['VIF'] = [variance_inflation_factor(X.values, i)
                           for i in range(len(X.columns))]
+
+print('\nCheck for multicollinearity using VIF')
+print(vif_data)
+
 
 #%%
 
@@ -411,7 +432,4 @@ print('linear model coeff: ', linreg.coef_, '\n')
 print('linear model intercept: ', round(linreg.intercept_, 3))
 print('R-squared score (training): ', round(linreg.score(X_train, y_train), 3))
 print('R-squared score (test): ', round(linreg.score(X_test, y_test), 3))
-
-#%%
-
 
