@@ -94,7 +94,7 @@ def change_grid(ax):
     
 
 # Create distribution plot and histogram of win_pct
-fig, (ax1, ax2)  = plt.subplots(1, 2, figsize=(5,2))
+fig, (ax1, ax2)  = plt.subplots(1, 2, figsize=(10,5))
 change_grid(ax1)
 change_grid(ax2)
 
@@ -132,10 +132,10 @@ ax2.set_ylabel('Number of Shoes')
 ax2.set_xlabel('Win Percentage')
 
 # Save figure
-plt.savefig('win_pct_hist.png', dpi=300, bbox_inches='tight')
+plt.savefig('win_pct_hist.png', dpi=100, bbox_inches='tight')
 
 # Create subplot of boxplots of win_pct and with separate shuffles
-fig, (ax3, ax4) = plt.subplots(1,2, figsize=(5,2))
+fig, (ax3, ax4) = plt.subplots(1,2, figsize=(10,5))
 change_grid(ax3)
 change_grid(ax4)
 
@@ -172,7 +172,7 @@ for patch, color in zip(boxplot['boxes'], colors):
         patch.set_facecolor(color)
 
 # Save figure
-plt.savefig('win_pct_box.png', dpi=300, bbox_inches='tight')
+plt.savefig('win_pct_box.png', dpi=100, bbox_inches='tight')
 
 # Show figures
 plt.show()
@@ -249,7 +249,7 @@ print('Group 1 mean: ', round(low_push.mean(), 3), ', count: ', len(low_push))
 print('Group 2 mean: ', round(high_push.mean(), 3), ', count: ', len(high_push))
 
 # Create plot for hands pushed vs hands won
-fig, ax = plt.subplots(figsize=(5,2))
+fig, ax = plt.subplots(figsize=(8,5))
 ax.set_ylabel('Hands won')
 ax.set_xlabel('Hands pushed')
 ax.set_title('Hands pushed vs hands won in winning shoes', fontsize=12)
@@ -276,7 +276,7 @@ ax.legend([plt.scatter(x=win_push_low['push'], y=win_push_low['player_win']),
 
 
 # Save figure
-plt.savefig('winning_shoes.png', dpi=300, bbox_inches='tight')
+plt.savefig('winning_shoes.png', dpi=100, bbox_inches='tight')
 
 # Show plot
 plt.show()
@@ -304,7 +304,7 @@ def plot_kde(x, ax, xlabel, title):
     ax.set_ylabel('Probability Density')
 
 
-fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2, figsize=(5,2))
+fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2, figsize=(15,12))
 fig.suptitle('Kernel Density Estimations', fontsize=18)
 
 plot_kde('player_win', ax1, 'Hands won', 'KDE of Hands Won')
@@ -313,7 +313,7 @@ plot_kde('push', ax3, 'Hands pushed', 'KDE of Hands Pushed')
 plot_kde('player_count', ax4, 'Player count', 'KDE of Player Count')
 
 # Save figure
-plt.savefig('kde.png', dpi=300, bbox_inches='tight')
+plt.savefig('kde.png', dpi=100, bbox_inches='tight')
 
 # Show plot
 plt.show()
@@ -352,7 +352,7 @@ def win_plot(x, color, ax):
 
 
 # Create subplots of dealer_bust, dealer_stand, dealer_draw, and push
-fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2, figsize=(5,2))
+fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2, figsize=(15,10))
 fig.suptitle('Predicting player win using dealer features', fontsize=18)
 
 # Plot using win_plot
@@ -365,13 +365,13 @@ win_plot('dealer_high_card', 'blue', ax4)
 plt.savefig('dealer_features.png', dpi=100, bbox_inches='tight')
 
 # Create subplots of push and player_bj 
-fig, (ax5, ax6) = plt.subplots(2, 1, figsize=(5,2))
+fig, (ax5, ax6) = plt.subplots(2, 1, figsize=(15, 10))
 fig.suptitle('Predicting player win using player features', fontsize=18)
 win_plot('push', 'green', ax5)
 win_plot('player_bj', 'deepskyblue', ax6)
 
 # Save figure
-plt.savefig('player_features.png', dpi=300, bbox_inches='tight')
+plt.savefig('player_features.png', dpi=100, bbox_inches='tight')
 
 # Show plots
 plt.show()
