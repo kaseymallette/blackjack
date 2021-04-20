@@ -12,7 +12,6 @@ from sklearn import preprocessing
 from scipy import stats
 import seaborn as sns
 from pathlib import Path, PureWindowsPath
-from statsmodels.multivariate.manova import MANOVA
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
@@ -43,31 +42,31 @@ shoe_df.insert(3, 'player_count', player_count)
 #%%
 
 # Describe shoe_df
-print("-Descriptive Statsistics-")
+print('-Descriptive Statsistics-')
 
 # Find the average number of hands per shoe
 avg_num_of_hands = round(shoe_df['total_hands'].mean(), 1)
-print("\nAverage number of hands per shoe: ")
+print('\nAverage number of hands per shoe: ')
 print(avg_num_of_hands, "hands")
 
 # Describe player win
-print("\nPlayer win")
+print('\nPlayer win')
 print(shoe_df['player_win'].describe())
 
 # Describe player loss
-print("\nPlayer loss")
+print('\nPlayer loss')
 print(shoe_df['player_loss'].describe())
 
 # Describe push
-print("\nHands pushed")
+print('\nHands pushed')
 print(shoe_df['push'].describe())
 
 # Describe win percentage
-print("\nWin percentage")
+print('\nWin percentage')
 print(shoe_df['win_pct'].describe())
 
 # Describe win push percentage
-print("\nWin and push percentage")
+print('\nWin and push percentage')
 print(shoe_df['win_push_pct'].describe())
 
 
@@ -88,16 +87,18 @@ shoe_df.loc[shoe_df['player_win'] > shoe_df['player_loss'], 'shoe_outcome'] = 'w
 shoe_df.loc[shoe_df['player_win'] < shoe_df['player_loss'], 'shoe_outcome'] = 'loss'
 shoe_df.loc[shoe_df['player_win'] == shoe_df['player_loss'], 'shoe_outcome'] = 'even'
 
-# Create column of num_of_shuffles
-shoe_df.loc[shoe_df['num_of_shuffles'] <= 32 , 'time_of_day'] = 'morning'
-shoe_df.loc[(shoe_df['num_of_shuffles'] <= 64) & (shoe_df['num_of_shuffles'] > 32), 'time_of_day'] = 'afternoon'
-shoe_df.loc[shoe_df['num_of_shuffles'] > 64, 'time_of_day'] = 'evening'
-
 
 #%%
 
+def change_grid(ax):
+    ax.set_facecolor('white')
+    ax.grid(which='major', linewidth='0.2', color='gray')
+    
+
 # Create distribution plot and histogram of win_pct
 fig, (ax1, ax2)  = plt.subplots(1, 2, figsize=(10,5))
+change_grid(ax1)
+change_grid(ax2)
 
 # Figure 1: Plot the standardized win_pct
 ax1.plot(scaled_data,
@@ -105,8 +106,10 @@ ax1.plot(scaled_data,
          alpha=0.8)
 
 # Set title and xlabel
-ax1.set_title('Standardized win percentage')
+ax1.set_title('Standardized win percentage', fontsize=12)
 ax1.set_xlabel('Number of shoes')
+
+
 
 # Figure 2: Histogram of win_pct
 n_bins = 16
@@ -128,12 +131,14 @@ for frac, patch in zip(fracs, patches):
 ax2.hist(x, bins=n_bins, density=True)
 
 # Add title and labels
-plt.title('Distribution of Win Percentage')
-plt.ylabel('Number of Shoes')
-plt.xlabel('Win Percentage')
+ax2.set_title('Distribution of Win Percentage', fontsize=12)
+ax2.set_ylabel('Number of Shoes')
+ax2.set_xlabel('Win Percentage')
 
 # Create subplot of boxplots of win_pct and with separate shuffles
 fig, (ax3, ax4) = plt.subplots(1,2, figsize=(10,5))
+change_grid(ax3)
+change_grid(ax4)
 
 # Figure 3: Boxplot of win_pct
 orange_square = dict(markerfacecolor='tab:orange', marker='s')
@@ -141,7 +146,7 @@ ax3.boxplot(shoe_df['win_pct'],
             flierprops = orange_square)
 
 # Set title and labels
-ax3.set_title('Win percentage')
+ax3.set_title('Win percentage', fontsize=12)
 ax3.set_xlabel('All shoes')
 ax3.set_ylabel('Win percentage')
 
@@ -161,15 +166,115 @@ boxplot = ax4.boxplot(data,
                       flierprops = diamond)
 
 # Set title, ylabel, and colors
-ax4.set_title('Win percentage with different shuffles')
+ax4.set_title('Win percentage with different shuffles', fontsize=12)
 ax4.set_ylabel('Win percentage')
 colors = ['hotpink', 'deepskyblue', 'palegreen']
 for patch, color in zip(boxplot['boxes'], colors):
         patch.set_facecolor(color)
 
 
+plt.show()
+
 #%%
 
+def find_prob(var, point, description=None, dist=None, two_events=None):
+    'Uses a probability density function to find the probability of an event'
+
+    x = shoe_df[var]
+    p = stats.norm(loc=x.mean(), scale=x.std())
+
+    # If dist is False, e = 1 - p, otherwise e = p
+    if dist == False:
+        e = (1 - p.cdf(point))*100
+    else:
+        e = (p.cdf(point))*100
+
+    # Return e as a floating point
+    if two_events == True:
+        return e
+    # Otherwise, print the event probability as a string
+    else:
+        event_prob = str(round(e, 1)) + '%'
+        print('\n' + description, event_prob)
+
+
+# Probability
+print('\n-Probability-')
+
+# Find mean value of hands pushed
+push_mean = round(shoe_df['push'].mean(), 3)
+print('\nThe mean value of hands pushed is: ', push_mean)
+
+# Define a good shoe
+print('\nDefine a good shoe as: ')
+print('A player wins more hands than the dealer and pushes less than 4 times')
+
+# Find the probability of a winning shoe
+find_prob('player_count', 1, 'The probability of winning more hands than losing is: ', dist=False)
+
+# Find the probability of pushing at most 4 times
+find_prob('push', push_mean, 'The probabilty of pushing at most 3.906 times is: ')
+
+# Find the probability of a good shoe
+e1 = find_prob('player_count', 1, dist=False, two_events=True)
+e2 = find_prob('push', 3.906, two_events=True)
+event = e1*e2/100
+event_str = str(round(event, 1)) + '%'
+print('\nThe probability of a good shoe is: ', event_str, '\n')
+
+
+#%%
+# Create a dataframe of the winning shoes with low push
+win_push_low = shoe_df[(shoe_df['player_count'] >= 1) & (shoe_df['push'] < 4)]
+
+# Create a dataframe of the winning shoes with high push 
+win_push_high = shoe_df[(shoe_df['player_count'] >= 1) & (shoe_df['push'] >= 4)]
+
+# Run a ttest comparing means of player_win between low push and high push
+low_push = win_push_low['player_win']
+high_push = win_push_high['player_win']
+ttest = stats.ttest_ind(low_push, high_push)
+
+# Define the two groups 
+print('\nRun a ttest comparing means of player win between two groups')
+print('Group 1: Player won more hands than dealer and pushed less than 4 times')
+print('Group 2: Player won more hands than dealer and pushed more than 4 times\n')
+
+# Print ttest results
+print(ttest, '\n')
+print('Group 1 mean: ', round(low_push.mean(), 3), ', count: ', len(low_push))
+print('Group 2 mean: ', round(high_push.mean(), 3), ', count: ', len(high_push))
+
+# Create plot for hands pushed vs hands won
+fig, ax = plt.subplots(figsize=(8,5))
+ax.set_ylabel('Hands won')
+ax.set_xlabel('Hands pushed')
+ax.set_title('Hands pushed vs hands won in winning shoes', fontsize=12)
+change_grid(ax)
+
+# Set ymin and ymax
+ymin = high_push.min()
+ymax = low_push.max()
+
+# Set xmin and xmax
+xmin = win_push_low['push'].min()
+xmax = win_push_high['push'].max()
+
+# Use fill_between to show both groups 
+ax.fill_between((xmin, push_mean), y1=ymin, y2=ymax, facecolor='red', 
+                alpha=0.2, label='low push')
+ax.fill_between((push_mean, xmax), y1=ymin, y2=ymax, facecolor='blue', alpha=0.2)
+
+# Plot push vs player win in win_push_low and win_push_high
+ax.legend([plt.scatter(x=win_push_low['push'], y=win_push_low['player_win']), 
+            plt.scatter(x=win_push_high['push'], y=win_push_high['player_win']), 
+            plt.vlines(x=3.906, ymin=ymin, ymax=ymax, colors='blue', linestyles='dashed')], 
+        ['low push', 'high push', 'x = 3.906'])
+
+
+plt.show()
+
+#%%
 
 def plot_kde(x, ax, xlabel, title):
     'Creates subplots of kernel density estimations'
@@ -183,8 +288,7 @@ def plot_kde(x, ax, xlabel, title):
     ax = sns.kdeplot(x=data, y=pdf,fill=True, cmap='coolwarm', ax=ax)
 
     # Change face color and grid lines
-    ax.set_facecolor('white')
-    ax.grid(which='major', linewidth='0.2', color='gray')
+    change_grid(ax)
 
     # Set title, x and y labels
     ax.set_title(title)
@@ -192,64 +296,15 @@ def plot_kde(x, ax, xlabel, title):
     ax.set_ylabel('Probability Density')
 
 
-#%%
-# Create subplots of probability density function for player_count
-fig, ax9 = plt.subplots()
-ax9 = sns.lineplot(data=shoe_df, x='player_win', y='dealer_bust', color='orange')
+fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2, figsize=(15,12))
+fig.suptitle('Kernel Density Estimations', fontsize=18)
+
+plot_kde('player_win', ax1, 'Hands won', 'KDE of Hands Won')
+plot_kde('player_loss', ax2, 'Hands lost', 'KDE of Hands Lost')
+plot_kde('push', ax3, 'Hands pushed', 'KDE of Hands Pushed')
+plot_kde('player_count', ax4, 'Player count', 'KDE of Player Count')
+
 plt.show()
-
-#%%
-
-fig, ((ax5, ax6), (ax7, ax8)) = plt.subplots(2,2, figsize=(15,12))
-
-plot_kde('player_win', ax5, 'Hands won', 'KDE of Hands Won')
-plot_kde('player_loss', ax6, 'Hands lost', 'KDE of Hands Lost')
-plot_kde('push', ax7, 'Hands pushed', 'KDE of Hands Pushed')
-plot_kde('player_count', ax8, 'Player count', 'KDE of Player Count')
-
-
-#%%
-
-def find_prob(var, point, description=None, dist=None, two_events=None):
-    'Uses a probability density function to find the probability of an event'
-
-    x = shoe_df[var]
-    p = stats.norm(loc=x.mean(), scale=x.std())
-
-    if dist == False:
-        e = (1 - p.cdf(point))*100
-    else:
-        e = (p.cdf(point))*100
-
-    if two_events == True:
-        return e
-    else:
-        event_prob = str(round(e, 1)) + '%'
-        print("\n" + description, event_prob)
-
-
-# Define a good shoe
-print("\n-Probability-")
-print("\nDefine a good shoe as: ")
-print("A player wins more hands than the dealer and pushes at most 4 times")
-
-# Find the probability of a winning shoe
-find_prob('player_count', 1, 'The probability of winning more hands than losing is: ', dist=False)
-
-# Find the probability of pushing at most 4 times
-find_prob('push', 4, 'The probabilty of pushing at most 4 times is: ')
-
-# Find the probability of a good shoe
-e1 = find_prob('player_count', 1, dist=False, two_events=True)
-e2 = find_prob('push', 4, two_events=True)
-event = e1*e2/100
-event_str = str(round(event, 1)) + '%'
-print("\nThe probability of a good shoe is: ", event_str, "\n")
-
-# Create a dataframe of the good shoes
-good_shoe_df = shoe_df[(shoe_df['player_count'] >= 1) & (shoe_df['push'] <= 4)]
-
-
 
 
 #%%
@@ -258,46 +313,53 @@ good_shoe_df = shoe_df[(shoe_df['player_count'] >= 1) & (shoe_df['push'] <= 4)]
 check_var = ['push', 'doubles_won', 'player_bj', 'dealer_bj',
              'dealer_high_card','dealer_low_card', 'dealer_bust',
              'dealer_stand', 'dealer_draw', 'dealer_avg_hand',
-             'num_of_shuffles', 'player_loss']
+             'num_of_shuffles']
 
 # Print results
-print("\n-Correlations-")
-print("\nCorrelation coefficients and p-values of variables and win percentage: ")
+print('\n-Correlations-')
+print('\nCorrelation coefficients and p-values of variables and win percentage: ')
 for var in check_var:
     corr = shoe_df[['player_win', var]].corr()
     pearson_coef, p_value = stats.pearsonr(shoe_df[var], shoe_df['player_win'])
-    print("\n", corr)
-    print("p = ", p_value)
+    print('\n', corr)
+    print('p = ', p_value)
 
 
 
 #%%
-# Run a MANOVA
+
+def win_plot(x, color, ax):
+    'Plots features against player_win using a lineplot'
+    
+    # Change face color and grid lines
+    change_grid(ax)
+    
+        
+    # Plot a lineplot of x vs player_win
+    ax = sns.lineplot(data=shoe_df, x=x, y='player_win', 
+                      color = color, ax=ax)
 
 
-maov = MANOVA.from_formula('''shoe_outcome + shuffle_method ~ dealer_bust 
-                           + dealer_draw + dealer_stand + time_of_day''',
-                           data=shoe_df)
-print(maov.mv_test())
+# Create subplots of dealer_bust, dealer_stand, dealer_draw, and push
+fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2, figsize=(15,10))
+fig.suptitle('Predicting player win using dealer features', fontsize=18)
+
+# Plot using win_plot
+win_plot('dealer_bust', 'orange', ax1)
+win_plot('dealer_stand', 'purple', ax2)
+win_plot('dealer_draw', 'red', ax3)
+win_plot('dealer_high_card', 'blue', ax4)
 
 
-#%%
+# Create subplots of push and player_bj 
+fig, (ax5, ax6) = plt.subplots(2, 1, figsize=(15, 10))
+fig.suptitle('Predicting player win using player features', fontsize=18)
 
-# Create a scatter matrix of dealer_bust, dealer_draw, and dealer_stand
-plt.style.use('ggplot')
-X = shoe_df[['dealer_bust', 'dealer_draw', 'dealer_stand']]
-y = shoe_df['player_win']
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
+win_plot('push', 'green', ax5)
+win_plot('player_bj', 'deepskyblue', ax6)
 
-cmap = mpl.cm.get_cmap('gnuplot')
-scatter = pd.plotting.scatter_matrix(X_train, c= y_train, marker = 'o',
-                                     s=40, hist_kwds={'bins':15},
-                                     figsize=(7,7), diagonal='kde', cmap=cmap)
-
-#%%
-
-# Show plots
 plt.show()
+
 
 #%%
 
@@ -308,7 +370,7 @@ vif_data = pd.DataFrame()
 vif_data['feature'] = X.columns 
 
 # Calculate VIF for each feature
-vif_data["VIF"] = [variance_inflation_factor(X.values, i)
+vif_data['VIF'] = [variance_inflation_factor(X.values, i)
                           for i in range(len(X.columns))]
 
 #%%
@@ -326,14 +388,11 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state = 0)
 linreg = LinearRegression().fit(X_train, y_train)
 
 # Print coefficeint, intercept and r-squared for test and train
-print('linear model coeff (w): {}'
-     .format(linreg.coef_))
-print('linear model intercept (b): {:.3f}'
-     .format(linreg.intercept_))
-print('R-squared score (training): {:.3f}'
-     .format(linreg.score(X_train, y_train)))
-print('R-squared score (test): {:.3f}\n'
-     .format(linreg.score(X_test, y_test)))
+print('\nMultiple Linear Regression\n')
+print('linear model coeff: ', linreg.coef_)
+print('linear model intercept: ', round(linreg.intercept_, 3))
+print('R-squared score (training): ', round(linreg.score(X_train, y_train), 3))
+print('R-squared score (test): ', round(linreg.score(X_test, y_test), 3))
 
 # Perform polynomial regression with degree=3
 poly = PolynomialFeatures(degree=3)
@@ -347,14 +406,12 @@ X_train, X_test, y_train, y_test = train_test_split(X_poly, y,
 linreg = Ridge().fit(X_train, y_train)
 
 # Print coefficent, intercept, and r-squared for test and train
-print('(poly deg 3 + ridge) linear model coeff (w):\n{}'
-     .format(linreg.coef_))
-print('(poly deg 3 + ridge) linear model intercept (b): {:.3f}'
-     .format(linreg.intercept_))
-print('(poly deg 3 + ridge) R-squared score (training): {:.3f}'
-     .format(linreg.score(X_train, y_train)))
-print('(poly deg 3 + ridge) R-squared score (test): {:.3f}'
-     .format(linreg.score(X_test, y_test)))
+print('\nPolynomial Regression')
+print('(polynomial of degree 3 with ridge regression)\n')
+print('linear model coeff: ', linreg.coef_, '\n')
+print('linear model intercept: ', round(linreg.intercept_, 3))
+print('R-squared score (training): ', round(linreg.score(X_train, y_train), 3))
+print('R-squared score (test): ', round(linreg.score(X_test, y_test), 3))
 
 #%%
 
