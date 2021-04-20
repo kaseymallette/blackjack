@@ -352,7 +352,7 @@ def win_plot(x, color, ax):
 
 
 # Create subplots of dealer_bust, dealer_stand, dealer_draw, and push
-fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2, figsize=(15,10))
+fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2, figsize=(5,2))
 fig.suptitle('Predicting player win using dealer features', fontsize=18)
 
 # Plot using win_plot
@@ -362,7 +362,7 @@ win_plot('dealer_draw', 'red', ax3)
 win_plot('dealer_high_card', 'blue', ax4)
 
 # Save figure
-plt.savefig('dealer_features.png', dpi=300, bbox_inches='tight')
+plt.savefig('dealer_features.png', dpi=100, bbox_inches='tight')
 
 # Create subplots of push and player_bj 
 fig, (ax5, ax6) = plt.subplots(2, 1, figsize=(15, 10))
