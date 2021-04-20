@@ -20,7 +20,6 @@ from sklearn.preprocessing import PolynomialFeatures
 
 
 #%%
-
 # Load project data
 project_dir = 'C:/Users/kcmma/github/blackjack/blackjack/data/'
 filename = 'shoe_data.csv'
@@ -39,8 +38,8 @@ shoe_df = shoe_df.drop(['index'], axis=1)
 player_count = round((shoe_df.iloc[:, 0] - shoe_df.iloc[:, 1]), 3)
 shoe_df.insert(3, 'player_count', player_count)
 
-#%%
 
+#%%
 # Describe shoe_df
 print('-Descriptive Statsistics-')
 
@@ -71,7 +70,6 @@ print(shoe_df['win_push_pct'].describe())
 
 
 #%%
-
 # Standardize the data
 X = shoe_df[['win_pct']]
 scaler = preprocessing.RobustScaler().fit(X)
@@ -89,7 +87,7 @@ shoe_df.loc[shoe_df['player_win'] == shoe_df['player_loss'], 'shoe_outcome'] = '
 
 
 #%%
-
+# Define a function to change grid of plots
 def change_grid(ax):
     ax.set_facecolor('white')
     ax.grid(which='major', linewidth='0.2', color='gray')
@@ -175,8 +173,9 @@ for patch, color in zip(boxplot['boxes'], colors):
 
 plt.show()
 
-#%%
 
+#%%
+# Create a probability function 
 def find_prob(var, point, description=None, dist=None, two_events=None):
     'Uses a probability density function to find the probability of an event'
 
@@ -274,8 +273,9 @@ ax.legend([plt.scatter(x=win_push_low['push'], y=win_push_low['player_win']),
 
 plt.show()
 
-#%%
 
+#%%
+# Define kde function 
 def plot_kde(x, ax, xlabel, title):
     'Creates subplots of kernel density estimations'
 
@@ -308,7 +308,6 @@ plt.show()
 
 
 #%%
-
 # Check correlation coefficient and p-value of variables
 check_var = ['push', 'doubles_won', 'player_bj', 'dealer_bj',
              'dealer_high_card','dealer_low_card', 'dealer_bust',
@@ -325,9 +324,9 @@ for var in check_var:
     print('p = ', p_value)
 
 
-
 #%%
 
+# Define plot function against win 
 def win_plot(x, color, ax):
     'Plots features against player_win using a lineplot'
     
@@ -362,7 +361,7 @@ plt.show()
 
 
 #%%
-
+# Create VIF to check for multicolinarity 
 X = shoe_df[['dealer_bust', 'push', 'player_bj']]
 
 # Create VIF dataframe
