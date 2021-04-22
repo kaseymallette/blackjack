@@ -15,8 +15,8 @@ from pathlib import Path, PureWindowsPath
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
-from sklearn.linear_model import Ridge
-from sklearn.preprocessing import PolynomialFeatures
+from sklearn.model_selection import cross_val_score, cross_val_predict
+from sklearn import metrics
 
 
 #%%
@@ -89,10 +89,11 @@ shoe_df.loc[shoe_df['player_win'] == shoe_df['player_loss'], 'shoe_outcome'] = '
 #%%
 # Define a function to change grid of plots
 def change_grid(ax):
+    'Set facecolor to white and gridlines to gray'
     ax.set_facecolor('white')
     ax.grid(which='major', linewidth='0.2', color='gray')
     
-
+    
 # Create distribution plot and histogram of win_pct
 fig, (ax1, ax2)  = plt.subplots(1, 2, figsize=(10,5))
 change_grid(ax1)
@@ -394,7 +395,6 @@ print(vif_data)
 
 
 #%%
-
 # Multiple Linear Regression 
 
 # Define X and y
@@ -405,31 +405,52 @@ y = shoe_df['player_win']
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state = 0)
 
 # Perform Linear regression 
-linreg = LinearRegression().fit(X_train, y_train)
+linreg = LinearRegression()
+linreg.fit(X_train, y_train)
 
 # Print coefficeint, intercept and r-squared for test and train
-print('\nMultiple Linear Regression\n')
+print('\nLinear Regression Model\n')
+print('Use dealer_bust, push, and player_bj to predict player win\n')
 print('linear model coeff: ', linreg.coef_)
 print('linear model intercept: ', round(linreg.intercept_, 3))
 print('R-squared score (training): ', round(linreg.score(X_train, y_train), 3))
 print('R-squared score (test): ', round(linreg.score(X_test, y_test), 3))
 
-# Perform polynomial regression with degree=3
-poly = PolynomialFeatures(degree=3)
-X_poly = poly.fit_transform(X)
+# Define yhat, where yhat = mX + b
+yhat = linreg.predict(X_test)
 
-# Retrain and test the data with X_poly in place of X
-X_train, X_test, y_train, y_test = train_test_split(X_poly, y,
-                                                   random_state = 0)
+# Predict a point with bust = 12, push = 4, player bj = 3
+point = [[12, 4, 3]]
+pred = linreg.predict(point)
+test = (pred - linreg.intercept_)/linreg.coef_
 
-# Use ridge regerssion to prevent overfitting
-linreg = Ridge().fit(X_train, y_train)
+# Print actual vs predicted
+print('\nCheck accuracy of model with point below:')
+print('Bust = 12, Push = 4, Player Blackjack = 3')
+print('Actual: ', [12, 4, 3])
+print('Predicted: ', test)
 
-# Print coefficent, intercept, and r-squared for test and train
-print('\nPolynomial Regression')
-print('(polynomial of degree 3 with ridge regression)\n')
-print('linear model coeff: ', linreg.coef_, '\n')
-print('linear model intercept: ', round(linreg.intercept_, 3))
-print('R-squared score (training): ', round(linreg.score(X_train, y_train), 3))
-print('R-squared score (test): ', round(linreg.score(X_test, y_test), 3))
+# Get cross validation scores
+scores = cross_val_score(linreg, X, y, cv=5)
+print('\nUse cross validation to improve model')
+print('Cross-validated scores:', scores)
+
+# Get cross validation predictions
+predictions = cross_val_predict(linreg, X, y, cv=5)
+
+# Plot actual values vs predicted values
+fig, ax = plt.subplots()
+ax.scatter(y, predictions, color='slateblue')
+ax.set_title('Linear Model Predicting Player Win', fontsize=12)
+ax.set_xlabel('Actual hands won')
+ax.set_ylabel('Predicted hands won')
+change_grid(ax)
+
+# Save and plot figure
+plt.savefig('images\linear_model.png', dpi=100, bbox_inches='tight')
+plt.show()
+
+# Get metrics for model 
+accuracy = metrics.r2_score(y, predictions)
+print('Cross-Predicted accuracy:', accuracy)
 
