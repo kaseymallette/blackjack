@@ -92,8 +92,8 @@ def change_grid(ax):
     'Set facecolor to white and gridlines to gray'
     ax.set_facecolor('white')
     ax.grid(which='major', linewidth='0.2', color='gray')
-    
-    
+
+
 # Create distribution plot and histogram of win_pct
 fig, (ax1, ax2)  = plt.subplots(1, 2, figsize=(10,5))
 change_grid(ax1)
@@ -180,7 +180,7 @@ plt.show()
 
 
 #%%
-# Create a probability function 
+# Create a probability function
 def find_prob(var, point, description=None, dist=None, two_events=None):
     'Uses a probability density function to find the probability of an event'
 
@@ -231,7 +231,7 @@ print('\nThe probability of a good shoe is: ', event_str, '\n')
 # Create a dataframe of the winning shoes with low push
 win_push_low = shoe_df[(shoe_df['player_count'] >= 1) & (shoe_df['push'] < 4)]
 
-# Create a dataframe of the winning shoes with high push 
+# Create a dataframe of the winning shoes with high push
 win_push_high = shoe_df[(shoe_df['player_count'] >= 1) & (shoe_df['push'] >= 4)]
 
 # Run a ttest comparing means of player_win between low push and high push
@@ -239,7 +239,7 @@ low_push = win_push_low['player_win']
 high_push = win_push_high['player_win']
 ttest = stats.ttest_ind(low_push, high_push)
 
-# Define the two groups 
+# Define the two groups
 print('\nRun a ttest comparing means of player win between two groups')
 print('Group 1: Player won more hands than dealer and pushed less than 4 times')
 print('Group 2: Player won more hands than dealer and pushed more than 4 times\n')
@@ -264,17 +264,16 @@ ymax = low_push.max()
 xmin = win_push_low['push'].min()
 xmax = win_push_high['push'].max()
 
-# Use fill_between to show both groups 
-ax.fill_between((xmin, push_mean), y1=ymin, y2=ymax, facecolor='red', 
+# Use fill_between to show both groups
+ax.fill_between((xmin, push_mean), y1=ymin, y2=ymax, facecolor='red',
                 alpha=0.2, label='low push')
 ax.fill_between((push_mean, xmax), y1=ymin, y2=ymax, facecolor='blue', alpha=0.2)
 
 # Plot push vs player win in win_push_low and win_push_high
-ax.legend([plt.scatter(x=win_push_low['push'], y=win_push_low['player_win']), 
-            plt.scatter(x=win_push_high['push'], y=win_push_high['player_win']), 
-            plt.vlines(x=3.906, ymin=ymin, ymax=ymax, colors='blue', linestyles='dashed')], 
+ax.legend([plt.scatter(x=win_push_low['push'], y=win_push_low['player_win']),
+            plt.scatter(x=win_push_high['push'], y=win_push_high['player_win']),
+            plt.vlines(x=3.906, ymin=ymin, ymax=ymax, colors='blue', linestyles='dashed')],
         ['low push', 'high push', 'x = 3.906'])
-
 
 # Save figure
 plt.savefig('images\winning_shoes.png', dpi=100, bbox_inches='tight')
@@ -284,7 +283,7 @@ plt.show()
 
 
 #%%
-# Define kde function 
+# Define kde function
 def plot_kde(x, ax, xlabel, title):
     'Creates subplots of kernel density estimations'
 
@@ -338,17 +337,15 @@ for var in check_var:
 
 
 #%%
-
-# Define plot function against win 
+# Define plot function against win
 def win_plot(x, color, ax):
     'Plots features against player_win using a lineplot'
-    
+
     # Change face color and grid lines
     change_grid(ax)
-    
-        
+
     # Plot a lineplot of x vs player_win
-    ax = sns.lineplot(data=shoe_df, x=x, y='player_win', 
+    ax = sns.lineplot(data=shoe_df, x=x, y='player_win',
                       color = color, ax=ax)
 
 
@@ -365,7 +362,7 @@ win_plot('dealer_high_card', 'blue', ax4)
 # Save figure
 plt.savefig('images\dealer_features.png', dpi=100, bbox_inches='tight')
 
-# Create subplots of push and player_bj 
+# Create subplots of push and player_bj
 fig, (ax5, ax6) = plt.subplots(2, 1, figsize=(15, 10))
 fig.suptitle('Predicting player win using player features', fontsize=18)
 win_plot('push', 'green', ax5)
@@ -379,12 +376,12 @@ plt.show()
 
 
 #%%
-# Create VIF to check for multicolinarity 
+# Create VIF to check for multicolinarity
 X = shoe_df[['dealer_bust', 'push', 'player_bj']]
 
 # Create VIF dataframe
 vif_data = pd.DataFrame()
-vif_data['feature'] = X.columns 
+vif_data['feature'] = X.columns
 
 # Calculate VIF for each feature
 vif_data['VIF'] = [variance_inflation_factor(X.values, i)
@@ -395,7 +392,7 @@ print(vif_data)
 
 
 #%%
-# Multiple Linear Regression 
+# Multiple Linear Regression
 
 # Define X and y
 X = shoe_df[['dealer_bust', 'push', 'player_bj']]
@@ -404,7 +401,7 @@ y = shoe_df['player_win']
 # Use test_train_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state = 0)
 
-# Perform Linear regression 
+# Perform Linear regression
 linreg = LinearRegression()
 linreg.fit(X_train, y_train)
 
@@ -450,7 +447,6 @@ change_grid(ax)
 plt.savefig('images\linear_model.png', dpi=100, bbox_inches='tight')
 plt.show()
 
-# Get metrics for model 
+# Get metrics for model
 accuracy = metrics.r2_score(y, predictions)
 print('Cross-Predicted accuracy:', accuracy)
-
