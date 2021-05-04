@@ -34,6 +34,14 @@ shoe_df = pd.read_csv(windows_path)
 # Drop the index column that contains 0's
 shoe_df = shoe_df.drop(['index'], axis=1)
 
+# Create index of shoes
+index = []
+for i in shoe_df.index:
+    index.append(i)
+
+# Insert index as shoe index 
+shoe_df.insert(0, 'shoe_index', index)
+
 # Create a column for player count
 player_count = round((shoe_df.iloc[:, 0] - shoe_df.iloc[:, 1]), 3)
 shoe_df.insert(3, 'player_count', player_count)
@@ -419,13 +427,14 @@ yhat = linreg.predict(X_test)
 # Predict a point with bust = 12, push = 4, player bj = 3
 point = [[12, 4, 3]]
 pred = linreg.predict(point)
-test = (pred - linreg.intercept_)/linreg.coef_
+point_df = shoe_df[(shoe_df['dealer_bust']==12) & (shoe_df['push']==4) & (shoe_df['player_bj']==3)]
+actual = point_df['player_win'].mean()
 
 # Print actual vs predicted
 print('\nCheck accuracy of model with point below:')
 print('Bust = 12, Push = 4, Player Blackjack = 3')
-print('Actual: ', [12, 4, 3])
-print('Predicted: ', test)
+print('Actual mean: ', round(actual, 3))
+print('Predicted: ', pred)
 
 # Get cross validation scores
 scores = cross_val_score(linreg, X, y, cv=5)
@@ -450,3 +459,8 @@ plt.show()
 # Get metrics for model
 accuracy = metrics.r2_score(y, predictions)
 print('Cross-Predicted accuracy:', accuracy)
+
+# Find mean absolute error
+mae = cross_val_score(linreg, X, y, cv=5, scoring='neg_mean_absolute_error')
+print('\nNegative Mean Absolute Error: ', mae)
+
