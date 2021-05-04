@@ -43,7 +43,7 @@ for i in shoe_df.index:
 shoe_df.insert(0, 'shoe_index', index)
 
 # Create a column for player count
-player_count = round((shoe_df.iloc[:, 0] - shoe_df.iloc[:, 1]), 3)
+player_count = round((shoe_df.iloc[:, 1] - shoe_df.iloc[:, 2]), 4)
 shoe_df.insert(3, 'player_count', player_count)
 
 
