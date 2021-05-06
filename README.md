@@ -17,7 +17,6 @@ to measure the actual outcome.
 [My Basic Strategy Video](https://www.youtube.com/watch?v=futueqPxCeE)
 
 ![](images/6deck_strategy.png)
-[Create Shoe](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/create_shoe.py)
 
 Based on prior research, a game with the following conditions has a house
 advantage of **0.5%**:
@@ -40,6 +39,8 @@ the number of doubles won, the number of times the dealer busts, has a 10 showin
 draws to make a hand, or draws to make 21.
 
 ## Code
+
+[Create Shoe](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/create_shoe.py)
 
 ```play.py```
 
