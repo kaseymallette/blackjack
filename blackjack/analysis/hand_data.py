@@ -385,5 +385,5 @@ for i,j in zip(win_pct_low.player.values, win_pct_low.dealer_up.values):
 change_basic_strategy(win_low_player, win_low_dealer, 1, 0)
 
 # Export basic strategy changes to csv 
-basic_strategy_df.to_csv(project_dir+'basic_strategy_2.csv', index=False)
+basic_strategy_df.to_csv(project_dir+'basic_strategy_changes.csv', index=False)
 
