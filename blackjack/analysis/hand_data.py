@@ -24,13 +24,19 @@ from sklearn import metrics
 # Load project data
 project_dir = 'C:/Users/kcmma/github/blackjack/blackjack/data/'
 filename = 'hand_data.csv'
+basic_strategy = 'basic_strategy.csv'
+
+# Get file path
 file_path = Path(project_dir + filename)
+basic_strategy_path = Path(project_dir + basic_strategy)
 
 # Convert path to Windows format
 windows_path = PureWindowsPath(file_path)
+windows_path_2 = PureWindowsPath(basic_strategy_path)
 
 # Read csv to dataframe
 hand_df = pd.read_csv(windows_path)
+basic_strategy_df = pd.read_csv(windows_path_2)
 
 # Rename the index column to hand_index
 hand_df = hand_df.rename(columns = {'index': 'hand_index'})
@@ -63,14 +69,6 @@ for i in errors.index:
     hand_df = hand_df.drop([i])
 
 #%%
-# Find total number of hands and print
-total = hand_df['player'].count()
-print('\nTotal number of hands: ', total)
-
-# Find number of unique hands
-unique_hands = hand_df['player'].value_counts().count()
-print('Total number of unique player hands: ', unique_hands)
-
 # Define a function that finds frequency and percentage 
 def freq_df(column, event, total, index):
     ''''Given a column in hand_df, define the event, find the frequency
@@ -95,8 +93,18 @@ def freq_df(column, event, total, index):
     return new_df 
 
 
+# Find total number of hands and print
+total = hand_df['player'].count()
+print('\nTotal number of hands: ', total)
+
+# Find number of unique hands
+player_hands = hand_df['player'].value_counts().count()
+all_hands = player_hands*10
+print('Total number of unique player hands: ', player_hands)
+print('Total number of possible player/dealer hand combinations: ', all_hands)
+
 # Find the frequency of unique hands 
-hand_frequency = freq_df('player', 'hand', total, range(0,unique_hands))
+hand_frequency = freq_df('player', 'hand', total, range(0,player_hands))
 
 # Print top 5 hands
 print('\nThe five most frequent player hands:') 
@@ -214,7 +222,7 @@ player, dealer, move, win, loss, push, combo_freq = ([] for i in range(7))
 # Find avgerages of hand combinations
 win_loss_push_pct(player, dealer, move, win, loss, push)
 
-# Create a df that contains columns for player, dealer, and frequency
+# Create a df that contains of all possible hand combinations
 possible_hands_df = pd.DataFrame({'player': player, 
                                'dealer_up': dealer,
                                'move': move, 
@@ -224,5 +232,158 @@ possible_hands_df = pd.DataFrame({'player': player,
                                'avg_push_pct': push}, 
                                index = range(0, len(player)))
 
+#%%
+# Create two subplots to show the frequency of hands
+fig, (ax1, ax2)  = plt.subplots(1, 2, figsize=(13,7))
 
+# Plot a scatter plot of frequency of player hands
+hand_frequency = hand_df['player'].value_counts()
+hand = hand_frequency.index
+ax1.scatter(hand_frequency, hand, c='slateblue')
+
+# Set title and labels for ax1
+ax1.set_title('Frequency of unique player hands')
+ax1.set_xlabel('Frequency')
+ax1.set_ylabel('Player hand')
+
+# Plot a historgram of hand combinations
+n_bins = 9
+x = possible_hands_df['avg_win_pct']
+
+# Use ax.hist to plot n, bins, and patches
+n, bins, patches = ax2.hist(x, bins=n_bins)
+
+# Color code the histogram by height and normalize
+fracs = n/n.max()
+norm = mpl.colors.Normalize(fracs.min(), fracs.max())
+
+# Set the color of each patch
+for frac, patch in zip(fracs, patches):
+    color = plt.cm.plasma(norm(frac))
+    patch.set_facecolor(color)
+
+# Set title and labels for ax2 
+ax2.set_title('Win percentage of unique hand combinations')
+ax2.set_xlabel('Win percentage')
+ax2.set_ylabel('Number of hands')
+
+# Save figure and show
+plt.savefig('images\hand_frequency.png', dpi=100, bbox_inches='tight')
+plt.show()
+
+
+#%%
+# Find unique hands excluding splits
+unique_hands = possible_hands_df['avg_win_pct'].count()
+
+print('\n---Unique Hand Combinations---')
+print('Total number of unique hand combinations excluding splits: ', unique_hands)
+print('\nAverage win percentage of unique hand combinations: ')
+print(possible_hands_df['avg_win_pct'].describe())
+
+# Find 10th and 90th quantiles 
+quant_10 = possible_hands_df['avg_win_pct'].quantile(.10)
+quant_90 = possible_hands_df['avg_win_pct'].quantile(.90)
+
+# Create df of hands with a low win percentage
+win_pct_low = possible_hands_df[(possible_hands_df['avg_win_pct'] <= quant_10)
+                                & (possible_hands_df['move'] == 'hit')]
+
+# Create df of hands with a high win percentage, excluding blackjacks 
+win_pct_high = possible_hands_df[(possible_hands_df['avg_win_pct'] < 1)
+                              & (possible_hands_df['avg_win_pct'] >= quant_90)]
+
+# Sort values
+win_pct_low = win_pct_low.sort_values(by=['player', 'avg_win_pct'])
+win_pct_high = win_pct_high.sort_values(by=['player', 'avg_win_pct'])
+
+# Reindex 
+win_pct_low = win_pct_low.reset_index()
+win_pct_high = win_pct_high.reset_index()
+
+# Drop outliers in win_pct_low and reindex 
+win_pct_low = win_pct_low.drop([16,17,18])
+win_pct_low = win_pct_low.reset_index()
+
+# Print hands with a low win percentage
+print('\nHands with win percentage in or below 10th quantile')
+print(win_pct_low.iloc[:, 2:7])
+
+# Print hands with a high win percentage
+print('\nHands with win percentage in or above 90th quantile')
+print('(Not including blackjack)')
+print(win_pct_high.iloc[:, 1:6])
+
+
+#%%
+# Create two subplots to show hands with low and high win pct
+fig, (ax1, ax2)  = plt.subplots(1, 2, figsize=(10,6))
+
+# Create a scatter plot of player and dealer hands with low win pct
+x1 = win_pct_low['player']
+y1 = win_pct_low['dealer_up']
+ax1.scatter(x1,y1, c='crimson')
+
+# Set title and labels for ax1
+ax1.set_title('Hands with a low win percentage')
+ax1.set_xlabel('Player')
+ax1.set_ylabel('Dealer')
+
+# Create a scatter plot of player and dealer hands with high win pct
+win_pct_high = win_pct_high.sort_values(by=['dealer_up', 'player'], ascending=False)
+x2 = win_pct_high['player']
+y2 = win_pct_high['dealer_up']
+ax2.scatter(x2,y2, c='dodgerblue')
+
+# Set title and labels for ax2 
+ax2.set_title('Hands with a high win percentage')
+ax2.set_xlabel('Player')
+ax2.set_ylabel('Dealer')
+
+# Save figure and show
+plt.savefig('images\hand_win_pct.png', dpi=100, bbox_inches='tight')
+plt.show()
+
+
+#%%
+# Define a function that updates the rules of basic strategy 
+def change_basic_strategy(player, dealer_up, current, new):
+    '''Given two lists of player hands and dealer up cards, 
+    change the current rule of basic strategy to the new rule'''
+    
+    for a,b in zip(player, dealer_up):
+        # Use a to find the row and index by b to find the value
+        row = basic_strategy_df[basic_strategy_df['possible_hands'] == a]
+        value = row[b]
+        
+        # Find the index and value of current 
+        index = value.index[0]
+        new_value = value.values
+        
+        # Change current to new
+        if b == 'A':
+            if new_value == str(current):
+                new_value = str(new)
+        else: 
+            if new_value == current:
+                new_value = new
+        
+        # Update value 
+        basic_strategy_df.at[index, b] = new_value
+        
+
+# Create two lists for player and dealer 
+win_low_player = []
+win_low_dealer = []
+
+# Get values from win_pct_low 
+for i,j in zip(win_pct_low.player.values, win_pct_low.dealer_up.values):
+    win_low_player.append(i)
+    win_low_dealer.append(j)
+
+# Change basic strategy for hands with low win percentage
+change_basic_strategy(win_low_player, win_low_dealer, 1, 0)
+
+# Export basic strategy changes to csv 
+basic_strategy_df.to_csv(project_dir+'basic_strategy_2.csv', index=False)
 
