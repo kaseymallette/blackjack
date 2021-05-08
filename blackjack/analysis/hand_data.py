@@ -63,10 +63,54 @@ error2 = hand_df.loc[hand_df['move'] == '3']
 error3 = hand_df[(hand_df['player'] == '[9, 9]') 
                 & (hand_df['dealer_up'].isin(['7', '10', 'A']))
                 & (hand_df['move'] == 'hit')]
-    
+
+# Drop errors     
 errors = error1 + error2 + error3
 for i in errors.index:
     hand_df = hand_df.drop([i])
+    
+# Dummy code bust rate and stagger list by 1
+dealer_bust = [0]
+for n in hand_df['dealer_outcome'].values:
+    if n == 'bust':
+        count = 1
+    else:
+        count = 0
+    dealer_bust.append(count)
+
+# Remove last item from list
+dealer_bust.pop(-1)
+
+# Insert dummy coded dealer bust 
+hand_df.insert(7, 'dealer_bust', dealer_bust)
+
+# Find rolling bust rate for every 5 and 10 hands
+bust_rate_5 = (hand_df['dealer_bust']/5).rolling(window=5).sum()
+bust_rate_10 = (hand_df['dealer_bust']/10).rolling(window=10).sum()
+    
+# Insert dealer bust rates 
+hand_df.insert(8, 'bust_rate_5', bust_rate_5)
+hand_df.insert(9, 'bust_rate_10', bust_rate_10)
+
+# Change NaN values to 0
+hand_df['bust_rate_5'] = hand_df['bust_rate_5'].fillna(0)
+hand_df['bust_rate_10'] = hand_df['bust_rate_10'].fillna(0)
+
+# For values e-17, change to 0
+for i, j, m, n in zip(hand_df['bust_rate_5'].index, 
+                      hand_df['bust_rate_10'].index, 
+                      hand_df['bust_rate_5'], 
+                      hand_df['bust_rate_10']):
+    # Add 1 to all values
+    if (m+1) == 1.0: 
+        hand_df.at[i, 'bust_rate_5'] = 0
+    else:
+        hand_df.at[i, 'bust_rate_5'] = round(m, 1)
+    if (n+1) == 1.0:
+        hand_df.at[j, 'bust_rate_10'] = 0
+    else:
+        hand_df.at[i, 'bust_rate_10'] = round(n, 1)
+
 
 #%%
 # Define a function that finds frequency and percentage 
@@ -166,31 +210,31 @@ print('\nNumber of hands split: ', count, split_pct)
 
 #%%
 # Define a function to find frequency and avg win of all possible hands
-def win_loss_push_pct(player, dealer, move, win, loss, push):
+def win_loss_push_pct(df, player, dealer, freq, move, win, loss, push):
     '''Given empty lists for player, dealer, win, loss, and push, 
     find the frequency of every possible hand combination, 
     in addition to the average win, loss, and push percentage of all 
     possible hands'''
     
     # Find the value counts of all possible hands 
-    all_hand_values = hand_df[['player', 'dealer_up']].value_counts()
+    all_hand_values = df[['player', 'dealer_up']].value_counts()
     
-    # To deal with dealer blackjack error, remove hands where frequency < 50
+    # To deal with dealer blackjack error, remove hands where frequency < 25
     for i, n in zip(all_hand_values.index, all_hand_values.values):
-        if n < 50:
+        if n < 40:
            all_hand_values = all_hand_values.drop(i)
         else:
             # Split the index into two lists and find frequency of hands
             player.append(i[0])
             dealer.append(i[1])
-            combo_freq.append(n)
+            freq.append(n)
     
     # For each player/dealer combination, remove split hands and dealer bj
     for p, d in zip(player, dealer):
-        new_df = hand_df[(hand_df['player'] == p) 
-                        & (hand_df['dealer_up'] == d)
-                         & (hand_df['is_split'] == False)
-                         & (hand_df['dealer_bj'] == False)]
+        new_df = df[(df['player'] == p) 
+                        & (df['dealer_up'] == d)
+                         & (df['is_split'] == False)
+                         & (df['dealer_bj'] == False)]
 
         # Track the basic strategy move for each combination
         row_1 = new_df.iloc[0]
@@ -217,16 +261,16 @@ def win_loss_push_pct(player, dealer, move, win, loss, push):
                    
         
 # Create empty lists 
-player, dealer, move, win, loss, push, combo_freq = ([] for i in range(7))
+player, dealer, move, win, loss, push, freq = ([] for i in range(7))
 
 # Find avgerages of hand combinations
-win_loss_push_pct(player, dealer, move, win, loss, push)
+win_loss_push_pct(hand_df, player, dealer, freq, move, win, loss, push)
 
 # Create a df that contains of all possible hand combinations
-possible_hands_df = pd.DataFrame({'player': player, 
+possible_hands = pd.DataFrame({'player': player, 
                                'dealer_up': dealer,
                                'move': move, 
-                               'frequency': combo_freq, 
+                               'frequency': freq, 
                                'avg_win_pct': win,
                                'avg_loss_pct': loss,
                                'avg_push_pct': push}, 
@@ -248,7 +292,7 @@ ax1.set_ylabel('Player hand')
 
 # Plot a historgram of hand combinations
 n_bins = 9
-x = possible_hands_df['avg_win_pct']
+x = possible_hands['avg_win_pct']
 
 # Use ax.hist to plot n, bins, and patches
 n, bins, patches = ax2.hist(x, bins=n_bins)
@@ -273,25 +317,74 @@ plt.show()
 
 
 #%%
+
+crosstab = pd.crosstab(hand_df['bust_rate_5'], hand_df['outcome'])
+crosstab_2 = pd.crosstab(hand_df['bust_rate_10'], hand_df['outcome'])
+crosstab_3 = pd.crosstab(hand_df['dealer_up'], hand_df['outcome'])
+crosstab_4 = pd.crosstab(hand_df['player'], hand_df['outcome'])
+crosstab_4 = crosstab_4[2:12]
+
+#%%
+crosstab.plot.bar(stacked=True, cmap='flare_r')
+plt.show()
+
+sns.heatmap(crosstab, cmap='rocket_r', annot=True, fmt='g')
+plt.show()
+
+crosstab_3.plot.bar(stacked=True, cmap='flare_r')
+plt.show()
+
+crosstab_4.plot.bar(stacked=True, cmap='flare_r')
+plt.show()
+
+sns.heatmap(crosstab_3, cmap='rocket_r', annot=True, fmt='g')
+plt.show()
+
+sns.heatmap(crosstab_4, cmap='rocket_r', annot=True, fmt='g')
+plt.show()
+#%%
+dealer_x_outcome = pd.crosstab(hand_df['dealer_up'], 
+                               hand_df['outcome'], 
+                               margins=True)
+
+player_x_outcome = pd.crosstab(hand_df['player'], 
+                               hand_df['outcome'], 
+                               margins=True)
+
+dealer_x_outcome_pct = dealer_x_outcome.div(dealer_x_outcome['All'], axis=0)
+player_x_outcome_pct = player_x_outcome.div(player_x_outcome['All'], axis=0)
+
+# Add percentages of each column to dealer x outcome
+for x, y, z, in zip([1,3,5], ['loss_pct','push_pct','win_pct'], 
+                                ['loss','push', 'win']):
+    dealer_x_outcome.insert(x, y, round(dealer_x_outcome_pct[z], 3))
+
+# Add percentages of each column to player x outcome
+for x, y, z, in zip([1,3,5], ['loss_pct','push_pct','win_pct'], 
+                                ['loss','push', 'win']):
+    player_x_outcome.insert(x, y, round(player_x_outcome_pct[z], 3))
+
+
+#%%
 # Find unique hands excluding splits
-unique_hands = possible_hands_df['avg_win_pct'].count()
+unique_hands = possible_hands['avg_win_pct'].count()
 
 print('\n---Unique Hand Combinations---')
 print('Total number of unique hand combinations excluding splits: ', unique_hands)
 print('\nAverage win percentage of unique hand combinations: ')
-print(possible_hands_df['avg_win_pct'].describe())
+print(possible_hands['avg_win_pct'].describe())
 
 # Find 10th and 90th quantiles 
-quant_10 = possible_hands_df['avg_win_pct'].quantile(.10)
-quant_90 = possible_hands_df['avg_win_pct'].quantile(.90)
+quant_10 = possible_hands['avg_win_pct'].quantile(.10)
+quant_90 = possible_hands['avg_win_pct'].quantile(.90)
 
 # Create df of hands with a low win percentage
-win_pct_low = possible_hands_df[(possible_hands_df['avg_win_pct'] <= quant_10)
-                                & (possible_hands_df['move'] == 'hit')]
+win_pct_low = possible_hands[(possible_hands['avg_win_pct'] <= quant_10)
+                                & (possible_hands['move'] == 'hit')]
 
 # Create df of hands with a high win percentage, excluding blackjacks 
-win_pct_high = possible_hands_df[(possible_hands_df['avg_win_pct'] < 1)
-                              & (possible_hands_df['avg_win_pct'] >= quant_90)]
+win_pct_high = possible_hands[(possible_hands['avg_win_pct'] < 1)
+                              & (possible_hands['avg_win_pct'] >= quant_90)]
 
 # Sort values
 win_pct_low = win_pct_low.sort_values(by=['player', 'avg_win_pct'])
@@ -302,17 +395,19 @@ win_pct_low = win_pct_low.reset_index()
 win_pct_high = win_pct_high.reset_index()
 
 # Drop outliers in win_pct_low and reindex 
-win_pct_low = win_pct_low.drop([16,17,18])
+win_pct_low = win_pct_low.drop([14, 15, 16, 17])
 win_pct_low = win_pct_low.reset_index()
+win_pct_low = win_pct_low.drop(columns=['level_0', 'index'])
+win_pct_high = win_pct_high.drop(columns=['index'])
 
 # Print hands with a low win percentage
 print('\nHands with win percentage in or below 10th quantile')
-print(win_pct_low.iloc[:, 2:7])
+print(win_pct_low.iloc[:, 0:5])
 
 # Print hands with a high win percentage
 print('\nHands with win percentage in or above 90th quantile')
 print('(Not including blackjack)')
-print(win_pct_high.iloc[:, 1:6])
+print(win_pct_high.iloc[:, 0:5])
 
 
 #%%
@@ -387,3 +482,100 @@ change_basic_strategy(win_low_player, win_low_dealer, 1, 0)
 # Export basic strategy changes to csv 
 basic_strategy_df.to_csv(project_dir+'basic_strategy_changes.csv', index=False)
 
+
+#%%
+# Load project data from hand_data_2 and get file path
+filename_2 = 'hand_data_2.csv'
+file_path_2 = Path(project_dir + filename_2)
+if file_path_2.exists() is False:
+    print('Error!', filename_2, 'does not exist!')
+else:
+    # Get path
+    windows_path_2 = PureWindowsPath(file_path_2)
+
+    # Read csv to dataframe
+    hand_df_2 = pd.read_csv(windows_path_2)
+
+    # Rename the index column to hand_index
+    hand_df_2 = hand_df_2.rename(columns = {'Unnamed: 0': 'hand_index'})
+
+    # Iterate through hand_index to identify each shoe
+    shoe_2 = -1
+    shoe_index_2 = []
+    for i in hand_df_2.index: 
+        if hand_df_2['hand_index'][i] == 0:
+            shoe_2 = shoe_2 + 1
+        shoe_index_2.append(shoe)
+    
+    # Add the column shoe_num to hand_df_2
+    hand_df_2.insert(0, 'shoe_index', shoe_index_2)
+
+    # Error 1: Drop rows where player hand = 4 and not [2,2] or [4,14]
+    error1 = hand_df_2.loc[hand_df_2['player'] == '4']
+
+    # Error 2: Drop rows where move = 3 instead of is_split = True
+    error2 = hand_df_2.loc[hand_df_2['move'] == '3']
+
+    # Drop errors 
+    errors = error1 + error2
+    for i in errors.index:
+        hand_df_2 = hand_df_2.drop([i])
+    
+    
+    # Create empty lists 
+    player2, dealer2, move2, win2, loss2, push2, freq2 = ([] for i in range(7))
+
+    # Find avgerages of hand combinations
+    win_loss_push_pct(hand_df_2, player2, dealer2, freq2, move2, win2, loss2, push2)
+
+    # Create a df that contains of all possible hand combinations
+    possible_hands_2 = pd.DataFrame({'player': player2, 
+                                     'dealer_up': dealer2,
+                                     'move': move2, 
+                                     'frequency': freq2, 
+                                     'avg_win_pct': win2,
+                                     'avg_loss_pct': loss2,
+                                     'avg_push_pct': push2}, 
+                                    index = range(0, len(player2)))
+
+    win_low_changes = pd.DataFrame(columns = ['player', 'dealer', 'move', 
+                                          'frequency', 'avg_win_pct', 
+                                          'avg_loss_pct', 'avg_push_pct'], 
+                                   index = range(0, 19))
+
+    index = 0
+    for i,j in zip(win_low_player, win_low_dealer):
+        add_row = possible_hands_2[(possible_hands_2['player'] == i)
+                                       & (possible_hands_2['dealer_up'] == j)]
+    
+        win_low_changes.loc[index] = add_row.values
+        index +=1 
+    
+    # Change data types 
+    win_low_changes['frequency'] = win_low_changes['frequency'].astype(int)
+    win_low_changes['avg_win_pct'] = win_low_changes['avg_win_pct'].astype(float)
+    win_low_changes['avg_loss_pct'] = win_low_changes['avg_loss_pct'].astype(float)
+    win_low_changes['avg_push_pct'] = win_low_changes['avg_push_pct'].astype(float)
+
+    # T-test of avg_win_pct for low win hands and their rule changes
+    a = win_pct_low['avg_win_pct']
+    b = win_low_changes['avg_win_pct']
+    ttest = stats.ttest_ind(a, b)
+    print('\n Average win percentage')
+    print('T-test of win percentage of low win hands and their rule changes')
+    print(ttest)
+    print('Original hands: ', round(a.mean(), 3))
+    print('Rule changes: ', round(b.mean(), 3))
+    
+    # T-test of avg_loss_pct for low win hands and their rule changes
+    a2 = win_pct_low['avg_loss_pct']
+    b2 = win_low_changes['avg_loss_pct']
+    ttest2 = stats.ttest_ind(a2, b2)
+    print('\n Average loss percentage')
+    print('T-test of loss percentage of low win hands and their rule changes')
+    print(ttest2)
+    print('Original hands: ', round(a2.mean(), 3))
+    print('Rule changes: ', round(b2.mean(), 3))
+    
+  
+    
