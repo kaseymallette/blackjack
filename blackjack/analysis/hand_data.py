@@ -16,6 +16,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn import tree
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
+from sklearn.metrics import plot_precision_recall_curve
 
 
 #%%
@@ -429,6 +432,70 @@ plt.show()
 
 
 #%%
+# Define hard hands
+hard_hands = ['8', '9', '10', '11', '12', '13', '14', '15', 
+              '16', '17', '18', '19', '20', '21']
+    
+# Create df of hard hands and replace dealer ace as 11
+hard_hands_df = hand_df[(hand_df['player'].isin(hard_hands)) &
+                        (hand_df['outcome']).isin(['win', 'loss'])]
+
+# Change dealer ace to 11 
+dealer_ace = hard_hands_df['dealer_up'] == 'A'
+hard_hands_df.loc[dealer_ace, 'dealer_up'] = 11
+
+# Define X and y
+X = hard_hands_df[['player', 'dealer_up']]
+y = hard_hands_df['outcome']
+    
+# Use test_train_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state = 0)
+    
+# Logistic Regression 
+logreg = LogisticRegression().fit(X_train, y_train)
+lr_predicted = logreg.predict(X_test)
+print('\n---Predicting hand outcomes---')
+print('Using player hand and dealer up to predict outcome of hard hands')
+print('\nLogistic Regression')
+print('Train score: ', round(logreg.score(X_train, y_train), 3))
+print('Test score: ', round(logreg.score(X_test, y_test), 3))
+
+# Decision Tree Classifier 
+clf = DecisionTreeClassifier(max_leaf_nodes=15, max_depth=5, random_state=0)
+clf.fit(X_train, y_train)
+print('\nDecision Tree Classifier')
+print('Train score: ', round(clf.score(X_train, y_train), 3))
+print('Test score: ', round(clf.score(X_test, y_test), 3), '\n')
+
+# Find confusion matrix for decision tree 
+tree_predicted = clf.predict(X_test)
+confusion = confusion_matrix(y_test, tree_predicted)
+print('\nDecision tree classifier (max_depth = 2)\n', confusion)
+
+
+# Find classification report 
+class_report = classification_report(y_test, tree_predicted, 
+                                 target_names=['not 1', '1'])
+print('\nDecision Tree Classifier Report ')
+print(class_report)
+
+# Plot Decision Tree
+fig, ax = plt.subplots(figsize=(15,9))
+ax = tree.plot_tree(clf, ax=ax)
+plt.title('Decision Tree Classifier of Hand Outcome')
+
+# Save figure and plot 
+plt.savefig('images\decision_tree_classifer.png', dpi=100, bbox_inches='tight')
+plt.show()
+
+# Plot precision recall curve of decision tree 
+disp = plot_precision_recall_curve(clf, X_test, y_test)
+disp.ax_.set_title('Precision-Recall curve')
+plt.savefig('images\precision_recall_curve.png', dpi=100, bbox_inches='tight')
+plt.show()
+
+
+#%%
 # Define a function that updates the rules of basic strategy 
 def change_basic_strategy(player, dealer_up, current, new):
     '''Given two lists of player hands and dealer up cards, 
@@ -525,12 +592,14 @@ else:
                                      'avg_loss_pct': loss2,
                                      'avg_push_pct': push2}, 
                                     index = range(0, len(player2)))
-
+    
+    # Create columns for df 
     win_low_changes = pd.DataFrame(columns = ['player', 'dealer', 'move', 
                                           'frequency', 'avg_win_pct', 
                                           'avg_loss_pct', 'avg_push_pct'], 
                                    index = range(0, 19))
-
+    
+    # Add player and dealer hands to df
     index = 0
     for i,j in zip(win_low_player, win_low_dealer):
         add_row = possible_hands_2[(possible_hands_2['player'] == i)
@@ -544,12 +613,53 @@ else:
     win_low_changes['avg_win_pct'] = win_low_changes['avg_win_pct'].astype(float)
     win_low_changes['avg_loss_pct'] = win_low_changes['avg_loss_pct'].astype(float)
     win_low_changes['avg_push_pct'] = win_low_changes['avg_push_pct'].astype(float)
+    
+    # Define hard hands
+    hard_hands = ['8', '9', '10', '11', '12', '13', '14', '15', 
+              '16', '17', '18', '19', '20', '21']
+    
+    # Create df of hard hands
+    hands_rule_change = hand_df_2[(hand_df_2['player'].isin(hard_hands)) &
+                                  (hand_df_2['outcome'].isin(['win', 'loss']))]
+    
+    # Change dealer ace to 11
+    dealer_ace = hands_rule_change['dealer_up'] == 'A'
+    hands_rule_change.loc[dealer_ace, 'dealer_up'] = 11
 
+    # Define X and y
+    X = hands_rule_change[['player', 'dealer_up']]
+    y = hands_rule_change['outcome']
+    
+    # Use test_train_split
+    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state = 0)
+    
+    # Logistic Regression 
+    logreg2 = LogisticRegression().fit(X_train, y_train)
+    print('\n---Playing Against Basic Strategy---')
+    print('\nPredicting outcome using basic strategy rule changes')
+    print('\nLogistic Regression')
+    print('Train score: ', round(logreg2.score(X_train, y_train), 3))
+    print('Test score: ', round(logreg2.score(X_test, y_test), 3))
+
+    # Decision Tree Classifier 
+    clf2 = DecisionTreeClassifier(max_leaf_nodes=15, max_depth=5, random_state=0)
+    clf2.fit(X_train, y_train)
+    print('\nDecision Tree Classifier')
+    print('Train score: ', round(clf2.score(X_train, y_train), 3))
+    print('Test score: ', round(clf2.score(X_test, y_test), 3))
+    
+    # Find confusion matrix and classification report
+    tree_predicted = clf2.predict(X_test)
+    confusion = confusion_matrix(y_test, tree_predicted)
+    class_report_2 = classification_report(y_test, tree_predicted, 
+                                target_names=['not 1', '1'])
+    print('\nDecision Tree Classifier Report ')
+    print(class_report_2)
+    
     # T-test of avg_win_pct for low win hands and their rule changes
     a = win_pct_low['avg_win_pct']
     b = win_low_changes['avg_win_pct']
     ttest = stats.ttest_ind(a, b)
-    print('\n---Playing Against Basic Strategy---')
     print('\nAverage win percentage')
     print('T-test of win percentage of low win hands and their rule changes')
     print(ttest)
@@ -566,48 +676,6 @@ else:
     print('Original hands: ', round(a2.mean(), 3))
     print('Rule changes: ', round(b2.mean(), 3), '\n')
     
-    
-#%%
-# Define hard hands
-hard_hands = ['8', '9', '10', '11', '12', '13', '14', '15', 
-              '16', '17', '18', '19', '20', '21']
-    
-# Create df of hard hands and replace dealer ace as 11
-hard_hands_df = hand_df[hand_df['player'].isin(hard_hands)]
-dealer_ace = hard_hands_df['dealer_up'] == 'A'
-hard_hands_df.loc[dealer_ace, 'dealer_up'] = 11
-
-# Define X and y
-X = hard_hands_df[['player', 'dealer_up']]
-y = hard_hands_df['outcome']
-    
-# Use test_train_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state = 0)
-    
-# Logistic Regression 
-logreg = LogisticRegression().fit(X_train, y_train)
-print('\n---Predicting hand outcomes---')
-print('Using player hand and dealer up to predict outcome of hard hands')
-print('\nLogistic Regression')
-print('Train score: ', round(logreg.score(X_train, y_train), 3))
-print('Test score: ', round(logreg.score(X_test, y_test), 3))
-
-# Decision Tree Classifier 
-clf = DecisionTreeClassifier(max_leaf_nodes=15, max_depth=5, random_state=0)
-clf.fit(X_train, y_train)
-print('\nDecision Tree Classifier')
-print('Train score: ', round(clf.score(X_train, y_train), 3))
-print('Test score: ', round(clf.score(X_test, y_test), 3))
-
-# Plot Decision Tree
-fig, ax = plt.subplots(figsize=(15,9))
-ax = tree.plot_tree(clf, ax=ax)
-plt.title('Decision Tree Classifier of Hand Outcome')
-
-# Save figure and plot 
-plt.savefig('images\decision_tree_classifer.png', dpi=100, bbox_inches='tight')
-plt.show()
-
 
 #%%
 # Load project data from good_shoes and get file path
@@ -623,12 +691,14 @@ else:
     # Create dataframe of good shoes for first shoe index
     start = good_shoe_df['shoe_index'].iloc[0]
     good_shoe_hands = hand_df[(hand_df['shoe_index'] == start) & 
-                              (hand_df['player'].isin(hard_hands))]
+                              (hand_df['player'].isin(hard_hands)) &
+                              (hand_df['outcome'].isin(['win', 'loss']))]
     
     # For each shoe index, add hands 
     for i in good_shoe_df['shoe_index'].iloc[1::]:
         add_hands = hand_df[(hand_df['shoe_index'] == i) & 
-                            (hand_df['player'].isin(hard_hands))]
+                            (hand_df['player'].isin(hard_hands)) &
+                            (hand_df['outcome'].isin(['win', 'loss']))]
         
         good_shoe_hands = good_shoe_hands.append(add_hands)
     
@@ -644,16 +714,24 @@ else:
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state = 0)
     
     # Logistic Regression 
-    logreg = LogisticRegression().fit(X_train, y_train)
-    print('\nPredicting outcome of hard hands from good shoes')
+    logreg3 = LogisticRegression().fit(X_train, y_train)
+    print('\n---Predicting hand outcome using hands from good shoes---')
     print('\nLogistic Regression')
-    print('Train score: ', round(logreg.score(X_train, y_train), 3))
-    print('Test score: ', round(logreg.score(X_test, y_test), 3))
+    print('Train score: ', round(logreg3.score(X_train, y_train), 3))
+    print('Test score: ', round(logreg3.score(X_test, y_test), 3))
 
     # Decision Tree Classifier
-    clf = DecisionTreeClassifier(max_leaf_nodes=15, max_depth=5, random_state=0)
-    clf.fit(X_train, y_train)
+    clf3 = DecisionTreeClassifier(max_leaf_nodes=15, max_depth=5, random_state=0)
+    clf3.fit(X_train, y_train)
     print('\nDecision Tree Classifier')
-    print('Train score: ', round(clf.score(X_train, y_train), 3))
-    print('Test score: ', round(clf.score(X_test, y_test), 3))
+    print('Train score: ', round(clf3.score(X_train, y_train), 3))
+    print('Test score: ', round(clf3.score(X_test, y_test), 3))
+    
+    # Find confusion matrix and classification report
+    tree_predicted = clf3.predict(X_test)
+    confusion = confusion_matrix(y_test, tree_predicted)
+    class_report_3 = classification_report(y_test, tree_predicted, 
+                                target_names=['not 1', '1'])
+    print('\nDecision Tree Classifier Report ')
+    print(class_report_3)
     
