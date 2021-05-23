@@ -278,8 +278,12 @@ ax.fill_between((xmin, push_mean), y1=ymin, y2=ymax, facecolor='red',
 ax.fill_between((push_mean, xmax), y1=ymin, y2=ymax, facecolor='blue', alpha=0.2)
 
 # Plot push vs player win in win_push_low and win_push_high
-ax.legend([plt.scatter(x=win_push_low['push'], y=win_push_low['player_win']),
-            plt.scatter(x=win_push_high['push'], y=win_push_high['player_win']),
+ax.legend([plt.scatter(x=win_push_low['push'], 
+                       y=win_push_low['player_win'], 
+                       color='red'),
+            plt.scatter(x=win_push_high['push'], 
+                        y=win_push_high['player_win'], 
+                        color='blue'),
             plt.vlines(x=3.906, ymin=ymin, ymax=ymax, colors='blue', linestyles='dashed')],
         ['low push', 'high push', 'x = 3.906'])
 
