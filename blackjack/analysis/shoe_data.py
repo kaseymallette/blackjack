@@ -283,11 +283,12 @@ ax.legend([plt.scatter(x=win_push_low['push'], y=win_push_low['player_win']),
             plt.vlines(x=3.906, ymin=ymin, ymax=ymax, colors='blue', linestyles='dashed')],
         ['low push', 'high push', 'x = 3.906'])
 
-# Save figure
+# Save figure and show
 plt.savefig('images\winning_shoes.png', dpi=100, bbox_inches='tight')
-
-# Show plot
 plt.show()
+
+# Export good shoes to csv
+win_push_low.to_csv(project_dir+'good_shoes.csv', index=False)
 
 
 #%%

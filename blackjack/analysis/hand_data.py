@@ -9,15 +9,13 @@ import pandas as pd
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-from sklearn import preprocessing
 from scipy import stats
 import seaborn as sns
 from pathlib import Path, PureWindowsPath
-from statsmodels.stats.outliers_influence import variance_inflation_factor
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import cross_val_score, cross_val_predict
-from sklearn import metrics
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn import tree
 
 
 #%%
@@ -151,7 +149,8 @@ print('Total number of possible player/dealer hand combinations: ', all_hands)
 hand_frequency = freq_df('player', 'hand', total, range(0,player_hands))
 
 # Print top 5 hands
-print('\nThe five most frequent player hands:') 
+print('\n---Frequencies---')
+print('The five most frequent player hands:') 
 print(hand_frequency.head())
 
 # Print bottom 5 hands
@@ -174,7 +173,7 @@ print('\nFrequency of player moves: ')
 print(player_moves)
 
 # Cound how many hands were split
-is_split = hand_df.iloc[:, 9]
+is_split = hand_df.iloc[:, 12]
 split = []
 
 # Create list of is_split
@@ -206,6 +205,21 @@ for x,y,z,w in zip(split, split_next, split_next_2, split_next_3):
 # Print number of hands split and percentage of total hands
 split_pct = '(' + str(round((count / total * 100), 3)) + '%)'
 print('\nNumber of hands split: ', count, split_pct)
+
+# Run crosstab of bust_rate for last five hands and outcome
+crosstab = pd.crosstab(hand_df['bust_rate_5'], hand_df['outcome'])
+
+# Print crosstab
+print('\n---Dealer Bust Rate---')
+print('Crosstab of bust rate for last five hands and outcome')
+print(crosstab)
+
+# Find chi2 of crosstab and print
+chi2, p, dof, expected = stats.chi2_contingency(crosstab)
+print('\nChi-squared value: ', chi2)
+print('p-value: ', p)
+print('Degress of freedom: ', dof)
+print('\nExpected: ', expected)
 
 
 #%%
@@ -276,6 +290,29 @@ possible_hands = pd.DataFrame({'player': player,
                                'avg_push_pct': push}, 
                                index = range(0, len(player)))
 
+
+#%%
+# Create crosstabs of player and dealer hands and outcome
+dealer_crosstab = pd.crosstab(hand_df['dealer_up'], hand_df['outcome'])
+player_crosstab = pd.crosstab(hand_df['player'], hand_df['outcome'])
+player_crosstab = player_crosstab[2:12]
+
+# Plot crosstabs
+fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(15,11))
+ax1 = dealer_crosstab.plot.bar(stacked=True, cmap='flare_r', ax=ax1)
+ax2 = player_crosstab.plot.bar(stacked=True, cmap='flare_r', ax=ax2)
+
+# Plot heatmaps of crosstabs
+ax3 = sns.heatmap(dealer_crosstab, cmap='rocket_r', annot=True, fmt='g', ax=ax3)
+ax4 = sns.heatmap(player_crosstab, cmap='rocket_r', annot=True, fmt='g', ax=ax4)
+
+# Set titles, save, and plot
+ax1.set_title('Dealer Up')
+ax2.set_title('Player')
+plt.savefig('images\hand_outcomes.png', dpi=100, bbox_inches='tight')
+plt.show()
+
+
 #%%
 # Create two subplots to show the frequency of hands
 fig, (ax1, ax2)  = plt.subplots(1, 2, figsize=(13,7))
@@ -303,7 +340,7 @@ norm = mpl.colors.Normalize(fracs.min(), fracs.max())
 
 # Set the color of each patch
 for frac, patch in zip(fracs, patches):
-    color = plt.cm.plasma(norm(frac))
+    color = plt.cm.inferno(norm(frac))
     patch.set_facecolor(color)
 
 # Set title and labels for ax2 
@@ -314,55 +351,6 @@ ax2.set_ylabel('Number of hands')
 # Save figure and show
 plt.savefig('images\hand_frequency.png', dpi=100, bbox_inches='tight')
 plt.show()
-
-
-#%%
-
-crosstab = pd.crosstab(hand_df['bust_rate_5'], hand_df['outcome'])
-crosstab_2 = pd.crosstab(hand_df['bust_rate_10'], hand_df['outcome'])
-crosstab_3 = pd.crosstab(hand_df['dealer_up'], hand_df['outcome'])
-crosstab_4 = pd.crosstab(hand_df['player'], hand_df['outcome'])
-crosstab_4 = crosstab_4[2:12]
-
-#%%
-crosstab.plot.bar(stacked=True, cmap='flare_r')
-plt.show()
-
-sns.heatmap(crosstab, cmap='rocket_r', annot=True, fmt='g')
-plt.show()
-
-crosstab_3.plot.bar(stacked=True, cmap='flare_r')
-plt.show()
-
-crosstab_4.plot.bar(stacked=True, cmap='flare_r')
-plt.show()
-
-sns.heatmap(crosstab_3, cmap='rocket_r', annot=True, fmt='g')
-plt.show()
-
-sns.heatmap(crosstab_4, cmap='rocket_r', annot=True, fmt='g')
-plt.show()
-#%%
-dealer_x_outcome = pd.crosstab(hand_df['dealer_up'], 
-                               hand_df['outcome'], 
-                               margins=True)
-
-player_x_outcome = pd.crosstab(hand_df['player'], 
-                               hand_df['outcome'], 
-                               margins=True)
-
-dealer_x_outcome_pct = dealer_x_outcome.div(dealer_x_outcome['All'], axis=0)
-player_x_outcome_pct = player_x_outcome.div(player_x_outcome['All'], axis=0)
-
-# Add percentages of each column to dealer x outcome
-for x, y, z, in zip([1,3,5], ['loss_pct','push_pct','win_pct'], 
-                                ['loss','push', 'win']):
-    dealer_x_outcome.insert(x, y, round(dealer_x_outcome_pct[z], 3))
-
-# Add percentages of each column to player x outcome
-for x, y, z, in zip([1,3,5], ['loss_pct','push_pct','win_pct'], 
-                                ['loss','push', 'win']):
-    player_x_outcome.insert(x, y, round(player_x_outcome_pct[z], 3))
 
 
 #%%
@@ -561,7 +549,8 @@ else:
     a = win_pct_low['avg_win_pct']
     b = win_low_changes['avg_win_pct']
     ttest = stats.ttest_ind(a, b)
-    print('\n Average win percentage')
+    print('\n---Playing Against Basic Strategy---')
+    print('\nAverage win percentage')
     print('T-test of win percentage of low win hands and their rule changes')
     print(ttest)
     print('Original hands: ', round(a.mean(), 3))
@@ -575,7 +564,96 @@ else:
     print('T-test of loss percentage of low win hands and their rule changes')
     print(ttest2)
     print('Original hands: ', round(a2.mean(), 3))
-    print('Rule changes: ', round(b2.mean(), 3))
+    print('Rule changes: ', round(b2.mean(), 3), '\n')
     
-  
+    
+#%%
+# Define hard hands
+hard_hands = ['8', '9', '10', '11', '12', '13', '14', '15', 
+              '16', '17', '18', '19', '20', '21']
+    
+# Create df of hard hands and replace dealer ace as 11
+hard_hands_df = hand_df[hand_df['player'].isin(hard_hands)]
+dealer_ace = hard_hands_df['dealer_up'] == 'A'
+hard_hands_df.loc[dealer_ace, 'dealer_up'] = 11
+
+# Define X and y
+X = hard_hands_df[['player', 'dealer_up']]
+y = hard_hands_df['outcome']
+    
+# Use test_train_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state = 0)
+    
+# Logistic Regression 
+logreg = LogisticRegression().fit(X_train, y_train)
+print('\n---Predicting hand outcomes---')
+print('Using player hand and dealer up to predict outcome of hard hands')
+print('\nLogistic Regression')
+print('Train score: ', round(logreg.score(X_train, y_train), 3))
+print('Test score: ', round(logreg.score(X_test, y_test), 3))
+
+# Decision Tree Classifier 
+clf = DecisionTreeClassifier(max_leaf_nodes=15, max_depth=5, random_state=0)
+clf.fit(X_train, y_train)
+print('\nDecision Tree Classifier')
+print('Train score: ', round(clf.score(X_train, y_train), 3))
+print('Test score: ', round(clf.score(X_test, y_test), 3))
+
+# Plot Decision Tree
+fig, ax = plt.subplots(figsize=(12,7))
+ax = tree.plot_tree(clf, ax=ax)
+plt.title('Decision Tree Classifier of Hand Outcome')
+
+# Save figure and plot 
+plt.savefig('images\decision_tree_classifer.png', dpi=100, bbox_inches='tight')
+plt.show()
+
+
+#%%
+# Load project data from good_shoes and get file path
+good_shoe_filename = 'good_shoes.csv'
+good_shoe_path = Path(project_dir + good_shoe_filename)
+if good_shoe_path.exists() is False:
+    print('Error!', filename_2, 'does not exist!')
+else: 
+    # Get path and read csv to dataframe
+    good_shoe_windows = PureWindowsPath(good_shoe_path)
+    good_shoe_df = pd.read_csv(good_shoe_windows)
+    
+    # Create dataframe of good shoes for first shoe index
+    start = good_shoe_df['shoe_index'].iloc[0]
+    good_shoe_hands = hand_df[(hand_df['shoe_index'] == start) & 
+                              (hand_df['player'].isin(hard_hands))]
+    
+    # For each shoe index, add hands 
+    for i in good_shoe_df['shoe_index'].iloc[1::]:
+        add_hands = hand_df[(hand_df['shoe_index'] == i) & 
+                            (hand_df['player'].isin(hard_hands))]
+        
+        good_shoe_hands = good_shoe_hands.append(add_hands)
+    
+    # Replace dealer up ace as 11
+    dealer_ace = good_shoe_hands['dealer_up'] == 'A'
+    good_shoe_hands.loc[dealer_ace, 'dealer_up'] = 11
+    
+    # Define X and y
+    X = good_shoe_hands[['player', 'dealer_up']]
+    y = good_shoe_hands['outcome']
+    
+    # Use test_train_split
+    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state = 0)
+    
+    # Logistic Regression 
+    logreg = LogisticRegression().fit(X_train, y_train)
+    print('\nPredicting outcome of hard hands from good shoes')
+    print('\nLogistic Regression')
+    print('Train score: ', round(logreg.score(X_train, y_train), 3))
+    print('Test score: ', round(logreg.score(X_test, y_test), 3))
+
+    # Decision Tree Classifier
+    clf = DecisionTreeClassifier(max_leaf_nodes=15, max_depth=5, random_state=0)
+    clf.fit(X_train, y_train)
+    print('\nDecision Tree Classifier')
+    print('Train score: ', round(clf.score(X_train, y_train), 3))
+    print('Test score: ', round(clf.score(X_test, y_test), 3))
     
