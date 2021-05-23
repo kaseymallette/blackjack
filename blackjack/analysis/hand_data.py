@@ -600,7 +600,7 @@ print('Train score: ', round(clf.score(X_train, y_train), 3))
 print('Test score: ', round(clf.score(X_test, y_test), 3))
 
 # Plot Decision Tree
-fig, ax = plt.subplots(figsize=(15,7))
+fig, ax = plt.subplots(figsize=(15,9))
 ax = tree.plot_tree(clf, ax=ax)
 plt.title('Decision Tree Classifier of Hand Outcome')
 
