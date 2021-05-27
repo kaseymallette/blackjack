@@ -156,7 +156,7 @@ shuffle_method | The shuffle method used to shuffle the shoe
 ```If you agree, press return. 
 Good luck! 
 If you want to stop playing, type 'exit'
-To deal the first card, press return
+To deal the first hand of the shoe, press return
 ```
 
 
