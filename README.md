@@ -147,4 +147,7 @@ shuffle_method | The shuffle method used to shuffle the shoe
 
 ![](images/project_diagram.png)
 
+:hearts:ace, :hearts:2, :hearts:3
+:clubs:
 :spades:
+
