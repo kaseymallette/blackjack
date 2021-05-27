@@ -159,4 +159,6 @@ If you want to stop playing, type 'exit'
 To deal the first hand of the shoe, press return
 ```
 
-`Stand: 0, Hit: 1, Double: 2, Split: 3`
+```Please enter a number from the following choices: 
+Stand: 0, Hit: 1, Double: 2, Split: 3
+```
