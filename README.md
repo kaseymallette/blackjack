@@ -149,4 +149,6 @@ shuffle_method | The shuffle method used to shuffle the shoe
 
 ## Deck
 
-:spades: ace :spades:2 :spades:3 :spades:4 :spades:5 :spades:6 :spades:7 :spades:8 :spades:9 :spades:10 :spades:jack: :spades:queen :spades:king :diamonds:ace :diamonds:2 :diamonds:3 :diamonds:4 :diamonds:5 :diamonds:6 :diamonds:7 :diamonds:8 :diamonds:9 :diamonds:10 :diamonds:jack :diamonds:queen :diamonds:king :clubs:king :clubs:queen :clubs:jack :clubs:10 :clubs:9 :clubs:8 :clubs:7 :clubs:6 :clubs:5 :clubs:4 :clubs:3 :clubs:2 :clubs:ace :hearts:king :hearts:queen :hearts:jack :hearts:10 :hearts:9 :hearts:8 :hearts:7 :hearts:6 :hearts:5 :hearts:4 :hearts:3 :hearts:2 :hearts:ace 
+:spades: ace :spades: 2 :spades: 3 :spades: 4 :spades: 5 :spades: 6 :spades: 7 :spades: 8 :spades: 9 :spades: 10 :spades: jack :spades: queen :spades: king :diamonds: ace :diamonds: 2 :diamonds: 3 :diamonds: 4 :diamonds: 5 :diamonds: 6 :diamonds: 7 :diamonds: 8 :diamonds: 9 :diamonds: 10 :diamonds: jack 
+:diamonds: queen :diamonds: king :clubs: king :clubs: queen :clubs: jack :clubs: 10 :clubs: 9 :clubs: 8 :clubs: 7 :clubs: 6 :clubs: 5 :clubs: 4 :clubs: 3 
+:clubs: 2 :clubs: ace :hearts: king :hearts: queen :hearts: jack :hearts: 10 :hearts: 9 :hearts: 8 :hearts: 7 :hearts: 6 :hearts: 5 :hearts: 4 :hearts: 3 :hearts: 2 :hearts: ace 
