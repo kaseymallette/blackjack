@@ -147,4 +147,4 @@ shuffle_method | The shuffle method used to shuffle the shoe
 
 ![](images/project_diagram.png)
 
-&#u2665;
+:spades:
