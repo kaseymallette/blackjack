@@ -160,5 +160,5 @@ To deal the first hand of the shoe, press return
 ```
 
 ```Please enter a number from the following choices: 
-Stand: 0, Hit: 1, Double: 2, Split: 3
+Stand: 0, Hit: 1, Double: 2, Split: 3 
 ```
