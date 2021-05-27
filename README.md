@@ -158,6 +158,3 @@ Good luck!
 If you want to stop playing, type 'exit'
 To deal the first card, press return```
 
-
-```
-
