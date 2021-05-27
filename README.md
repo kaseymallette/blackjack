@@ -146,3 +146,5 @@ shuffle_method | The shuffle method used to shuffle the shoe
 ## UML Project Diagram
 
 ![](images/project_diagram.png)
+
+&#2665;
