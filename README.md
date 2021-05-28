@@ -5,7 +5,7 @@
 Create a blackjack program that:
 (i) allows a single user to continuously play blackjack hands from a six-deck shoe
 (ii) uses basic strategy to run through blackjack hands for x number of six-deck shoes
-(iii) tracks and exports hand and shoe data for all hands played
+(iii) analyzes the accuracy of basic strategy to predict number of hands won 
 
 ## Purpose
 
@@ -156,7 +156,7 @@ shuffle_method | The shuffle method used to shuffle the shoe
 Good luck!
 If you want to stop playing, type 'exit'
 To deal the first hand of the shoe, press return
-\n
+
 Please enter a number from the following choices:
 Stand: 0, Hit: 1, Double: 2, Split: 3
 ```
