@@ -156,9 +156,7 @@ shuffle_method | The shuffle method used to shuffle the shoe
 Good luck!
 If you want to stop playing, type 'exit'
 To deal the first hand of the shoe, press return
-```
-
-
-```Please enter a number from the following choices:
+\n
+Please enter a number from the following choices:
 Stand: 0, Hit: 1, Double: 2, Split: 3
 ```
