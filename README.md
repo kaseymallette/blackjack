@@ -101,16 +101,14 @@ def create_card(self, suit, value):
 
 Lastly, I created `class Shoe`, with the following methods: <br/> `__init__(self, num, game)`, `build_shoe(self, num, game)`, `enum_shoe(self)`, `count_cards(self, list)`
 
-For any Shoe object, `build_shoe(num, game)` is initialized, such that:
+For any Shoe object, `build_shoe(num, game)` is initialized, such that: <br/>
 Num = even number of shoes
 Game = play (user plays each hand) or run (computer uses basic strategy)
 
 The following instance attributes are also created: <br/>
-deck, num, wash, game, return_shoe, dealer_hand, hands_played, shuffled_cards, shoe_stats, card_count, cards_remaining, shoes_dealt, shoe_index, next_card
+`deck, num, wash, game, return_shoe, dealer_hand, hands_played, shuffled_cards, shoe_stats, card_count, cards_remaining, shoes_dealt, shoe_index, next_card`
 
-To resemble how shoes are created in a casino, two decks are added at a time, in which the decks are "washed" or shuffled together.
-
-`enum_shoe(self)` iterates through the shoe, using shoe_index and next_card
+`enum_shoe(self)` iterates through the shoe, using shoe_index and next_card <br/>
 `count_cards(self, list)` checks to make sure all of the cards are there after being shuffled
 
 
