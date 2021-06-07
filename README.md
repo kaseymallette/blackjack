@@ -59,15 +59,15 @@ Stand: 0, Hit: 1, Double: 2, Split: 3
 
 [`create_shoe.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/create_shoe.py)
 
-I created class Suit, with methods __init__() and create_suits(self), where for any Suit object, create_suits() is initialized and contains the following instance attributes: heart, club, diamond, spade, and suits, which represents a list of all four suits.
+I created class Suit, with methods `__init__(self)` and create_suits(self), where for any Suit object, create_suits() is initialized and contains the following instance attributes: heart, club, diamond, spade, and suits, which represents a list of all four suits.
 
-I then created class Value, with methods __init__(self) and create_values(self), where for any Value object, create_values() is initialized, which creates a dictionary to store the card values, such that the key is the string value, and the value is the integer value of the card.
+I then created class Value, with methods `__init__(self)` and create_values(self), where for any Value object, create_values() is initialized, which creates a dictionary to store the card values, such that the key is the string value, and the value is the integer value of the card.
 
 ```
 self.value_dict = {'ace': [1, 11], '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'jack': 10, 'queen': 10, 'king': 10}
 ```
 
-class Card creates a card of suit x and value y using the methods __init__(self, suit, value) and create_card(self, suit, value), in which:
+class Card creates a card of suit x and value y using the methods `__init__(self, suit, value)` and create_card(self, suit, value), in which:
 
 ```
 def create_card(self, suit, value):
