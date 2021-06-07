@@ -2,9 +2,9 @@
 
 ## Introduction
 
-Create a blackjack program that:
-(i) allows a single user to continuously play blackjack hands from a six-deck shoe
-(ii) uses basic strategy to run through blackjack hands for x number of six-deck shoes
+Create a blackjack program that:<br/>
+(i) allows a single user to continuously play blackjack hands from a six-deck shoe<br/>
+(ii) uses basic strategy to run through blackjack hands for x number of six-deck shoes<br/>
 (iii) analyzes the accuracy of basic strategy by using the player's first two cards and the dealer's up card to predict the outcome of the hand
 
 ## Purpose
