@@ -5,7 +5,7 @@
 Create a blackjack program that:
 (i) allows a single user to continuously play blackjack hands from a six-deck shoe
 (ii) uses basic strategy to run through blackjack hands for x number of six-deck shoes
-(iii) analyzes the accuracy of basic strategy to predict number of hands won 
+(iii) analyzes the accuracy of basic strategy by using the player's first two cards and the dealer's up card to predict the outcome of the hand
 
 ## Purpose
 
@@ -35,10 +35,30 @@ strategy, the percentage of hands won and pushed should be **49.5%** (win_push_p
 
 In addition, I want to explore whether the shuffle or any other relevant
 data about the shoe predict win_push_pct, i.e. the number of blackjacks dealt,
-the number of doubles won, the number of times the dealer busts, has a 10 showing,
-draws to make a hand, or draws to make 21.
+the number of doubles won, the number of times the dealer busts, has a 10 showing, draws to make a hand, or draws to make 21.
+
+## Deck
+
+I first wanted to create a deck that resembled playing cards. I also wanted the order of the deck to appear as a new deck of cards used in a casino. When the program runs, I have the user check the deck, and if all of the cards are there, I explain how to play using the keyboard to enter numbers to stand, hit, double, or split.
+
+`Please check the deck to make sure all of the cards are there:`
+
+:spades: ace  :spades: 2   :spades: 3  :spades: 4  :spades: 5  :spades:6 :spades: 7  :spades: 8  :spades: 9  :spades: 10  :spades: jack  :spades: queen :spades: king  :diamonds: ace   :diamonds: 2  :diamonds: 3  :diamonds: 4  :diamonds: 5  :diamonds: 6  :diamonds: 7  :diamonds: 8  :diamonds: 9  :diamonds:10  :diamonds: jack :diamonds:queen  :diamonds:king  :clubs: king  :clubs: queen  :clubs: jack  :clubs: 10  :clubs: 9  :clubs: 8  :clubs: 7   :clubs: 6   :clubs: 5   :clubs: 4   :clubs: 3 :clubs: 2  :clubs: ace :hearts: king  :hearts: queen   :hearts: jack  :hearts: 10  :hearts: 9  :hearts: 8  :hearts: 7  :hearts:6  :hearts: 5  :hearts: 4  :hearts: 3  :hearts: 2  :hearts: ace
+
+```If you agree, press return.
+Good luck!
+If you want to stop playing, type 'exit'
+To deal the first hand of the shoe, press return
+
+Please enter a number from the following choices:
+Stand: 0, Hit: 1, Double: 2, Split: 3
+```
 
 ## Code
+
+`create_show.py`
+
+
 
 [Create Shoe](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/create_shoe.py)
 
@@ -146,17 +166,3 @@ shuffle_method | The shuffle method used to shuffle the shoe
 ## UML Project Diagram
 
 ![](images/project_diagram.png)
-
-## Deck
-`Please check the deck to make sure all of the cards are there:`
-
-:spades: ace  :spades: 2   :spades: 3  :spades: 4  :spades: 5  :spades:6 :spades: 7  :spades: 8  :spades: 9  :spades: 10  :spades: jack  :spades: queen :spades: king  :diamonds: ace   :diamonds: 2  :diamonds: 3  :diamonds: 4  :diamonds: 5  :diamonds: 6  :diamonds: 7  :diamonds: 8  :diamonds: 9  :diamonds:10  :diamonds: jack :diamonds:queen  :diamonds:king  :clubs: king  :clubs: queen  :clubs: jack  :clubs: 10  :clubs: 9  :clubs: 8  :clubs: 7   :clubs: 6   :clubs: 5   :clubs: 4   :clubs: 3 :clubs: 2  :clubs: ace :hearts: king  :hearts: queen   :hearts: jack  :hearts: 10  :hearts: 9  :hearts: 8  :hearts: 7  :hearts:6  :hearts: 5  :hearts: 4  :hearts: 3  :hearts: 2  :hearts: ace
-
-```If you agree, press return.
-Good luck!
-If you want to stop playing, type 'exit'
-To deal the first hand of the shoe, press return
-
-Please enter a number from the following choices:
-Stand: 0, Hit: 1, Double: 2, Split: 3
-```
