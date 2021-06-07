@@ -74,7 +74,7 @@ I then created `class Value`, with methods `__init__(self)` and `create_values(s
 self.value_dict = {'ace': [1, 11], '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'jack': 10, 'queen': 10, 'king': 10}
 ```
 
-`class Card` creates a card of suit x and value y using the methods `__init__(self, suit, value)` and `create_card(self, suit, value)`, in which:
+`class Card` creates a card of suit x and value y using the methods `__init__(self, suit, value)` and `create_card(self, suit, value)`. Given a suit and value, if the suit is in s.suit and the value is in v.str, then let suit = suit, and value = value. Define the card to be equal to suit + value, where the integer value of the card (num) is determined using the value dictionary.
 
 ```
 def create_card(self, suit, value):
@@ -95,6 +95,23 @@ def create_card(self, suit, value):
   if value == 'ace':
     self.is_ace = True
 ```
+
+`class Deck`, with methods `__init__(self)` and `new_deck(self)`, creates a deck in new deck order by instantiating a Suit object, which contains a list of all four suits, a Value object, which contains a list of all 13 possible values, and 52 Card objects, appended to a list in new deck order.
+
+
+Lastly, I created `class Shoe`, with the following methods: <br/> `__init__(self, num, game)`, `build_shoe(self, num, game)`, `enum_shoe(self)`, `count_cards(self, list)`
+
+For any Shoe object, `build_shoe(num, game)` is initialized, such that:
+Num = even number of shoes
+Game = play (user plays each hand) or run (computer uses basic strategy)
+
+The following instance attributes are also created: <br/>
+deck, num, wash, game, return_shoe, dealer_hand, hands_played, shuffled_cards, shoe_stats, card_count, cards_remaining, shoes_dealt, shoe_index, next_card
+
+To resemble how shoes are created in a casino, two decks are added at a time, in which the decks are "washed" or shuffled together.
+
+`enum_shoe(self)` iterates through the shoe, using shoe_index and next_card
+`count_cards(self, list)` checks to make sure all of the cards are there after being shuffled
 
 
 
