@@ -59,7 +59,7 @@ Stand: 0, Hit: 1, Double: 2, Split: 3
 
 [`create_shoe.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/create_shoe.py)
 
-I created class Suit, with methods __init__(self) and create_suits(self), where for any Suit object, create_suits() is initialized and contains the following instance attributes: heart, club, diamond, spade, and suits, which represents a list of all four suits.
+I created class Suit, with methods __init__() and create_suits(self), where for any Suit object, create_suits() is initialized and contains the following instance attributes: heart, club, diamond, spade, and suits, which represents a list of all four suits.
 
 I then created class Value, with methods __init__(self) and create_values(self), where for any Value object, create_values() is initialized, which creates a dictionary to store the card values, such that the key is the string value, and the value is the integer value of the card.
 
