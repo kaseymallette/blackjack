@@ -55,13 +55,19 @@ Please enter a number from the following choices:
 Stand: 0, Hit: 1, Double: 2, Split: 3
 ```
 
-## Code
+## Source Code
 
 `create_show.py`
-
-
-
 [Create Shoe](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/create_shoe.py)
+
+I created class Suit, with methods __init__(self) and create_suits(self), where for any Suit object, create_suits() is initialized and contains the following instance attributes: heart, club, diamond, spade, and suits, which represents a list of all four suits.
+
+
+
+
+
+
+
 
 ```play.py```
 
