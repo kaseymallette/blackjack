@@ -57,7 +57,7 @@ Stand: 0, Hit: 1, Double: 2, Split: 3
 
 ## Source Code
 
-[`create_shoe.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/create_shoe.py)
+1. [`create_shoe.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/create_shoe.py)
 
 I first created `class Suit`, with methods `__init__(self)` and `create_suits(self)`, where for any Suit object, `create_suits()` is initialized and contains the following instance attributes: heart, club, diamond, spade, and suits, which represents a list of all four suits.
 
@@ -110,12 +110,12 @@ The following instance attributes are also created: <br/>
 `enum_shoe(self)` iterates through the shoe, using shoe_index and next_card <br/>
 `count_cards(self, list)` checks to make sure all of the cards are there after being shuffled
 
-[`shuffle.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/shuffle.py)
+2. [`shuffle.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/shuffle.py)
 
-I wrote a shuffle similar to the shuffle I performed as a high limit blackjack dealer. 
+I wrote a shuffle similar to the shuffle I performed as a high limit blackjack dealer.
 
 
-[`shoe_stats.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/shoe_stats.py)
+3. [`shoe_stats.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/shoe_stats.py)
 
 For every hand or for every shoe, I tracked the following statistics:
 ```
