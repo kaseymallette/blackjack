@@ -78,13 +78,13 @@ self.value_dict = {'ace': [1, 11], '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 
 
 ```
 def create_card(self, suit, value):
-  s = Suit()
-  v = Value()
+    s = Suit()
+    v = Value()
 
-  if suit in s.suits:
-    self.suit = suit
-  if value in v.str:
-    self.value = value
+    if suit in s.suits:
+        self.suit = suit
+    if value in v.str:
+        self.value = value
 
   # Define the card and its numerical value
   self.card = suit + value
@@ -93,7 +93,7 @@ def create_card(self, suit, value):
   # Determine if the card is an ace
   self.is_ace = False
   if value == 'ace':
-    self.is_ace = True
+      self.is_ace = True
 ```
 
 * `class Deck`, with methods `__init__(self)` and `new_deck(self)`, creates a deck in new deck order by instantiating a Suit object, which contains a list of all four suits, a Value object, which contains a list of all 13 possible values, and 52 Card objects, appended to a list in new deck order.
@@ -110,7 +110,8 @@ The following instance attributes are also created: <br/>
 `deck, num, wash, game, return_shoe, dealer_hand, hands_played, shuffled_cards, shoe_stats, card_count, cards_remaining, shoes_dealt, shoe_index, next_card`
 
 `enum_shoe(self)` iterates through the shoe, using shoe_index and next_card <br/>
-`count_cards(self, list)` checks to make sure all of the cards are there after being shuffled<br/>
+`count_cards(self, list)` checks to make sure all of the cards are there after being shuffled
+<br/>
 
 2. **[`shuffle.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/shuffle.py)**
 
