@@ -14,6 +14,8 @@ strategy when playing blackjack. Due to the inability to collect real data in a
 casino, examining basic strategy using a computer program allows a researcher
 to measure the actual outcome.
 
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/futueqPxCeE/0.jpg)](http://www.youtube.com/watch?v=futueqPxCeE "My Basic Strategy Video")
+
 [My Basic Strategy Video](https://www.youtube.com/watch?v=futueqPxCeE)
 
 ![](blackjack/images/6deck_strategy.png)
@@ -366,9 +368,6 @@ dealer_21_draw_pct | The percentage of total hands the dealer drew to 21
 dealer_avg_hand | The average hand of the dealer when hand < 21
 num_of_shuffles | The number of shuffles of the same shoe
 shuffle_method | The shuffle method used to shuffle the shoe
-
-## Source Code Diagram
-
 
 
 ## Project Directory
