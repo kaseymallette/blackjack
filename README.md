@@ -18,8 +18,11 @@ to measure the actual outcome.
 [![IMAGE ALT TEXT](http://img.youtube.com/vi/futueqPxCeE/0.jpg)](http://www.youtube.com/watch?v=futueqPxCeE "My Basic Strategy Video")
 
 
-### Basic Strategy 
+### Basic Strategy Card Matrix
 ![](blackjack/images/6deck_strategy.png)
+
+
+### House Advantage
 
 Based on prior research, a game with the following conditions has a house
 advantage of **0.5%**:
@@ -40,7 +43,7 @@ In addition, I want to explore whether the shuffle or any other relevant
 data about the shoe predict win_push_pct, i.e. the number of blackjacks dealt,
 the number of doubles won, the number of times the dealer busts, has a 10 showing, draws to make a hand, or draws to make 21.
 
-## Deck
+### Deck
 
 I wanted to create a deck that resembled playing cards. I also wanted the order of the deck to appear as a new deck of cards used in a casino. When the program runs, I have the user check the deck, and if all of the cards are there, I explain how to play using the keyboard to enter numbers to stand, hit, double, or split.
 
