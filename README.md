@@ -121,58 +121,7 @@ def enum_shoe(self):
 <br/>
 <br/>
 
-2. **[`shuffle.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/shuffle.py)**
-
-I wrote a shuffle similar to the shuffle I performed as a high limit blackjack dealer. The shuffle contains two parts: riffle, in which you lace two piles of cards together, and strip, where you take sections of cards from the top and place them on the bottom.
-
-I first defined a partition function in order to strip the cards.
-
-```
-def partition(cards, num):
-    self.group = []
-    for i in range(0, len(cards), num):
-        new_group = cards[i:i + num]
-        self.group.append(new_group)
-
-def strip_cards(pile):
-    self.strip = []
-    partition(pile, self.strip_len)
-    self.group = self.group[::-1]
-
-    for x in self.group:
-        for y in x:
-            self.strip.append(y)
-```
-
-I then wrote a perfect riffle, in which the cards were perfectly laced together.
-
-```
-def riffle_perfect(pile_1, pile_2):
-    self.riffle = []
-    n = iter(pile_2)
-
-    # Iterate through pile_1 and append next of pile_2
-    for i in iter(pile_1):
-        self.riffle.append(i)
-        self.riffle.append(next(n))
-```
-
-I also wrote a clumpy riffle, which resembles a shuffle done by a dealer, where the cards clump together. I used a tuple that contained a random distribution of cards that determined how many cards to take at a time from each pile.
-
-```
-dist_1 = [12,10,8,2,2,2,1,1,1]
-dist_2 = [12,10,6,4,2,2,1,1,1]
-shuffle(dist_1)
-shuffle(dist_2)
-
-dist_tupl = []
-for x,y in zip(dist_1, dist_2):
-    new_tupl = (x, y)
-    dist_tupl.append(new_tupl)
-```
-<br/>
-
-3. **[`shoe_stats.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/shoe_stats.py)**
+2. **[`shoe_stats.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/shoe_stats.py)**
 
 For every hand or for every shoe, I tracked the following statistics:
 ```
@@ -186,7 +135,7 @@ stats = ['player_win', 'player_loss', 'push', 'total_hands', 'win_pct',
 ```
 <br/>
 
-4. **[`hand.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/hand.py)**
+3. **[`hand.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/hand.py)**
 
 `class Hand` contains the following methods: <br/> `__init__(self, card_1, card_2)`, `new_hand(self, card_1, card_2)`, `find_sum(self)`, `hit(self, shoe)`, `split(self, shoe)`, `dealer_up_card(self, player)`, `player_cards(self, shoe)`, `hand_move(self, move)`, `dealer_rules(self, shoe)`, `find_outcome(self, outcome)`, `get_data(self)`
 
@@ -272,16 +221,67 @@ while True:
 ```
 <br/>
 
-5. **[`file_path.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/file_path.py)**
+4. **[`file_path.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/file_path.py)**
 <br/>
 
-6. **[`player.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/player.py)**
+5. **[`player.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/player.py)**
 <br/>
 
-7. **[`deal.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/deal.py)**
+6. **[`deal.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/deal.py)**
 <br/>
 
-8. **[`outcome.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/outcome.py)**
+7. **[`outcome.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/outcome.py)**
+<br/>
+
+8. **[`shuffle.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/shuffle.py)**
+
+I wrote a shuffle similar to the shuffle I performed as a high limit blackjack dealer. The shuffle contains two parts: riffle, in which you lace two piles of cards together, and strip, where you take sections of cards from the top and place them on the bottom.
+
+I first defined a partition function in order to strip the cards.
+
+```
+def partition(cards, num):
+    self.group = []
+    for i in range(0, len(cards), num):
+        new_group = cards[i:i + num]
+        self.group.append(new_group)
+
+def strip_cards(pile):
+    self.strip = []
+    partition(pile, self.strip_len)
+    self.group = self.group[::-1]
+
+    for x in self.group:
+        for y in x:
+            self.strip.append(y)
+```
+
+I then wrote a perfect riffle, in which the cards were perfectly laced together.
+
+```
+def riffle_perfect(pile_1, pile_2):
+    self.riffle = []
+    n = iter(pile_2)
+
+    # Iterate through pile_1 and append next of pile_2
+    for i in iter(pile_1):
+        self.riffle.append(i)
+        self.riffle.append(next(n))
+```
+
+I also wrote a clumpy riffle, which resembles a shuffle done by a dealer, where the cards clump together. I used a tuple that contained a random distribution of cards that determined how many cards to take at a time from each pile.
+
+```
+dist_1 = [12,10,8,2,2,2,1,1,1]
+dist_2 = [12,10,6,4,2,2,1,1,1]
+shuffle(dist_1)
+shuffle(dist_2)
+
+dist_tupl = []
+for x,y in zip(dist_1, dist_2):
+    new_tupl = (x, y)
+    dist_tupl.append(new_tupl)
+```
 <br/>
 
 9. **[`play_shoe.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/play_shoe.py)**
