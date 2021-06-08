@@ -14,9 +14,10 @@ strategy when playing blackjack. Due to the inability to collect real data in a
 casino, examining basic strategy using a computer program allows a researcher
 to measure the actual outcome.
 
+### My Basic Strategy Video
+Click the link below!
 [![IMAGE ALT TEXT](http://img.youtube.com/vi/futueqPxCeE/0.jpg)](http://www.youtube.com/watch?v=futueqPxCeE "My Basic Strategy Video")
 
-[My Basic Strategy Video](https://www.youtube.com/watch?v=futueqPxCeE)
 
 ![](blackjack/images/6deck_strategy.png)
 
