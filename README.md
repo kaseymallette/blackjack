@@ -57,6 +57,8 @@ Stand: 0, Hit: 1, Double: 2, Split: 3
 
 ## Source Code
 
+![](blackjack/images/src_diagram.jpeg)
+
 1. **[`create_shoe.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/create_shoe.py)**
 
 * `class Suit` has methods `__init__(self)` and `create_suits(self)`, where for any Suit object, `create_suits()` is initialized and contains the following instance attributes: heart, club, diamond, spade, and suits, which represents a list of all four suits.
@@ -367,6 +369,6 @@ shuffle_method | The shuffle method used to shuffle the shoe
 
 ## Source Code Diagram
 
-![](blackjack/images/src_diagram.jpeg)
+
 
 ## Project Directory
