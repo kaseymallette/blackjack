@@ -110,9 +110,8 @@ The following instance attributes are also created: <br/>
 `deck, num, wash, game, return_shoe, dealer_hand, hands_played, shuffled_cards, shoe_stats, card_count, cards_remaining, shoes_dealt, shoe_index, next_card`
 
 `enum_shoe(self)` iterates through the shoe, using shoe_index and next_card <br/>
-`count_cards(self, list)` checks to make sure all of the cards are there after being shuffled
+`count_cards(self, list)` checks to make sure all of the cards are there after being shuffled<br/>
 
-<br/>
 2. **[`shuffle.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/shuffle.py)**
 
 I wrote a shuffle similar to the shuffle I performed as a high limit blackjack dealer. The shuffle contains two parts: riffle, in which you lace two piles of cards together, and strip, where you take sections of cards from the top and place them on the bottom.
@@ -162,8 +161,8 @@ for x,y in zip(dist_1, dist_2):
     new_tupl = (x, y)
     dist_tupl.append(new_tupl)
 ```
-
 <br/>
+
 3. **[`shoe_stats.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/shoe_stats.py)**
 
 For every hand or for every shoe, I tracked the following statistics:
@@ -176,8 +175,8 @@ stats = ['player_win', 'player_loss', 'push', 'total_hands', 'win_pct',
     'dealer_avg_hand', 'num_of_shuffles', 'shuffle_method']
 
 ```
-
 <br/>
+
 4. **[`hand.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/hand.py)**
 
 
