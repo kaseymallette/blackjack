@@ -365,10 +365,8 @@ dealer_avg_hand | The average hand of the dealer when hand < 21
 num_of_shuffles | The number of shuffles of the same shoe
 shuffle_method | The shuffle method used to shuffle the shoe
 
+## Source Code Diagram
+
+![](blackjack/images/src_diagram.jpeg)
+
 ## Project Directory
-
-![](images/blackjack_dir.png)
-
-## UML Project Diagram
-
-![](images/project_diagram.png)
