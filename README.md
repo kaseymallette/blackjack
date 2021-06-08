@@ -104,7 +104,7 @@ def create_card(self, suit, value):
         self.is_ace = True
 ```
 
-* `class Deck`, with methods `__init__(self)` and `new_deck(self)`, creates a deck in new deck order by instantiating a Suit object, which contains a list of all four suits, a Value object, which contains a list of all 13 possible values, and 52 Card objects, appended to a list in new deck order.
+* `class Deck`, with methods `__init__(self)` and `new_deck(self)`, creates a deck in new deck order by initializing a Suit object, which contains a list of all four suits, a Value object, which contains a list of all 13 possible values, and 52 Card objects, appended to a list in new deck order.
 
 * `class Shoe` has the following methods: <br/> `__init__(self, num, game)`, `build_shoe(self, num, game)`, `enum_shoe(self)`, `count_cards(self, list)`
 
@@ -144,6 +144,23 @@ stats = ['player_win', 'player_loss', 'push', 'total_hands', 'win_pct',
 <br/>
 
 3. **[`file_path.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/file_path.py)**
+<br/>
+
+`class Path` consists of two methods: `__init__(self, file)` and `get_path(self, file)`, in which get_path(file) is initialized for every Path object, such that, the directory is changed from src to data for a given file.
+
+```
+def get_path(self, file):
+    # Get current working directory
+    os.getcwd()
+
+    # Change directory from /src/ to /data/
+    os.chdir('./')
+    path = os.getcwd()
+    dir = str(path) + '/data/'
+
+    # Find the file path
+    self.path = dir + file
+```
 <br/>
 
 4. **[`hand.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/hand.py)**
@@ -232,8 +249,13 @@ while True:
 ```
 <br/>
 
-
 5. **[`player.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/player.py)**
+
+`class Player` contains both play options for the player, where *game = play* requires a Shoe object and a Hand object for the player's hand, while *game = run* requires a Shoe object, and two Hand objects, one for the player's hand and one for the dealer's hand.
+
+As such, `class Player` consists of the following methods: <br/> `__init__(self, shoe, hand, dealer)`, `move(self, shoe, hand, dealer)`, `player_input(self, shoe, hand)`, `run(self, shoe, hand, dealer)`, `play(self, shoe, hand, dealer, move)`
+
+
 <br/>
 
 
