@@ -272,8 +272,23 @@ while True:
 ```
 <br/>
 
-5. **[`player.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/player.py)**
+5. **[`file_path.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/file_path.py)**
+<br/>
 
+6. **[`player.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/player.py)**
+<br/>
+
+7. **[`deal.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/deal.py)**
+<br/>
+
+8. **[`outcome.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/outcome.py)**
+<br/>
+
+9. **[`play_shoe.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/play_shoe.py)**
+<br/>
+
+10. **[`game.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/game.py)**
+<br/>
 
 
 
