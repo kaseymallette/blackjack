@@ -39,7 +39,7 @@ the number of doubles won, the number of times the dealer busts, has a 10 showin
 
 ## Deck
 
-I first wanted to create a deck that resembled playing cards. I also wanted the order of the deck to appear as a new deck of cards used in a casino. When the program runs, I have the user check the deck, and if all of the cards are there, I explain how to play using the keyboard to enter numbers to stand, hit, double, or split.
+I wanted to create a deck that resembled playing cards. I also wanted the order of the deck to appear as a new deck of cards used in a casino. When the program runs, I have the user check the deck, and if all of the cards are there, I explain how to play using the keyboard to enter numbers to stand, hit, double, or split.
 
 `Please check the deck to make sure all of the cards are there:`
 
@@ -161,7 +161,7 @@ for x,y in zip(dist_1, dist_2):
 ```
 
 
-3. [`shoe_stats.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/shoe_stats.py)
+3. [`**shoe_stats.py**`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/shoe_stats.py)
 
 For every hand or for every shoe, I tracked the following statistics:
 ```
@@ -173,6 +173,7 @@ stats = ['player_win', 'player_loss', 'push', 'total_hands', 'win_pct',
     'dealer_avg_hand', 'num_of_shuffles', 'shuffle_method']
 
 ```
+
 
 
 
