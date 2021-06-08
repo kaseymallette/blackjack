@@ -146,7 +146,7 @@ stats = ['player_win', 'player_loss', 'push', 'total_hands', 'win_pct',
 3. **[`file_path.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/file_path.py)**
 <br/>
 
-`class Path` consists of two methods: `__init__(self, file)` and `get_path(self, file)`, in which get_path(file) is initialized for every Path object, such that, the directory is changed from src to data for a given file.
+`class Path` consists of two methods: `__init__(self, file)` and `get_path(self, file)`, in which `get_path(file)` is initialized for every Path object, such that, the directory is changed from src to data for a given file.
 
 ```
 def get_path(self, file):
@@ -251,10 +251,11 @@ while True:
 
 5. **[`player.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/player.py)**
 
-`class Player` contains both play options for the player, where *game = play* requires a Shoe object and a Hand object for the player's hand, while *game = run* requires a Shoe object, and two Hand objects, one for the player's hand and one for the dealer's hand.
+`class Player` contains both play options for the player, where *game = play* requires a Shoe object and a Hand object for the player's hand, while *game = run* requires a Shoe object, and two Hand objects, one for the player's hand and one for the dealer's hand, as well as the player move.
 
 As such, `class Player` consists of the following methods: <br/> `__init__(self, shoe, hand, dealer)`, `move(self, shoe, hand, dealer)`, `player_input(self, shoe, hand)`, `run(self, shoe, hand, dealer)`, `play(self, shoe, hand, dealer, move)`
 
+When a Player object is initialized, `move(shoe, hand, dealer)` is also initialized, which specifies that if `shoe.game = 'play'`, call `player_input(shoe, hand)` on the Player object, and if `shoe.game = 'run'`, call `run(shoe, hand, dealer)` on the Player object.
 
 <br/>
 
