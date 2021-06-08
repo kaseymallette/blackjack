@@ -109,7 +109,14 @@ Game = play (user plays each hand) or run (computer uses basic strategy)
 The following instance attributes are also created: <br/>
 `deck, num, wash, game, return_shoe, dealer_hand, hands_played, shuffled_cards, shoe_stats, card_count, cards_remaining, shoes_dealt, shoe_index, next_card`
 
-`enum_shoe(self)` iterates through the shoe, using shoe_index and next_card <br/>
+`enum_shoe(self)` iterates through the shoe, using shoe_index and next_card
+
+```
+def enum_shoe(self):
+    self.shoe_index +=1
+    self.next_card = self.return_shoe[self.shoe_index]
+```
+
 `count_cards(self, list)` checks to make sure all of the cards are there after being shuffled
 <br/>
 <br/>
