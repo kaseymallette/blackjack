@@ -255,7 +255,7 @@ while True:
 
 As such, `class Player` consists of the following methods: <br/> `__init__(self, shoe, hand, dealer)`, `move(self, shoe, hand, dealer)`, `player_input(self, shoe, hand)`, `run(self, shoe, hand, dealer)`, `play(self, shoe, hand, dealer, move)`
 
-When a Player object is initialized, `move(shoe, hand, dealer)` is also initialized, which specifies that if `shoe.game = 'play'`, call `player_input(shoe, hand)` on the Player object, and if `shoe.game = 'run'`, call `run(shoe, hand, dealer)` on the Player object.
+When a Player object is initialized, `move(shoe, hand, dealer)` is also initialized, which specifies that if *shoe.game = 'play'*, call `player_input(shoe, hand)` on the Player object, and if *shoe.game = 'run'*, call `run(shoe, hand, dealer)` on the Player object.
 
 <br/>
 
