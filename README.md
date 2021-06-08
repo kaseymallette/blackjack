@@ -101,8 +101,10 @@ def create_card(self, suit, value):
 * `class Shoe` has the following methods: <br/> `__init__(self, num, game)`, `build_shoe(self, num, game)`, `enum_shoe(self)`, `count_cards(self, list)`
 
 For any Shoe object, `build_shoe(num, game)` is initialized, such that: <br/>
+```
 Num = even number of shoes <br/>
 Game = play (user plays each hand) or run (computer uses basic strategy)
+```
 
 The following instance attributes are also created: <br/>
 `deck, num, wash, game, return_shoe, dealer_hand, hands_played, shuffled_cards, shoe_stats, card_count, cards_remaining, shoes_dealt, shoe_index, next_card`
