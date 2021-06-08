@@ -143,7 +143,10 @@ stats = ['player_win', 'player_loss', 'push', 'total_hands', 'win_pct',
 ```
 <br/>
 
-3. **[`hand.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/hand.py)**
+3. **[`file_path.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/file_path.py)**
+<br/>
+
+4. **[`hand.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/hand.py)**
 
 `class Hand` contains the following methods: <br/> `__init__(self, card_1, card_2)`, `new_hand(self, card_1, card_2)`, `find_sum(self)`, `hit(self, shoe)`, `split(self, shoe)`, `dealer_up_card(self, player)`, `player_cards(self, shoe)`, `hand_move(self, move)`, `dealer_rules(self, shoe)`, `find_outcome(self, outcome)`, `get_data(self)`
 
@@ -229,19 +232,15 @@ while True:
 ```
 <br/>
 
-4. **[`file_path.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/file_path.py)**
-<br/>
 
 5. **[`player.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/player.py)**
 <br/>
 
-6. **[`deal.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/deal.py)**
+
+6. **[`outcome.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/outcome.py)**
 <br/>
 
-7. **[`outcome.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/outcome.py)**
-<br/>
-
-8. **[`shuffle.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/shuffle.py)**
+7. **[`shuffle.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/shuffle.py)**
 
 I wrote a shuffle similar to the shuffle I performed as a high limit blackjack dealer. The shuffle contains two parts: riffle, in which you lace two piles of cards together, and strip, where you take sections of cards from the top and place them on the bottom.
 
@@ -290,6 +289,9 @@ for x,y in zip(dist_1, dist_2):
     new_tupl = (x, y)
     dist_tupl.append(new_tupl)
 ```
+<br/>
+
+8. **[`deal.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/deal.py)**
 <br/>
 
 9. **[`play_shoe.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/play_shoe.py)**
