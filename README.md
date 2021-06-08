@@ -196,7 +196,7 @@ self.num = [self.card_1.num, self.card_2.num]
 
 When a card is added to a hand, the card is appended to all three instance attributes (cards, hand, and num).
 
-In order to sum the hand properly, it is important to know if the hand contains any aces. An ace counts as 1 or 11, so a soft hand (a hand that contains an ace) can be two values, while a hard hand (a hand with no aces) only has one value.
+In order to sum the hand properly, it is important to know if the hand contains any aces. An ace counts as 1 or 11, so a soft hand (a hand that contains an ace) can be two values, while a hard hand (a hand with no aces) has a single value.
 
 ```
 def find_sum(self):
@@ -222,9 +222,36 @@ def find_sum(self):
             self.sum = self.sum + card.num
 ```
 
+If the hand is split into two hands, two Hand objects are created, hand_1 and hand_2.
 
+```
 
+def split(self, shoe):
+    shoe.enum_shoe()
+    self.hand_1 = Hand(self.hand[0], shoe.next_card)
 
+    shoe.enum_shoe()
+    self.hand_2 = Hand(self.hand[1], shoe.next_card)
+```
+
+The method `dealer_rules(shoe)` contains the rules for the dealer's hand
+
+```
+# Evaluate the dealer's hand
+while True:
+    if self.sum > 21:
+        print("Dealer busts")
+        break
+    elif self.sum >= 17:
+        print("Dealer has: ", self.sum)
+        break
+    else:
+        self.hit(shoe)
+        continue
+```
+<br/>
+
+5. **[`player.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/player.py)**
 
 
 
