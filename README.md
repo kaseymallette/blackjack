@@ -98,7 +98,6 @@ def create_card(self, suit, value):
 
 `class Deck`, with methods `__init__(self)` and `new_deck(self)`, creates a deck in new deck order by instantiating a Suit object, which contains a list of all four suits, a Value object, which contains a list of all 13 possible values, and 52 Card objects, appended to a list in new deck order.
 
-
 Lastly, I created `class Shoe`, with the following methods: <br/> `__init__(self, num, game)`, `build_shoe(self, num, game)`, `enum_shoe(self)`, `count_cards(self, list)`
 
 For any Shoe object, `build_shoe(num, game)` is initialized, such that: <br/>
@@ -111,20 +110,23 @@ The following instance attributes are also created: <br/>
 `enum_shoe(self)` iterates through the shoe, using shoe_index and next_card <br/>
 `count_cards(self, list)` checks to make sure all of the cards are there after being shuffled
 
+[`shuffle.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/shuffle.py)
+
+I wrote a shuffle similar to the shuffle I performed as a high limit blackjack dealer. 
 
 
+[`shoe_stats.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/shoe_stats.py)
 
-`play.py`
+For every hand or for every shoe, I tracked the following statistics:
+```
+stats = ['player_win', 'player_loss', 'push', 'total_hands', 'win_pct',
+    'win_push', 'win_push_pct', 'num_of_splits', 'double', 'doubles_won',
+    'doubles_lost', 'doubles_won_pct', 'player_bj', 'dealer_bj',
+    'dealer_high_card', 'dealer_low_card', 'dealer_bust', 'dealer_draw',
+    'dealer_stand', 'dealer_bust_pct', 'dealer_draw_pct','dealer_stand_pct',
+    'dealer_avg_hand', 'num_of_shuffles', 'shuffle_method']
 
-
-
-
-![](images/blackjack_play.png)
-![](images/dealer_21_draw.png)
-
-`run.py`
-
-![](images/blackjack_run.png)
+```
 
 
 
