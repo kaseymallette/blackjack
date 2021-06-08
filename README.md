@@ -43,7 +43,7 @@ I wanted to create a deck that resembled playing cards. I also wanted the order 
 
 `Please check the deck to make sure all of the cards are there:`
 
-:spades: ace  :spades: 2   :spades: 3  :spades: 4  :spades: 5  :spades:6 :spades: 7  :spades: 8  :spades: 9  :spades: 10  :spades: jack  :spades: queen :spades: king  :diamonds: ace   :diamonds: 2  :diamonds: 3  :diamonds: 4  :diamonds: 5  :diamonds: 6  :diamonds: 7  :diamonds: 8  :diamonds: 9  :diamonds:10  :diamonds: jack :diamonds:queen  :diamonds:king  :clubs: king  :clubs: queen  :clubs: jack  :clubs: 10  :clubs: 9  :clubs: 8  :clubs: 7   :clubs: 6   :clubs: 5   :clubs: 4   :clubs: 3 :clubs: 2  :clubs: ace  <br/>:hearts: king  :hearts: queen   :hearts: jack  :hearts: 10  :hearts: 9  :hearts: 8  :hearts: 7  :hearts:6  :hearts: 5  :hearts: 4  :hearts: 3  :hearts: 2  :hearts: ace
+:spades: ace  :spades: 2   :spades: 3  :spades: 4  :spades: 5  :spades:6 :spades: 7  :spades: 8  :spades: 9  :spades: 10  :spades: jack  :spades: queen :spades: king  <br/>:diamonds: ace   :diamonds: 2  :diamonds: 3  :diamonds: 4  :diamonds: 5  :diamonds: 6  :diamonds: 7  :diamonds: 8  :diamonds: 9  :diamonds:10  :diamonds: jack :diamonds:queen  :diamonds:king  <br/>:clubs: king  :clubs: queen  :clubs: jack  :clubs: 10  :clubs: 9  :clubs: 8  :clubs: 7   :clubs: 6   :clubs: 5   :clubs: 4   :clubs: 3 :clubs: 2  :clubs: ace  <br/>:hearts: king  :hearts: queen   :hearts: jack  :hearts: 10  :hearts: 9  :hearts: 8  :hearts: 7  :hearts:6  :hearts: 5  :hearts: 4  :hearts: 3  :hearts: 2  :hearts: ace
 
 ```
 If you agree, press return.
@@ -181,6 +181,52 @@ stats = ['player_win', 'player_loss', 'push', 'total_hands', 'win_pct',
 
 4. **[`hand.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/hand.py)**
 
+`class Hand` contains the following methods: <br/> `__init__(self, card_1, card_2)`, `new_hand(self, card_1, card_2)`, `find_sum(self)`, `hit(self, shoe)`, `split(self, shoe)`, `dealer_up_card(self, player)`, `player_cards(self, shoe)`, `hand_move(self, move)`, `dealer_rules(self, shoe)`, `find_outcome(self, outcome)`, `get_data(self)`
+
+For every Hand object, `new_hand(card_1, card_2)` is initialized, in which the instance attributes card_1 and card_2 are Card objects.
+
+```
+self.card_1 = Card(card_1[0], card_1[1:])
+self.card_2 = Card(card_2[0], card_2[1:])
+
+self.cards = [self.card_1, self.card_2]
+self.hand = [self.card_1.card, self.card_2.card]
+self.num = [self.card_1.num, self.card_2.num]
+```
+
+When a card is added to a hand, the card is appended to all three instance attributes (cards, hand, and num).
+
+In order to sum the hand properly, it is important to know if the hand contains any aces. An ace counts as 1 or 11, so a soft hand (a hand that contains an ace) can be two values, while a hard hand (a hand with no aces) only has one value.
+
+```
+def find_sum(self):
+
+    def add_to_soft(card_1, card_2):
+        self.soft_small = self.soft_small + card_1
+        self.soft_large = self.soft_large + card_2
+
+    # Add each card in self.cards
+    for card in self.cards:
+        if self.is_soft == True:
+            if card.is_ace == False:
+                add_to_soft(card.num, card.num)
+            else:
+                self.ace_count = self.ace_count + 1
+                # The first ace counts as 1 or 11
+                if self.ace_count == 1:
+                    add_to_soft(card.num[0], card.num[1])
+                # Additional aces only count as 1
+                if self.ace_count > 1:
+                    add_to_soft(card.num[0], card.num[0])
+        else:
+            self.sum = self.sum + card.num
+```
+
+
+
+
+
+
 
 
 ## Data Collection
@@ -191,18 +237,6 @@ stats = ['player_win', 'player_loss', 'push', 'total_hands', 'win_pct',
 
 Given the above two assumptions, 96 shoes would be dealt in 24 hours.
 
-#### Shuffle Method
-``
-from random import shuffle
-```
-
-The number of times the cards are shuffled: ```[1, 4, 7, 11]```
-
-I also wrote my own module ```shuffle.py```, which adapts casino shuffles using
-variations of riffle-strip-riffle.
-- *part_1* shuffles the cards using three piles
-- *part_2* shuffles the cards using two piles
-- *casino* shuffles the cards using both *part_1* and *part_2*
 
 
 #### ```test_2.py```
