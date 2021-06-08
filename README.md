@@ -194,8 +194,6 @@ self.hand = [self.card_1.card, self.card_2.card]
 self.num = [self.card_1.num, self.card_2.num]
 ```
 
-When a card is added to a hand, the card is appended to all three instance attributes (cards, hand, and num).
-
 In order to sum the hand properly, it is important to know if the hand contains any aces. An ace counts as 1 or 11, so a soft hand (a hand that contains an ace) can be two values, while a hard hand (a hand with no aces) has a single value.
 
 ```
@@ -222,10 +220,26 @@ def find_sum(self):
             self.sum = self.sum + card.num
 ```
 
+When a card is added to a hand, the card is appended to all three instance attributes (cards, hand, and num).
+
+```
+def hit(self, shoe):
+    shoe.enum_shoe()
+    deal_card = shoe.next_card
+    new_card = Card(deal_card[0], deal_card[1:])
+
+    # Append the card
+    self.cards.append(new_card)
+    self.hand.append(new_card.card)
+    self.num.append(new_card.num)
+
+    # Find the sum of the hand
+    self.find_sum()
+```
+
 If the hand is split into two hands, two Hand objects are created, hand_1 and hand_2.
 
 ```
-
 def split(self, shoe):
     shoe.enum_shoe()
     self.hand_1 = Hand(self.hand[0], shoe.next_card)
