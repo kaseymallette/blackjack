@@ -462,7 +462,7 @@ def __init__(self, decks, game, method, shoe_fh, hand_fh):
 
 Given the above two assumptions, 96 shoes would be dealt in 24 hours.
 
-**[`test_1.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/test_1.py)**
+**[`test_1.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/tests/test_1.py)**
 
 ```
 # Set up directory
