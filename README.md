@@ -543,7 +543,7 @@ shuffle_method | The shuffle method used to shuffle the shoe
 
 ## Data Analysis
 
-I first analyzed the shoe_data in **[shoe_data.py](https://github.com/kaseymallette/blackjack/blob/main/blackjack/analysis/shoe_data.py)**
+I first analyzed the shoe data in **[shoe_data.py](https://github.com/kaseymallette/blackjack/blob/main/blackjack/analysis/shoe_data.py)**
 <br/>
 
 I then analyzed the hand data in **[hand_data.py](https://github.com/kaseymallette/blackjack/blob/main/blackjack/analysis/hand_data.py)**
@@ -571,9 +571,8 @@ for shuffle in test_shuffle:
     for i in range(run_time):
         Test().run_test(shuffle, test_shoes, shoe_fh, hand_fh)
 ```
-<br/>
 
 ## Results
 <br/>
 
-## Project Directory 
+## Project Directory
