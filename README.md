@@ -503,7 +503,7 @@ dealer_outcome | The outcome of the dealer hand | stand, bust, draw
 dealer_card | Whether the dealer card is high or low | 2-6: low, otherwise: high
 dealer_bj | Whether or not the dealer had blackjack |
 is_split | Whether or not the hand was split |
-orig_hand | If the hand was split, the original hand that was dealt | If not split, 0
+orig_hand | If the hand was split, original hand that was dealt | Else, 0
 shuffle | The shuffle method used | python, riffle_perfect, riffle_clumpy
 
 
@@ -537,6 +537,9 @@ dealer_stand_pct | The percentage of total hands the dealer stood on
 dealer_avg_hand | The average hand of the dealer when hand < 21
 num_of_shuffles | The number of shuffles of the same shoe
 shuffle_method | The shuffle method used to shuffle the shoe
+
+
+## Data Analysis
 
 
 ## Project Directory
