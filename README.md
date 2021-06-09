@@ -259,6 +259,29 @@ When a Player object is initialized, `move(shoe, hand, dealer)` is also initiali
 - if *shoe.game = 'play'*, call `player_input(shoe, hand)` on the Player object
 - if *shoe.game = 'run'*, call `run(shoe, hand, dealer)` on the Player object
 
+
+In `player_input(shoe, hand)`, the user is given available moves and the input is stored in self.move.
+
+```
+# Let move = self.move
+    try:
+        self.move = int(move)
+    except:
+        dealer = 0
+        print("Please enter a number from the following choices: ")
+        Player(shoe, hand, dealer)
+
+    # Store self.move in hand data
+    if len(hand.hand) == 2:
+        hand.move = self.move
+        if hand.move == 3:
+            hand.is_split = True
+
+    # Play hand
+    dealer = 0
+    self.play(shoe, hand, dealer, self.move)
+```
+
 <br/>
 
 
