@@ -368,30 +368,31 @@ for x,y in zip(dist_1, dist_2):
 `class Deal` contains two methods: `__init__(self, shoe)` and `deal_hand(self, shoe)`, where `deal_hand(shoe)` deals the next four cards of the shoe, alternating between player and dealer. Player and dealer Hand objects are then instantiated, containing the cards for each hand. The hands are then shown to the user, with the player's hand dealt on a diagonal and only the dealer's up card being shown.
 
 ```
-self.player_cards = []
-self.dealer_cards = []
+def deal_hand(self, shoe):
+    self.player_cards = []
+    self.dealer_cards = []
 
-# Reset count for double and num_of_splits
-shoe.shoe_stats['double'] = 0
-shoe.shoe_stats['num_of_splits'] = 0
+    # Reset count for double and num_of_splits
+    shoe.shoe_stats['double'] = 0
+    shoe.shoe_stats['num_of_splits'] = 0
 
-# Deal two cards to the player and two cards to the dealer
-for i in range(4):
-    shoe.enum_shoe()
-    next_card = shoe.next_card
-    # Alternate between player and dealer when dealing
-    if (i % 2) == 0:
-        self.player_cards.append(next_card)
-    else:
-        self.dealer_cards.append(next_card)
+    # Deal two cards to the player and two cards to the dealer
+    for i in range(4):
+        shoe.enum_shoe()
+        next_card = shoe.next_card
+        # Alternate between player and dealer when dealing
+        if (i % 2) == 0:
+            self.player_cards.append(next_card)
+        else:
+            self.dealer_cards.append(next_card)
 
-# Create player and dealer hands
-player = Hand(self.player_cards[0], self.player_cards[1])
-dealer = Hand(self.dealer_cards[0], self.dealer_cards[1])
+    # Create player and dealer hands
+    player = Hand(self.player_cards[0], self.player_cards[1])
+    dealer = Hand(self.dealer_cards[0], self.dealer_cards[1])
 
-# Deal the dealer's up card and player's hand
-dealer.dealer_up_card(player)
-player.player_cards(shoe)
+    # Deal the dealer's up card and player's hand
+    dealer.dealer_up_card(player)
+    player.player_cards(shoe)
 ```
 
 The method then: <br/>
@@ -401,9 +402,34 @@ The method then: <br/>
 - The winner of the hand is then determined
 - Lastly, the number of cards played is subtracted from cards_remaining
 <br/>
-<br/>
+
 
 9. **[`play_shoe.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/play_shoe.py)**
+
+`class Play` contains two methods: `__init__(self, shoe, method, shoe_fh, hand_fh)` and `play_shoe(self, shoe, method, shoe_fh, hand_fh)`, where *method* corresponds to the shuffle method used, *shoe_fh* is the file handle for where the shoe data is to be exported, and *hand_fh* is the file handle for where the hand data is to be exported.
+
+```
+def play_shoe(self, shoe, method, shoe_fh, hand_fh):
+    shoe.shoes_dealt +=1
+    shuffle_shoe = Shuffle(shoe, method)
+
+    while True:
+        Deal(shoe)
+        if shoe.cards_remaining <= 75:
+            print("\n--End of shoe--\n")
+            break
+```
+
+The method then: <br/>
+- Creates variables for shoe.shoe_stats
+- Finds the total numbers of hands won in the shoe
+- Converts continuous variables to percentages
+- Finds the dealer's average hand
+- Prints total hands, as well as hands won, lost, and pushed
+- Creates and transposes a DataFrame from shoe.shoe_stats
+- Changes data types from float to int
+- Appends DataFrame to csv using shoe_fh
+- Creates a DataFrame for hands played and appends to csv using hand_fh
 <br/>
 
 10. **[`game.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/game.py)**
