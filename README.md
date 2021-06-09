@@ -278,6 +278,9 @@ column = int(dealer_result[0])
 
 # Find the corresponding player move
 move = bs_array[row][column]
+
+# Let self.move equal move
+self.move = move
 ```
 
 The method `play(shoe, hand, dealer, move)` then uses the instance attribute *move* to play the hand.
