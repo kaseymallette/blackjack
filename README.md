@@ -504,7 +504,7 @@ orig_hand | If the hand was split, the original hand that was dealt | If not spl
 shuffle | The shuffle method used | python, riffle_perfect, riffle_clumpy
 
 
-**[shoe_data.csv](https://github.com/kaseymallette/blackjack/blob/main/blackjack/data/hand_data.csv)**
+**[shoe_data.csv](https://github.com/kaseymallette/blackjack/blob/main/blackjack/data/shoe_data.csv)**
 variable | defintion
 ------ | -----------
 index | 0
