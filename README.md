@@ -433,9 +433,26 @@ The method then: <br/>
 <br/>
 
 10. **[`game.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/game.py)**
+
+`class Game` contains the following methods: `__init__(self, decks, game, method, shoe_fh, hand_fh)`, `new_game(self)`, and `continue_play(self, num_of_shoes)`, where *decks* correspond to how many decks are used and *game* determines whether the program will be played by a user or run using basic strategy. When a Game object is instantiated, the following instance attributes are assigned.
+
+```
+def __init__(self, decks, game, method, shoe_fh, hand_fh):
+
+    self.new_shoe = Shoe(decks, game)
+    self.game = game
+    self.method = method
+    self.shoe_fh = shoe_fh
+    self.hand_fh = hand_fh
+
+    if self.game == 'play':
+        self.new_game()
+```
+
+`new_game()` allows the user to continue playing multiple shoes. Once the shoe ends, if the user wants to play another shoe, the Shoe object is shuffle and played again. <br/>
+
+`continue_play(num_of_shoes)` specifies how many shoes to play before the program terminates. For each new shoe, the Shoe object is shuffled and played again.
 <br/>
-
-
 
 ## Data Collection
 
