@@ -296,7 +296,6 @@ When an Outcome object is instantiated, it contains one attribute, *outcome*, wh
 Since a hand can be split three times to make up to four hands, I created a split tree to track which hands had been split in order to find the outcome of all hands that were split for a given hand.
 
 ```
-hand = player
 hands_split = []
 split_attr = [hand, hand.hand_1, hand.hand_2,
               hand.hand_1.hand_1, hand.hand_1.hand_2,
@@ -366,10 +365,42 @@ for x,y in zip(dist_1, dist_2):
 
 8. **[`deal.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/deal.py)**
 
+`class Deal` contains two methods: `__init__(self, shoe)` and `deal_hand(self, shoe)`, where `deal_hand(shoe)` deals the next four cards of the shoe, alternating between player and dealer. Player and dealer Hand objects are then instantiated, containing the cards for each hand. The hands are then shown to the user, with the player's hand dealt on a diagonal and only the dealer's up card being shown.
 
+```
+self.player_cards = []
+self.dealer_cards = []
 
+# Reset count for double and num_of_splits
+shoe.shoe_stats['double'] = 0
+shoe.shoe_stats['num_of_splits'] = 0
 
+# Deal two cards to the player and two cards to the dealer
+for i in range(4):
+    shoe.enum_shoe()
+    next_card = shoe.next_card
+    # Alternate between player and dealer when dealing
+    if (i % 2) == 0:
+        self.player_cards.append(next_card)
+    else:
+        self.dealer_cards.append(next_card)
 
+# Create player and dealer hands
+player = Hand(self.player_cards[0], self.player_cards[1])
+dealer = Hand(self.dealer_cards[0], self.dealer_cards[1])
+
+# Deal the dealer's up card and player's hand
+dealer.dealer_up_card(player)
+player.player_cards(shoe)
+```
+
+The method then: <br/>
+- Checks for dealer and player blackjack
+- If there are no blackjacks, the hand is played
+- If the player doesn't bust, the dealer plays the hand
+- The winner of the hand is then determined
+- Lastly, the number of cards played is subtracted from cards_remaining
+<br/>
 <br/>
 
 9. **[`play_shoe.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/play_shoe.py)**
