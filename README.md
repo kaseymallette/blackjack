@@ -262,12 +262,26 @@ When a Player object is initialized, `move(shoe, hand, dealer)` is also initiali
 
 In `player_input(shoe, hand)`, the user is given available moves and the input is stored in self.move.<br/>
 
-The basic strategy matrix is stored as a csv file, [*basic_strategy.csv*](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/outcome.py), and in `run(shoe, hand, dealer)`, a data frame of basic strategy is created. 
+The basic strategy matrix is stored as a csv file, [*basic_strategy.csv*](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/outcome.py), and in `run(shoe, hand, dealer)`, the matrix is converted into a numpy array, where the first dimension contains all possible dealer up cards. Given a player hand, the method finds the nth dimension which contains all moves for that hand. The method then finds the element in the nth dimension which corresponds to the dealer's up card, and returns the element as player move.
 
+```
+# Find the row
+player_column = bs_array[1::]
+player_result = np.where(player_column == player)
+row = int(player_result[0])
+row = row + 1
 
+# Find the column
+dealer_row = bs_array[0]
+dealer_result = np.where(dealer_row == dealer_up)
+column = int(dealer_result[0])
 
+# Find the corresponding player move
+move = bs_array[row][column]
+```
 
-
+The method `play(shoe, hand, dealer, move)` then uses the instance attribute *move* to play the hand.
+<br/>
 <br/>
 
 
