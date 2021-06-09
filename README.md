@@ -449,24 +449,23 @@ def __init__(self, decks, game, method, shoe_fh, hand_fh):
         self.new_game()
 ```
 
-`new_game()` allows the user to continue playing multiple shoes. Once the shoe ends, if the user wants to play another shoe, the Shoe object is shuffle and played again. <br/>
+`new_game()` allows the user to continue playing multiple shoes. Once the shoe ends, if the user wants to play another shoe, the Shoe object is shuffled and played again. <br/>
 
 `continue_play(num_of_shoes)` specifies how many shoes to play before the program terminates. For each new shoe, the Shoe object is shuffled and played again.
 <br/>
 
 ## Data Collection
 
-#### Number of Shoes
+### Number of Shoes
 - It takes 15 minutes to shuffle and deal a six-deck blackjack shoe
 - The cards are changed once every 24 hours
 
 Given the above two assumptions, 96 shoes would be dealt in 24 hours.
 
+**[`test_1.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/test_1.py)**
 
-
-#### ```test_2.py```
-
-```# Set up directory
+```
+# Set up directory
 from run_test import Test
 Test().find_dir()
 
@@ -474,16 +473,17 @@ Test().find_dir()
 from file_path import Path
 
 # Set variables
-test_shuffle = [1, 4, 7, 11, 'part_1', 'part_2', 'casino']
+test_shuffle = ['python', 'riffle_perfect', 'riffle_clumpy']
 test_shoes = 96
-run_time = 7
-shoe_fh = Path('shoe_test_2.csv').path
-hand_fh = Path('hand_test_2.csv').path
+run_time = 10
+shoe_fh = Path('shoe_data.csv').path
+hand_fh = Path('hand_data.csv').path
 
 # Run test
 for shuffle in test_shuffle:
     for i in range(run_time):
         Test().run_test(shuffle, test_shoes, shoe_fh, hand_fh)
+
 ```
 
 ## Data Defintions
