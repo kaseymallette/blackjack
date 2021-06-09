@@ -7,7 +7,7 @@ Create a blackjack program that:<br/>
 (ii) uses basic strategy to run through blackjack hands for x number of six-deck shoes<br/>
 (iii) analyzes the accuracy of basic strategy by using the player's first two cards and the dealer's up card to predict the outcome of the hand
 
-I wrote the program in Mac OS X and analyzed the data in Windows.
+I wrote the program in MacOS and analyzed the data in Windows.
 
 ## Purpose
 
