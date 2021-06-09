@@ -264,7 +264,7 @@ When a Player object is instantiated, `move(shoe, hand, dealer)` is also initial
 
 In `player_input(shoe, hand)`, the user is given available moves and the input is stored in self.move.<br/>
 
-The basic strategy matrix is stored as a csv file, [*basic_strategy.csv*](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/outcome.py), and in `run(shoe, hand, dealer)`, the matrix is converted into a numpy array, where the first dimension contains all possible dealer up cards. Given a player hand, the method finds the nth dimension which contains all moves for that hand. The method then finds the element in the nth dimension which corresponds to the dealer's up card, and returns the element as player move.
+The basic strategy matrix is stored as a csv file, [*basic_strategy.csv*](https://github.com/kaseymallette/blackjack/blob/main/blackjack/data/basic_strategy.csv), and in `run(shoe, hand, dealer)`, the matrix is converted into a numpy array, where the first dimension contains all possible dealer up cards. Given a player hand, the method finds the nth dimension which contains all moves for that hand. The method then finds the element in the nth dimension which corresponds to the dealer's up card, and returns the element as player move.
 
 ```
 # Find the row
@@ -549,7 +549,7 @@ I first analyzed the shoe data in **[shoe_data.py](https://github.com/kaseymalle
 I then analyzed the hand data in **[hand_data.py](https://github.com/kaseymallette/blackjack/blob/main/blackjack/analysis/hand_data.py)**
 <br/>
 
-After my initial data analysis, I adjusted 19 rules for basic strategy (hands with low win percentages) and reran the test as **[`test_2.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/tests/test_2.py)**
+After my initial data analysis, I adjusted 19 rules out of 340 rules for basic strategy (5.6%) for hands with low win percentages and reran the test as **[`test_2.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/tests/test_2.py)**
 
 ```
 # Set up directory
