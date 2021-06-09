@@ -541,7 +541,7 @@ num_of_shuffles | The number of shuffles of the same shoe
 shuffle_method | The shuffle method used to shuffle the shoe
 
 
-## Results
+## Data Analysis
 
 I first analyzed the shoe_data in **[shoe_data.py](https://github.com/kaseymallette/blackjack/blob/main/blackjack/analysis/shoe_data.py)**
 <br/>
@@ -573,4 +573,7 @@ for shuffle in test_shuffle:
 ```
 <br/>
 
-## Project Directory
+## Results
+<br/>
+
+## Project Directory 
