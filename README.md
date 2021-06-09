@@ -541,12 +541,36 @@ num_of_shuffles | The number of shuffles of the same shoe
 shuffle_method | The shuffle method used to shuffle the shoe
 
 
-## Data Analysis
+## Results
 
-**[shoe_data.py](https://github.com/kaseymallette/blackjack/blob/main/blackjack/analysis/shoe_data.py)**
+I first analyzed the shoe_data in **[shoe_data.py](https://github.com/kaseymallette/blackjack/blob/main/blackjack/analysis/shoe_data.py)**
 <br/>
 
-**[hand_data.py](https://github.com/kaseymallette/blackjack/blob/main/blackjack/analysis/hand_data.py)**
+I then analyzed the hand data in **[hand_data.py](https://github.com/kaseymallette/blackjack/blob/main/blackjack/analysis/hand_data.py)**
+<br/>
+
+After my initial data analysis, I adjusted 19 rules for basic strategy (hands with low win percentages) and reran the test as **[`test_2.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/tests/test_2.py)**
+
+```
+# Set up directory
+from run_test import Test
+Test().find_dir()
+
+# Import Path
+from file_path import Path
+
+# Set variables
+test_shuffle = ['riffle_clumpy']
+test_shoes = 96
+run_time = 30
+shoe_fh = Path('shoe_data_2.csv').path
+hand_fh = Path('hand_data_2.csv').path
+
+# Run test
+for shuffle in test_shuffle:
+    for i in range(run_time):
+        Test().run_test(shuffle, test_shoes, shoe_fh, hand_fh)
+```
 <br/>
 
 ## Project Directory
