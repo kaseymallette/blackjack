@@ -489,6 +489,8 @@ for shuffle in test_shuffle:
 ## Data Definitions
 
 **[hand_data.csv](https://github.com/kaseymallette/blackjack/blob/main/blackjack/data/hand_data.csv)**
+(131,062 hands) <br/>
+
 variable | definition | key
 ------ | ------------ | ---
 index | Hand index in shoe |
@@ -505,6 +507,8 @@ shuffle | The shuffle method used | python, riffle_perfect, riffle_clumpy
 
 
 **[shoe_data.csv](https://github.com/kaseymallette/blackjack/blob/main/blackjack/data/shoe_data.csv)**
+(2,880 shoes) <br/>
+
 variable | defintion
 ------ | -----------
 index | 0
