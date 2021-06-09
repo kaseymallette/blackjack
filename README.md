@@ -7,6 +7,9 @@ Create a blackjack program that:<br/>
 (ii) uses basic strategy to run through blackjack hands for x number of six-deck shoes<br/>
 (iii) analyzes the accuracy of basic strategy by using the player's first two cards and the dealer's up card to predict the outcome of the hand
 
+<br/>
+I wrote the program in Mac OS X and analyzed the data in Windows.
+
 ## Purpose
 
 The purpose of this project is to examine the efficacy of using basic
@@ -541,5 +544,10 @@ shuffle_method | The shuffle method used to shuffle the shoe
 
 ## Data Analysis
 
+**[shoe_data.py](https://github.com/kaseymallette/blackjack/blob/main/blackjack/analysis/shoe_data.py)**
+<br/>
+
+**[hand_data.py](https://github.com/kaseymallette/blackjack/blob/main/blackjack/analysis/hand_data.py)**
+<br/>
 
 ## Project Directory
