@@ -255,7 +255,7 @@ while True:
 
 As such, `class Player` consists of the following methods: <br/> `__init__(self, shoe, hand, dealer)`, `move(self, shoe, hand, dealer)`, `player_input(self, shoe, hand)`, `run(self, shoe, hand, dealer)`, `play(self, shoe, hand, dealer, move)`
 
-When a Player object is initialized, `move(shoe, hand, dealer)` is also initialized, which specifies that:
+When a Player object is instantiated, `move(shoe, hand, dealer)` is also initialized, which specifies that:
 - if *shoe.game = 'play'*, call `player_input(shoe, hand)` on the Player object
 - if *shoe.game = 'run'*, call `run(shoe, hand, dealer)` on the Player object
 
@@ -287,8 +287,30 @@ The method `play(shoe, hand, dealer, move)` then uses the instance attribute *mo
 <br/>
 <br/>
 
-
 6. **[`outcome.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/outcome.py)**
+
+`class Outcome` has three methods: <br/> `__init__(self)`, `win_hand(self, player, dealer, shoe)`, and `split_tree(self, player, dealer, shoe)`
+
+When an Outcome object is instantiated, it contains one attribute, *outcome*, which is set to 0. If the hand is split, `split_tree(player, dealer, shoe)` is called to evaluate the outcome of the hand. If the hand is not split, `win_hand(player, dealer, shoe)` is called. The player and dealer hands are then compared to see who won the hand. <br/>
+
+Since a hand can be split three times to make up to four hands, I created a split tree to track which hands had been split in order to find the outcome of all hands that were split for a given hand.
+
+```
+hand = player
+hands_split = []
+split_attr = [hand, hand.hand_1, hand.hand_2,
+              hand.hand_1.hand_1, hand.hand_1.hand_2,
+              hand.hand_2.hand_1, hand.hand_2.hand_2]
+
+# If the hand has attribute 'hand_1', the hand has been split
+for attr in split_attr:
+    new_attr = hasattr(attr, 'hand_1')
+    if new_attr == True:
+        new_hand_1 = getattr(attr, 'hand_1')
+        new_hand_2 = getattr(attr, 'hand_2')
+        hands_split.append(new_hand_1)
+        hands_split.append(new_hand_2)
+```
 <br/>
 
 7. **[`shuffle.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/shuffle.py)**
@@ -343,6 +365,11 @@ for x,y in zip(dist_1, dist_2):
 <br/>
 
 8. **[`deal.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/deal.py)**
+
+
+
+
+
 <br/>
 
 9. **[`play_shoe.py`](https://github.com/kaseymallette/blackjack/blob/main/blackjack/src/play_shoe.py)**
