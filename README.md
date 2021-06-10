@@ -11,7 +11,7 @@ I wrote the program in MacOS and analyzed the data in Windows.
 <br/>
 
 Check out a demo of the game:
-[Screen Capture of Blackjack Game](https://www.screencast.com/t/QwKwXx7ndIjN)
+[Blackjack Play Demo](https://www.screencast.com/t/QwKwXx7ndIjN)
 
 
 
