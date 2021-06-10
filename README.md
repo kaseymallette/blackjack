@@ -583,4 +583,4 @@ for shuffle in test_shuffle:
 <br/>
 
 ## Project Directory
-![](blackjack/images/project_directory.jpeg)
+![](blackjack/images/project_directory.jpg)
