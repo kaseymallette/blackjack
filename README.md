@@ -42,7 +42,7 @@ advantage of **0.5%**:
 - Player cannot hit split aces
 - Player can split up to four hands
 
-[Wizard of Odds House Edge Calculator](https://github.com/kaseymallette/blackjack/blob/main/blackjack/images/house_edge.png)
+[Wizard of Odds House Edge Calculator](https://wizardofodds.com/games/blackjack/calculator/)
 
 The house advantage means that a player will lose 0.5% of the original bet.
 If a player bets the same amount for every hand and plays perfect basic
