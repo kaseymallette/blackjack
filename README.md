@@ -9,6 +9,9 @@ Create a blackjack program that:<br/>
 
 I wrote the program in MacOS and analyzed the data in Windows.
 
+[Screen Capture of Blackjack Game](https://www.screencast.com/t/QwKwXx7ndIjN)
+
+
 ## Purpose
 
 The purpose of this project is to examine the efficacy of using basic
@@ -62,12 +65,6 @@ To deal the first hand of the shoe, press return
 Please enter a number from the following choices:
 Stand: 0, Hit: 1, Double: 2, Split: 3
 ```
-
-### Screen Capture
-
-[Screen Capture of Blackjack Game](https://www.screencast.com/t/QwKwXx7ndIjN)
-<br/>
-
 
 ## Source Code
 
