@@ -10,7 +10,7 @@ Create a blackjack program that:<br/>
 I wrote the program in MacOS and analyzed the data in Windows.
 <br/>
 
-Check out a demo of the game below: 
+Check out a demo of the game below: <br/>
 [Screen Capture of Blackjack Game](https://www.screencast.com/t/QwKwXx7ndIjN)
 
 
