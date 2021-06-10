@@ -1,0 +1,60 @@
+,dealer_up,player,move,outcome,dealer_outcome,dealer_card,dealer_bj,is_split,orig_hand,shuffle
+0,10,12,stand,loss,stand,high,False,False,0,python
+0,10,13,stand,win,bust,high,False,False,0,python
+0,A,12,stand,loss,stand,high,False,False,0,python
+0,6,15,stand,loss,stand,low,False,False,0,python
+0,4,16,stand,win,bust,low,False,False,0,python
+0,9,"[6, 16]",stand,win,bust,high,False,False,0,python
+0,4,20,stand,win,bust,low,False,False,0,python
+0,4,8,stand,loss,draw,low,False,False,0,python
+1,9,14,stand,win,bust,high,False,False,0,python
+0,10,19,stand,win,draw,high,False,False,0,python
+0,9,13,stand,win,bust,high,False,False,0,python
+0,10,10,hit,win,bust,high,False,False,0,python
+1,8,18,stand,push,stand,high,False,False,0,python
+2,10,18,stand,win,bust,high,False,False,0,python
+3,10,20,stand,push,stand,high,False,False,0,python
+4,10,9,hit,win,stand,high,False,False,0,python
+5,2,20,stand,win,bust,low,False,False,0,python
+6,4,"[7, 17]",double,win,bust,low,False,False,0,python
+7,10,12,hit,loss,stand,high,False,False,0,python
+8,2,19,stand,win,bust,low,False,False,0,python
+9,10,16,hit,loss,stand,high,False,False,0,python
+10,2,8,hit,push,draw,low,False,False,0,python
+11,5,21,stand,win,stand,low,False,False,0,python
+12,10,13,hit,loss,stand,high,False,False,0,python
+13,9,"[3, 3]",hit,win,draw,high,False,False,0,python
+14,9,15,hit,loss,draw,high,False,False,0,python
+15,10,"[3, 13]",hit,win,stand,high,False,False,0,python
+16,A,13,stand,loss,stand,high,True,False,0,python
+17,10,"[8, 18]",hit,loss,draw,high,False,False,0,python
+18,8,12,hit,win,draw,high,False,False,0,python
+19,2,17,stand,loss,draw,low,False,False,0,python
+20,4,15,stand,loss,draw,low,False,False,0,python
+21,8,12,hit,loss,stand,high,False,False,0,python
+22,6,17,stand,win,bust,low,False,True,"[7, 7]",python
+23,6,11,double,win,bust,low,False,True,"[7, 7]",python
+24,7,10,double,loss,stand,high,False,False,0,python
+25,3,21,stand,win,stand,low,False,False,0,python
+26,3,11,double,win,draw,low,False,False,0,python
+27,8,20,stand,win,bust,high,False,False,0,python
+28,10,12,hit,loss,stand,high,False,False,0,python
+29,A,16,hit,loss,stand,high,False,False,0,python
+30,9,15,hit,loss,stand,high,False,False,0,python
+31,8,15,hit,loss,stand,high,False,False,0,python
+32,5,19,stand,loss,draw,low,False,False,0,python
+33,A,16,hit,win,stand,high,False,False,0,python
+34,A,12,hit,loss,stand,high,False,False,0,python
+35,2,6,hit,loss,draw,low,False,False,0,python
+36,10,13,hit,loss,stand,high,False,False,0,python
+37,2,"[10, 10]",stand,win,bust,low,False,False,0,python
+38,10,6,hit,push,stand,high,False,False,0,python
+39,10,16,hit,loss,stand,high,False,False,0,python
+40,10,15,stand,loss,stand,high,True,False,0,python
+41,9,8,hit,win,bust,high,False,False,0,python
+42,9,13,hit,push,draw,high,False,False,0,python
+43,10,16,hit,loss,stand,high,False,False,0,python
+0,7,15,hit,win,stand,high,False,False,0,python
+1,10,12,hit,win,bust,high,False,False,0,python
+2,5,10,double,win,bust,low,False,False,0,python
+3,7,8,hit,loss,stand,high,False,False,0,python

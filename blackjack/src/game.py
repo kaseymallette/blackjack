@@ -16,6 +16,18 @@ class Game:
         self.shoe_fh = shoe_fh
         self.hand_fh = hand_fh
 
+        # Have the user check each deck
+        print('\nPlease check each deck to make sure all of the cards are there: ')
+        for i in range(0, decks):
+            print('\nDeck: ', i+1)
+            print(self.new_shoe.deck)
+            input('\nIf you agree, press return: ')
+
+        # Print rules
+        print('\nGood luck!')
+        print('If you want to stop playing, type "exit" ')
+        input('To deal the first hand of the shoe, press return ')
+
         if self.game == 'play':
             self.new_game()
 
@@ -27,6 +39,7 @@ class Game:
 
         # Play shoe
         Stats().create_stats(self.new_shoe)
+
         Play(self.new_shoe, self.method, self.shoe_fh, self.hand_fh)
 
         # Determine whether or not the user wants to continue play
