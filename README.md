@@ -583,3 +583,4 @@ for shuffle in test_shuffle:
 <br/>
 
 ## Project Directory
+![Project Directory](https://github.com/kaseymallette/blackjack/blob/main/blackjack/images/project_directory.jpg)
