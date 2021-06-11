@@ -581,7 +581,7 @@ for shuffle in test_shuffle:
 
 ## Results
 Please see my Blackjack Data Analysis powerpoint presentation <br/>
-![](Blackjack-Data-Analysis.pdf)
+[](https://github.com/kaseymallette/blackjack/blob/main/Blackjack-Data-Analysis.pdf)
 <br/>
 
 ## Project Directory
