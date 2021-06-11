@@ -14,7 +14,7 @@ Check out a demo of the game:
 [**Blackjack Play Demo**](https://www.screencast.com/t/QwKwXx7ndIjN)
 <br/>
 
-Please see my [Blackjack Data Analysis](https://github.com/kaseymallette/blackjack/blob/main/Blackjack-Data-Analysis.pdf) presentation
+For the results section, please see my **[Blackjack Data Analysis](https://github.com/kaseymallette/blackjack/blob/main/Blackjack-Data-Analysis.pdf)** presentation
 
 
 ## Purpose
