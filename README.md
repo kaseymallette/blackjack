@@ -582,7 +582,6 @@ for shuffle in test_shuffle:
 ## Results
 Please see my [Blackjack Data Analysis](https://github.com/kaseymallette/blackjack/blob/main/Blackjack-Data-Analysis.pdf) powerpoint presentation
 
-<br/>
 
 ## Project Directory
 ![](blackjack/images/project_directory.jpeg)
