@@ -12,8 +12,9 @@ I wrote the program in MacOS and analyzed the data in Windows.
 
 Check out a demo of the game:
 [**Blackjack Play Demo**](https://www.screencast.com/t/QwKwXx7ndIjN)
+<br/>
 
-
+Please see my [Blackjack Data Analysis](https://github.com/kaseymallette/blackjack/blob/main/Blackjack-Data-Analysis.pdf) presentation
 
 
 ## Purpose
@@ -578,10 +579,6 @@ for shuffle in test_shuffle:
     for i in range(run_time):
         Test().run_test(shuffle, test_shoes, shoe_fh, hand_fh)
 ```
-
-## Results
-Please see my [Blackjack Data Analysis](https://github.com/kaseymallette/blackjack/blob/main/Blackjack-Data-Analysis.pdf) powerpoint presentation
-
 
 ## Project Directory
 ![](blackjack/images/project_directory.jpeg)
