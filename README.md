@@ -580,8 +580,8 @@ for shuffle in test_shuffle:
 ```
 
 ## Results
-Please see my Blackjack Data Analysis powerpoint presentation <br/>
-[](https://github.com/kaseymallette/blackjack/blob/main/Blackjack-Data-Analysis.pdf)
+Please see my [Blackjack Data Analysis](https://github.com/kaseymallette/blackjack/blob/main/Blackjack-Data-Analysis.pdf) powerpoint presentation
+
 <br/>
 
 ## Project Directory
